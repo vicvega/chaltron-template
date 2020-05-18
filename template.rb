@@ -64,20 +64,97 @@ def add_gems
     gem 'factory_bot_rails'
     gem 'ffaker'
   end
-
 end
 
 def stop_spring
   run 'spring stop'
 end
 
+def setup_database
+  case options['database']
+  when 'mysql'
+    setup_mysql
+  end
+end
+
+def ask_for_credential
+  say
+  say 'Database credentials'
+  @db_user = ask_with_default('Enter db username:', :blue, 'root')
+  @db_password = ask_with_default('Enter db password:', :blue, '')
+end
+
+def ask_with_default(question, color, default)
+  return default unless $stdin.tty?
+  question = (question + " [#{default}]")
+  answer = ask(question, color)
+  answer.to_s.strip.empty? ? default : answer
+end
+
+def setup_mysql
+  ask_for_credential
+
+  before =<<-END
+  username: root
+  password:
+END
+
+after =<<-END
+  username: #{@db_user}
+  password: #{@db_password}
+END
+
+  gsub_file 'config/database.yml', before, after
+end
+
+def setup_default_layout
+end
+
+def add_javascript
+end
+
+def setup_users_and_roles
+end
+
+def setup_ajax_datatables
+end
+
+def add_logs
+end
+
+def add_tests
+end
+
+def add_scaffold_template
+end
+
+def setup_locale
+end
+
+def setup_chaltron
+end
+
+def finalize
+  if @db_password
+    say
+    say 'Be warned!', :red
+    say 'You have a password stored in clear text in ' \
+      "config/database.yml file. ⛔️\nRemember this before " \
+      'sharing the project!!'
+  end
+  say
+  say 'Chaltron template successfully applied!', :green
+  say
+end
+
 # Setup thor source paths and ruby load paths
 add_template_repository_to_source_path
 
 print_banner
-
 add_gems
-
 after_bundle do
   stop_spring
+  setup_database
+
+  finalize
 end
