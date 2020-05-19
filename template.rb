@@ -142,13 +142,6 @@ def add_views
   copy_file 'config/chaltron_navigation.rb'
 end
 
-def add_routes
-  Array(1..10).each do |x|
-    route "get 'home/test#{x}'"
-  end
-  route "get 'home/index'"
-end
-
 def add_locales
   directory 'config/locales'
   environment "config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]"
@@ -161,6 +154,7 @@ def add_javascript
   directory 'app/javascript/packs/chaltron'
   directory 'app/javascript/packs/stylesheets'
   copy_file 'app/javascript/packs/application.js', force: true
+  directory 'config/webpack/loaders'
 
   text = <<-JS
 const webpack = require('webpack');
@@ -176,7 +170,6 @@ environment.plugins.append('Provide',
 environment.loaders.append('datatables', datatables);
 
 JS
-
   inject_into_file 'config/webpack/environment.js', text,
     before: 'module.exports = environment'
 end
@@ -226,10 +219,19 @@ def add_logs
 end
 
 def setup_devise
+  gsub_file 'config/initializers/devise.rb',
+    '  # config.authentication_keys = [:email]',
+    '  config.authentication_keys = [ :login ]'
+end
 
+def setup_warden
+  copy_file 'config/initializers/warden.rb'
 end
 
 def setup_chaltron
+  directory 'lib/chaltron'
+  copy_file 'lib/chaltron.rb'
+  copy_file 'config/initializers/chaltron.rb'
 end
 
 def setup_ajax_datatables
@@ -240,7 +242,44 @@ def setup_ajax_datatables
     "config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym"
 end
 
-def add_logs
+def setup_foreman
+  copy_file 'Procfile'
+end
+
+def add_routes
+  Array(1..10).each do |x|
+    route "get 'home/test#{x}'"
+  end
+  route "get 'home/index'"
+
+
+  routes =<<-END
+
+  devise_for :users, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }
+
+  resources :logs, controller: 'chaltron/logs', only: [:index, :show]
+
+  resources :users, controller: 'chaltron/users' do
+    collection do
+      get   'self_show'
+      get   'self_edit'
+      patch 'self_update'
+    end
+    member do
+      get 'enable'
+      get 'disable'
+    end
+  end
+
+  # search and create LDAP users
+  if Devise.omniauth_providers.include?(:ldap) and !Chaltron.ldap_allow_all
+    get   'ldap/search'       => 'chaltron/ldap#search'
+    post  'ldap/multi_new'    => 'chaltron/ldap#multi_new'
+    post  'ldap/multi_create' => 'chaltron/ldap#multi_create'
+  end
+END
+
+  gsub_file 'config/routes.rb', '  devise_for :users', routes
 end
 
 def add_models
@@ -251,14 +290,37 @@ def add_models
   environment 'config.autoload_paths << "#{Rails.root}/app/models/chaltron"'
 end
 
+def add_scaffold_templates
+  directory 'lib/templates'
+end
+
 def add_tests
+  directory 'test', force: true
 end
 
-def add_scaffold_template
-end
+def add_seeds
+  append_file 'db/seeds.rb' do <<RUBY
 
+Role.create(name: :admin)
+Role.create(name: :user_admin)
+
+User.create do |u|
+  u.username              = 'bella'
+  u.fullname              = 'Bellatrix Lestrange'
+  u.email                 = 'bellatrix.lestrange@azkaban.co.uk'
+  u.password              = 'password.1'
+  u.password_confirmation = 'password.1'
+  u.roles                 = Role.all
+end
+RUBY
+  end
+end
 
 def finalize
+  rails_command 'db:create'
+  rails_command 'db:migrate'
+  rails_command 'db:seed'
+
   if @db_password
     say
     say 'Be warned!', :red
@@ -269,6 +331,11 @@ def finalize
   say
   say '👍 Chaltron template successfully applied! ✌', :green
   say
+  say 'And now:'
+  say " - cd #{app_name}"
+  say ' - foreman start'
+  say
+  say 'Enjoy! 🍺'
 end
 
 # Setup thor source paths and ruby load paths
@@ -285,7 +352,6 @@ after_bundle do
   add_datatables
   add_helpers
   add_views
-  add_routes
   add_locales
   add_javascript
 
@@ -294,10 +360,16 @@ after_bundle do
   add_logs
 
   setup_devise
+  setup_warden
   setup_chaltron
   setup_ajax_datatables
+  setup_foreman
 
+  add_routes
   add_models
+  add_scaffold_templates
+  add_tests
+  add_seeds
 
   finalize
 end

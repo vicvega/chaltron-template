@@ -18,7 +18,7 @@ class User < ApplicationRecord
   end
 
   def display_name
-    self.fullname || self.username
+    self.fullname.blank? ? self.username : self.fullname
   end
 
   def ldap_user?
