@@ -142,22 +142,113 @@ def add_views
   copy_file 'config/chaltron_navigation.rb'
 end
 
+def add_routes
+  Array(1..10).each do |x|
+    route "get 'home/test#{x}'"
+  end
+  route "get 'home/index'"
+end
+
+def add_locales
+  directory 'config/locales'
+  environment "config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]"
+end
+
 def add_javascript
   run 'yarn add jquery popper.js bootstrap @fortawesome/fontawesome-free ' \
     'nprogress imports-loader datatables.net-bs4 datatables.net-responsive-bs4'
+
+  directory 'app/javascript/packs/chaltron'
+  directory 'app/javascript/packs/stylesheets'
+  copy_file 'app/javascript/packs/application.js', force: true
+
+  text = <<-JS
+const webpack = require('webpack');
+const datatables = require('./loaders/datatables');
+
+environment.plugins.append('Provide',
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    Popper: ['popper.js', 'default']
+  })
+);
+environment.loaders.append('datatables', datatables);
+
+JS
+
+  inject_into_file 'config/webpack/environment.js', text,
+    before: 'module.exports = environment'
 end
 
-def setup_users_and_roles
+def add_users
+  generate "devise:install"
+  environment "config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }"
+  route "root to: 'home#index'"
+
+  generate :devise, 'User'
+
+  before =<<-END
+      ## Trackable
+      # t.integer  :sign_in_count, default: 0, null: false
+      # t.datetime :current_sign_in_at
+      # t.datetime :last_sign_in_at
+      # t.string   :current_sign_in_ip
+      # t.string   :last_sign_in_ip
+END
+
+  after =<<-END
+      ## Trackable
+      t.integer  :sign_in_count, default: 0, null: false
+      t.datetime :current_sign_in_at
+      t.datetime :last_sign_in_at
+      t.string   :current_sign_in_ip
+      t.string   :last_sign_in_ip
+END
+
+  gsub_file Dir.glob('db/migrate/*').max_by{ |f| File.mtime(f) }, before, after
+
+  generate :migration, 'add_fields_to_users username:string:uniq ' \
+    'fullname department enabled:boolean provider extern_uid'
+
+  gsub_file Dir.glob('db/migrate/*').max_by{ |f| File.mtime(f) },
+    'add_column :users, :enabled, :boolean',
+    'add_column :users, :enabled, :boolean, default: true'
+end
+
+def add_roles
+  generate :model, 'Role name:string:uniq'
+  generate :migration, 'CreateJoinTableRoleUser roles users'
+end
+
+def add_logs
+  generate :model, 'Log message:string{1000} severity category'
+end
+
+def setup_devise
+
+end
+
+def setup_chaltron
 end
 
 def setup_ajax_datatables
+  generate 'datatable:config'
+
+  gsub_file 'config/initializers/ajax_datatables_rails.rb',
+    "# config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym",
+    "config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym"
 end
 
 def add_logs
 end
 
 def add_models
-  directory 'app/models'
+  # move User model under chaltron directory
+  run 'rm -f "app/models/user.rb"'
+  directory 'app/models', force: true
+
+  environment 'config.autoload_paths << "#{Rails.root}/app/models/chaltron"'
 end
 
 def add_tests
@@ -166,11 +257,6 @@ end
 def add_scaffold_template
 end
 
-def setup_locale
-end
-
-def setup_chaltron
-end
 
 def finalize
   if @db_password
@@ -199,7 +285,19 @@ after_bundle do
   add_datatables
   add_helpers
   add_views
+  add_routes
+  add_locales
+  add_javascript
 
+  add_users
+  add_roles
+  add_logs
+
+  setup_devise
+  setup_chaltron
+  setup_ajax_datatables
+
+  add_models
 
   finalize
 end

@@ -1,0 +1,74 @@
+it:
+  activerecord:
+    attributes:
+      user:
+        username: Username
+        fullname: Nome completo
+        email:  E-mail
+        password_confirmation: Conferma password
+        last_sign_in_at: Ultimo login
+        last_sign_in_ip: Ultimo login da
+        sign_in_count: Numero di login
+        roles: Ruoli
+        role_ids: Ruoli
+        department: Funzione
+      log:
+        created_at: Data
+        message: Messaggio
+        category: Categoria
+        severity: Severità
+  roles:
+    admin: Amministratore
+    user_admin: Amministratore utenti
+  chaltron:
+    flash:
+      success: Info
+      error:   Errore
+      alert:   Attenzione
+      notice:  Nota
+    menu:
+      admin: Amministrazione
+      users: Utenti
+      self_show: Dati personali
+      logs: Log
+    access_denied: Accesso negato! Non hai i permessi ad accedere a questa pagina.
+    access_denied_try_login: Accesso negato. Prova ad effettuare il login.
+    not_allowed_to_sign_in: Accesso negato. La tua utenza non può accedere al sistema. Contatta l'amministratore.
+    common:
+      back: Indietro
+      cancel: Annulla
+      clear_filter: Rimuovi filtri
+    users:
+      created: Utente creato con successo.
+      updated: Utente aggiornato con successo.
+      enabled: Utente abilitato con successo.
+      disabled: Utente disabilitato con successo.
+      self_updated: Dati personali aggiornati con successo.
+      cannot_self_destroy: Non puoi cancellare il tuo stesso account.
+      it_s_you: Sei tu!
+      user_disabled: Disabilitato
+      missing_field: Manca!
+      already_present: Giá presente!
+      inactive_message: Il tuo account è stato disabilitato.
+    logs:
+      severity:
+        emerg: Emergenza
+        alert: Allarme
+        crit: Errore critico
+        err: Errore
+        warning: Avviso
+        notice: Nota
+        info: Info
+        debug: Debug
+      category:
+        login: Login
+        user_admin: Amministrazione utenti
+      login: "%{user} ha effettuato il login con successo"
+      logout: "%{user} ha effettuato il logout con successo"
+      login_omniauth: "%{user} ha effettuto il login con successo dall'account %{provider}"
+      users:
+        created: "%{current} ha creato l'utente %{user}"
+        destroyed: "%{current} ha cancellato l'utente %{user}"
+        ldap_created:
+          one: "%{current} ha creato l'utente %{user} da LDAP"
+          other: "%{current} ha creato %{count} utenti da LDAP (%{user})"
