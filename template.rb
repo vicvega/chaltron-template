@@ -107,10 +107,44 @@ END
   gsub_file 'config/database.yml', before, after
 end
 
-def setup_default_layout
+def add_assets
+  directory 'app/assets/images'
+  directory 'app/assets/stylesheets'
+end
+
+def add_controllers
+  directory 'app/controllers/chaltron'
+  directory 'app/controllers/concerns/chaltron'
+  copy_file 'app/controllers/home_controller.rb'
+  inject_into_file 'app/controllers/application_controller.rb',
+    "  include Chaltron::Logging\n", before: 'end'
+end
+
+def add_datatables
+  directory 'app/datatables'
+end
+
+def add_helpers
+  directory 'app/helpers'
+end
+
+def add_views
+  directory 'app/views/chaltron'
+  directory 'app/views/devise'
+  directory 'app/views/home'
+
+  template 'app/views/layouts/application.html.erb.tt', force: true
+  copy_file 'app/views/layouts/_flash.html.erb'
+  copy_file 'app/views/layouts/_footer.html.erb'
+  copy_file 'app/views/layouts/_navbar.html.erb'
+
+  copy_file 'config/navigation.rb'
+  copy_file 'config/chaltron_navigation.rb'
 end
 
 def add_javascript
+  run 'yarn add jquery popper.js bootstrap @fortawesome/fontawesome-free ' \
+    'nprogress imports-loader datatables.net-bs4 datatables.net-responsive-bs4'
 end
 
 def setup_users_and_roles
@@ -120,6 +154,10 @@ def setup_ajax_datatables
 end
 
 def add_logs
+end
+
+def add_models
+  directory 'app/models'
 end
 
 def add_tests
@@ -143,7 +181,7 @@ def finalize
       'sharing the project!!'
   end
   say
-  say 'Chaltron template successfully applied!', :green
+  say '👍 Chaltron template successfully applied! ✌', :green
   say
 end
 
@@ -155,6 +193,13 @@ add_gems
 after_bundle do
   stop_spring
   setup_database
+
+  add_assets
+  add_controllers
+  add_datatables
+  add_helpers
+  add_views
+
 
   finalize
 end
