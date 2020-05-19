@@ -64,12 +64,16 @@
   <% end %>
 
   <div class='float-right'>
+    <%
+      danger = %w[ btn btn-danger ]
+      danger << 'disabled' if @user == current_user
+    %>
     <% if can? :edit, @user %>
       <%= link_to edit_user_path(@user), class: 'btn btn-primary' do %>
         <%= icon :fas, :edit, t('.edit') %>
       <% end %>
       <% if @user.enabled? %>
-        <%= link_to disable_user_path(@user), class: 'btn btn-danger' do %>
+          <%= link_to disable_user_path(@user), class: danger do %>
           <%= icon :fas, 'user-slash', t('.disable') %>
         <% end %>
       <% else %>
@@ -78,8 +82,7 @@
         <% end %>
       <% end %>
     <% end %>
-    <%= link_to @user, method: :delete, class: 'btn btn-danger',
-      disabled: current_user == @user,
+    <%= link_to @user, method: :delete, class: danger,
       data: { confirm: t('.destroy_confirm', user: @user.username) } do %>
       <%= icon :fas, :trash, t('.destroy') %>
     <% end if can? :destroy, @user%>
