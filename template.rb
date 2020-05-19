@@ -296,6 +296,7 @@ end
 
 def add_tests
   directory 'test', force: true
+  run 'rm -rf "test/fixtures"'
 end
 
 def add_seeds
@@ -335,7 +336,7 @@ def finalize
   say " - cd #{app_name}"
   say ' - foreman start'
   say
-  say 'Enjoy! 🍺'
+  say 'Enjoy! 🍺🍺'
 end
 
 # Setup thor source paths and ruby load paths
