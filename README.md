@@ -13,3 +13,5 @@ or apply the template
 ```
 rails app:template LOCATION="https://raw.githubusercontent.com/vicvega/chaltron-template/master/template.rb"
 ```
+
+Enjoy! 🍺🍺
