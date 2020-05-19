@@ -144,7 +144,6 @@ end
 
 def add_locales
   directory 'config/locales'
-  environment "config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]"
 end
 
 def add_javascript
@@ -176,7 +175,6 @@ end
 
 def add_users
   generate "devise:install"
-  environment "config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }"
   route "root to: 'home#index'"
 
   generate :devise, 'User'
@@ -246,6 +244,18 @@ def setup_foreman
   copy_file 'Procfile'
 end
 
+def setup_application
+  application do
+<<-RUBY
+
+    # chaltron
+    config.autoload_paths << File.join([Rails.root], %w(app models chaltron))
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+RUBY
+  end
+end
+
 def add_routes
   Array(1..10).each do |x|
     route "get 'home/test#{x}'"
@@ -286,8 +296,6 @@ def add_models
   # move User model under chaltron directory
   run 'rm -f "app/models/user.rb"'
   directory 'app/models', force: true
-
-  environment 'config.autoload_paths << "#{Rails.root}/app/models/chaltron"'
 end
 
 def add_scaffold_templates
@@ -365,6 +373,7 @@ after_bundle do
   setup_chaltron
   setup_ajax_datatables
   setup_foreman
+  setup_application
 
   add_routes
   add_models
