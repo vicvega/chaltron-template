@@ -1,13 +1,13 @@
-import Chaltron from './chaltron';
+import { chaltron } from './chaltron';
 
-document.addEventListener('turbolinks:load', function(){
+$(document).on('turbolinks:load', function() {
 
   var defaultOptions = {
     destroy: true,
     autoWidth: false,
     responsive: true,
     stateSave: true,
-    language: Chaltron.translate('datatables')
+    language: chaltron.translate('datatables')
   };
 
   // generic datatable

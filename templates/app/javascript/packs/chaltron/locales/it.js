@@ -1,6 +1,6 @@
-import Chaltron from '../chaltron';
+import { chaltron } from '../chaltron';
 
-Chaltron.locales.it = {
+chaltron.locales.it = {
   "datatables": {
     "sEmptyTable":     "Nessun dato presente nella tabella",
     "sInfo":           "Vista da _START_ a _END_ di _TOTAL_ elementi",

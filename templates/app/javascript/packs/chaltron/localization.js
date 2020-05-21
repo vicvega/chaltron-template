@@ -1,5 +1,5 @@
-import Chaltron from './chaltron';
+import { chaltron } from './chaltron';
 
-document.addEventListener('DOMContentLoaded', function(event) {
-  Chaltron.locale = document.body.dataset.locale;
+$(document).ready(function() {
+  chaltron.locale = $('body').data('locale');
 });

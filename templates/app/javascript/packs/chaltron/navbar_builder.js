@@ -1,6 +1,38 @@
-function NavbarBuilder() {
+class NavbarBuilder {
 
-  function renderDropdownMenu(item){
+  create() {
+    // backup
+    $('#navigation').data('navbar', $('#navigation').html());
+
+    var i, ref;
+    ref = $('#navigation ul');
+    for(i = 0; i < ref.length; i++) {
+      this._prependClass(ref[i], 'navbar-nav mr-auto');
+    }
+    $('#navigation ul li').addClass('nav-item');
+    $('#navigation ul li a').addClass('nav-link');
+    $('#navigation ul li ul').parent().addClass('dropdown');
+    $('#navigation ul li.dropdown').children('a').addClass('dropdown-toggle').attr(
+      {id: 'navbarDropdown', role: 'button', 'aria-haspopup': 'true', 'aria-expanded': 'false', 'data-toggle': 'dropdown'}
+    );
+    ref = $('#navigation ul li.dropdown');
+    for(i = 0; i < ref.length; i++) {
+      this._renderDropdownMenu(ref[i]);
+    }
+    ref = $('#navigation ul li a');
+    for(i = 0; i < ref.length; i++) {
+      this._renderIconLink(ref[i]);
+    }
+  }
+
+  destroy() {
+    // restore
+    $('#navigation').html($('#navigation').data('navbar'));
+  }
+
+  // Internal methods
+
+  _renderDropdownMenu(item){
     var i, ref;
     ref = $(item).find('ul li a');
     for(i = 0; i < ref.length; i++) {
@@ -8,11 +40,11 @@ function NavbarBuilder() {
     }
     ref = $(item).find('ul');
     for(i = 0; i < ref.length; i++) {
-      renderDropdownLinks(ref[i]);
+      this._renderDropdownLinks(ref[i]);
     }
   }
 
-  function renderDropdownLinks(item) {
+  _renderDropdownLinks(item) {
     var links = $(item).find('li a');
     klass = 'dropdown-menu';
     if($(item).parent().hasClass('dropdown-menu-right')) {
@@ -22,7 +54,7 @@ function NavbarBuilder() {
     $(item).replaceWith(div);
   }
 
-  function prependClass(item, klass) {
+  _prependClass(item, klass) {
     if($(item).attr('class')  ) {
       klass += ' ' + $(item).attr('class');
     }
@@ -32,42 +64,11 @@ function NavbarBuilder() {
     }
   }
 
-  function renderIconLink(item) {
+  _renderIconLink(item) {
     if($(item).attr('icon')  ) {
       $(item).html("<i class=\"fa fa-" + $(item).attr('icon') + "\"></i>&nbsp;" + $(item).text());
     }
   }
-
-  return {
-    create: function () {
-      // backup
-      $('#navigation').data('navbar', $('#navigation').html());
-
-      var i, ref;
-      ref = $('#navigation ul');
-      for(i = 0; i < ref.length; i++) {
-        prependClass(ref[i], 'navbar-nav mr-auto');
-      }
-      $('#navigation ul li').addClass('nav-item');
-      $('#navigation ul li a').addClass('nav-link');
-      $('#navigation ul li ul').parent().addClass('dropdown');
-      $('#navigation ul li.dropdown').children('a').addClass('dropdown-toggle').attr(
-        {id: 'navbarDropdown', role: 'button', 'aria-haspopup': 'true', 'aria-expanded': 'false', 'data-toggle': 'dropdown'}
-      );
-      ref = $('#navigation ul li.dropdown');
-      for(i = 0; i < ref.length; i++) {
-        renderDropdownMenu(ref[i]);
-      }
-      ref = $('#navigation ul li a');
-      for(i = 0; i < ref.length; i++) {
-        renderIconLink(ref[i]);
-      }
-    },
-    destroy: function () {
-      // restore
-      $('#navigation').html($('#navigation').data('navbar'));
-    }
-  };
 }
 
 document.addEventListener('turbolinks:load', function(){

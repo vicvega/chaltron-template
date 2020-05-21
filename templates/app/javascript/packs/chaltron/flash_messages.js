@@ -1,5 +1,4 @@
-document.addEventListener('turbolinks:load', function(){
-
+$(document).on('turbolinks:load', function() {
   // flash messages
   var flash = $('.flash-container div.alert');
   if (flash.length > 0) {
@@ -10,5 +9,4 @@ document.addEventListener('turbolinks:load', function(){
       flash.fadeOut();
     }, 5000);
   }
-
 });
