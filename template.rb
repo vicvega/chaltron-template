@@ -293,8 +293,10 @@ END
 end
 
 def add_models
-  # move User model under chaltron directory
+  # move models under chaltron directory
   run 'rm -f "app/models/user.rb"'
+  run 'rm -f "app/models/log.rb"'
+  run 'rm -f "app/models/role.rb"'
   directory 'app/models', force: true
 end
 
