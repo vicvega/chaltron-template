@@ -15,8 +15,8 @@ class Chaltron::LogDatatable < AjaxDatatablesRails::ActiveRecord
     @view_columns ||= {
       severity: { source: 'Log.severity',   searchable: false },
       date:     { source: 'Log.created_at', searchable: false },
-      message:  { source: 'Log.message' },
-      category: { source: 'Log.category',   searchable: false }
+      category: { source: 'Log.category',   searchable: false },
+      message:  { source: 'Log.message' }
     }
   end
 
