@@ -57,6 +57,7 @@ $(document).on('turbolinks:load', function() {
   container = $('table#ldap_create');
   if (container.length > 0) {
     var ldap_create_table = container.DataTable($.extend({}, defaultOptions, {
+      stateSave: false,
       paging: false,
       // default sorting: uid (2nd column) asc
       order: [[1,'asc']],
