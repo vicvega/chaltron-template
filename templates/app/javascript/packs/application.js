@@ -14,11 +14,11 @@ import '@fortawesome/fontawesome-free/js/all';
 require('datatables.net-bs4')(window, $);
 require('datatables.net-responsive-bs4')(window, $);
 
-import 'packs/chaltron';
-import 'packs/chaltron/locales/it';
+import 'chaltron';
+import 'chaltron/locales/it';
 
 // stylesheets
-import 'packs/stylesheets/bootstrap';
+import 'stylesheets/bootstrap';
 import 'nprogress/nprogress.css';
 require('!style-loader!css-loader!datatables.net-bs4/css/dataTables.bootstrap4.css');
 require('!style-loader!css-loader!datatables.net-responsive-bs4/css/responsive.bootstrap4.css');

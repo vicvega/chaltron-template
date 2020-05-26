@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :role do
-    name { FFaker::Lorem.word }
+    sequence(:name) { |n| "#{FFaker::Lorem.word}_#{n}" }
   end
 end
