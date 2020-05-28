@@ -1,6 +1,6 @@
 class Chaltron {
   constructor(){
-    this._locale = 'en';
+    this._defaultLocale = 'en';
     this._locales = {
       'en': {
         'datatables': {
@@ -30,8 +30,7 @@ class Chaltron {
     };
   }
 
-  get locale() { return this._locale; }
-  set locale(l) { this._locale = l; }
+  get locale() { return $('body').data('locale') || this._defaultLocale; }
   get locales() { return this._locales; }
   set locales(l) { this._locales = l; }
 
@@ -40,7 +39,7 @@ class Chaltron {
   }
 
   translate(scope, locale) {
-    locale = locale || this._locale;
+    locale = locale || this.locale;
     if (!this._isSet(this.locales[locale]) || !this._isSet(this.locales[locale][scope])) {
       return this.missingTranslation(scope, locale);
     }
