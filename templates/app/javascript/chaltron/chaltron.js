@@ -1,4 +1,4 @@
-class Chaltron {
+class Chaltronz {
   constructor(){
     this._defaultLocale = 'en';
     this._locales = {
@@ -52,4 +52,4 @@ class Chaltron {
   }
 
 }
-export let chaltron = new Chaltron();
+export const Chaltron = new Chaltronz();

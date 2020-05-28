@@ -2,8 +2,8 @@ $(document).on('turbolinks:load', function() {
   container = $('table#ldap_create');
   if (container.length > 0) {
 
-    var toggleButton = function() {
-      var any = $('input.entry' + ':checkbox')
+    const toggleButton = function() {
+      const any = $('input.entry' + ':checkbox')
                 .filter(function() { return this.checked; })
                 .length > 0;
       if (any) {
@@ -23,7 +23,7 @@ $(document).on('turbolinks:load', function() {
     });
 
     $('form#ldap_create').on('submit', function(event) {
-      var selectedEntry = $('input.entry' + ':checkbox:checked')
+      const selectedEntry = $('input.entry' + ':checkbox:checked')
                           .map(function() { return $(this).attr('data-entry'); })
                           .get();
       if(selectedEntry.lenght == 0) {

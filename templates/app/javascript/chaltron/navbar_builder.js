@@ -4,7 +4,7 @@ class NavbarBuilder {
     // backup
     $('#navigation').data('navbar', $('#navigation').html());
 
-    var i, ref;
+    let i, ref;
     ref = $('#navigation ul');
     for(i = 0; i < ref.length; i++) {
       this._prependClass(ref[i], 'navbar-nav mr-auto');
@@ -33,7 +33,7 @@ class NavbarBuilder {
   // Internal methods
 
   _renderDropdownMenu(item){
-    var i, ref;
+    let i, ref;
     ref = $(item).find('ul li a');
     for(i = 0; i < ref.length; i++) {
       $(ref[i]).addClass('dropdown-item').removeClass('nav-link');
@@ -45,12 +45,12 @@ class NavbarBuilder {
   }
 
   _renderDropdownLinks(item) {
-    var links = $(item).find('li a');
+    const links = $(item).find('li a');
     klass = 'dropdown-menu';
     if($(item).parent().hasClass('dropdown-menu-right')) {
       klass += ' dropdown-menu-right';
     }
-    var div = $('<div></div>').addClass(klass).attr('aria-labelledby', 'navbarDropdown').append(links);
+    const div = $('<div></div>').addClass(klass).attr('aria-labelledby', 'navbarDropdown').append(links);
     $(item).replaceWith(div);
   }
 
@@ -72,16 +72,16 @@ class NavbarBuilder {
 }
 
 document.addEventListener('turbolinks:load', function(){
-  var navbar = new NavbarBuilder();
+  const navbar = new NavbarBuilder();
   navbar.create();
 }, {once: true});
 
 document.addEventListener('turbolinks:render', function(){
-  var navbar = new NavbarBuilder();
+  const navbar = new NavbarBuilder();
   navbar.create();
 });
 
 document.addEventListener('turbolinks:before-render', function(){
-  var navbar = new NavbarBuilder();
+  const navbar = new NavbarBuilder();
   navbar.destroy();
 });

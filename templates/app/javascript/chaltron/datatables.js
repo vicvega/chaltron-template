@@ -1,19 +1,19 @@
-import { chaltron } from './chaltron';
+import { Chaltron } from './chaltron';
 
 $(document).on('turbolinks:load', function() {
 
-  var defaultOptions = {
+  const defaultOptions = {
     destroy: true,
     autoWidth: false,
     responsive: true,
     stateSave: true,
-    language: chaltron.translate('datatables')
+    language: Chaltron.translate('datatables')
   };
 
   // generic datatable
-  var container = $('table.datatable');
+  let container = $('table.datatable');
   if (container.length > 0) {
-    var table = container.DataTable(defaultOptions);
+    const table = container.DataTable(defaultOptions);
     document.addEventListener('turbolinks:before-cache', function() {
       table.destroy();
     });
@@ -22,7 +22,7 @@ $(document).on('turbolinks:load', function() {
   // users
   container = $('table#users');
   if (container.length > 0) {
-    var user_table = container.DataTable(defaultOptions);
+    const user_table = container.DataTable(defaultOptions);
     document.addEventListener('turbolinks:before-cache', function() {
       user_table.destroy();
     });
@@ -31,7 +31,7 @@ $(document).on('turbolinks:load', function() {
   // logs
   container = $('table#logs');
   if (container.length > 0) {
-    var log_table = container.DataTable($.extend({}, defaultOptions, {
+    const log_table = container.DataTable($.extend({}, defaultOptions, {
       processing: true,
       serverSide: true,
       ajax: container.data('source'),
@@ -56,7 +56,7 @@ $(document).on('turbolinks:load', function() {
   // ldap_create
   container = $('table#ldap_create');
   if (container.length > 0) {
-    var ldap_create_table = container.DataTable($.extend({}, defaultOptions, {
+    const ldap_create_table = container.DataTable($.extend({}, defaultOptions, {
       stateSave: false,
       paging: false,
       // default sorting: uid (2nd column) asc
