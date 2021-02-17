@@ -143,7 +143,7 @@ def add_views
 end
 
 def add_locales
-  directory 'config/locales'
+  directory 'config/locales', force: true
 end
 
 def add_javascript
