@@ -148,16 +148,14 @@ end
 
 def add_javascript
   run 'yarn add jquery popper.js bootstrap @fortawesome/fontawesome-free ' \
-    'nprogress imports-loader datatables.net-bs4 datatables.net-responsive-bs4'
+    'nprogress datatables.net-bs4 datatables.net-responsive-bs4'
 
   directory 'app/javascript/chaltron'
   directory 'app/javascript/stylesheets'
   copy_file 'app/javascript/packs/application.js', force: true
-  directory 'config/webpack/loaders'
 
   text = <<~JS
     const webpack = require('webpack');
-    const datatables = require('./loaders/datatables');
 
     environment.plugins.append('Provide',
       new webpack.ProvidePlugin({
@@ -166,7 +164,6 @@ def add_javascript
         Popper: ['popper.js', 'default']
       })
     );
-    environment.loaders.append('datatables', datatables);
 
   JS
   inject_into_file 'config/webpack/environment.js', text, before: 'module.exports = environment'

@@ -10,9 +10,8 @@ require('channels');
 
 import 'bootstrap';
 import '@fortawesome/fontawesome-free/js/all';
-
-require('datatables.net-bs4')(window, $);
-require('datatables.net-responsive-bs4')(window, $);
+import 'datatables.net-bs4';
+import 'datatables.net-responsive-bs4';
 
 import 'chaltron';
 import 'chaltron/locales/it';
@@ -20,8 +19,8 @@ import 'chaltron/locales/it';
 // stylesheets
 import 'stylesheets/bootstrap';
 import 'nprogress/nprogress.css';
-require('!style-loader!css-loader!datatables.net-bs4/css/dataTables.bootstrap4.css');
-require('!style-loader!css-loader!datatables.net-responsive-bs4/css/responsive.bootstrap4.css');
+import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
+import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.css';
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
