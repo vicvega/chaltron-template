@@ -13,13 +13,13 @@ def add_template_repository_to_source_path
     require 'tmpdir'
     tempdir = Dir.mktmpdir('chaltron-')
     source_paths.unshift(File.join(tempdir, 'templates'))
-    $:.unshift(tempdir)
+    $LOAD_PATH.unshift(tempdir)
 
     at_exit { FileUtils.remove_entry(tempdir) }
     git clone: [
       '--quiet',
       'https://github.com/vicvega/chaltron-template.git',
-       tempdir
+      tempdir
     ].map(&:shellescape).join(' ')
 
     if (branch = __FILE__[%r{chaltron-template/(.+)/template.rb}, 1])
@@ -27,20 +27,20 @@ def add_template_repository_to_source_path
     end
   else
     source_paths.unshift(File.join(File.dirname(__FILE__), 'templates'))
-    $:.unshift(File.dirname(__FILE__))
+    $LOAD_PATH.unshift(File.dirname(__FILE__))
   end
 end
 
 def print_banner
   require 'chaltron/banner'
   banner = Chaltron::Banner.new
-  message = <<-TXT
+  message = <<~TXT
 
     Be proud! You are running
-#{set_color(banner.sample, :blue, true)}
+  #{set_color(banner.sample, :blue, true)}
     aka #{set_color('Muffaster reloaded', :red)}
 
-TXT
+  TXT
   say message
   exit unless yes?('Are you sure you want to continue? [yes/NO]')
 end
@@ -86,6 +86,7 @@ end
 
 def ask_with_default(question, color, default)
   return default unless $stdin.tty?
+
   question = (question + " [#{default}]")
   answer = ask(question, color)
   answer.to_s.strip.empty? ? default : answer
@@ -94,15 +95,15 @@ end
 def setup_mysql
   ask_for_credential
 
-  before =<<-END
+  before = <<-BEF
   username: root
   password:
-END
+  BEF
 
-after =<<-END
+  after = <<-AFT
   username: #{@db_user}
   password: #{@db_password}
-END
+  AFT
 
   gsub_file 'config/database.yml', before, after
 end
@@ -116,8 +117,7 @@ def add_controllers
   directory 'app/controllers/chaltron'
   directory 'app/controllers/concerns/chaltron'
   copy_file 'app/controllers/home_controller.rb'
-  inject_into_file 'app/controllers/application_controller.rb',
-    "  include Chaltron::Logging\n", before: 'end'
+  inject_into_file 'app/controllers/application_controller.rb', "  include Chaltron::Logging\n", before: 'end'
 end
 
 def add_datatables
@@ -168,43 +168,42 @@ environment.plugins.append('Provide',
 );
 environment.loaders.append('datatables', datatables);
 
-JS
-  inject_into_file 'config/webpack/environment.js', text,
-    before: 'module.exports = environment'
+  JS
+  inject_into_file 'config/webpack/environment.js', text, before: 'module.exports = environment'
 end
 
 def add_users
-  generate "devise:install"
+  generate 'devise:install'
   route "root to: 'home#index'"
 
   generate :devise, 'User'
 
-  before =<<-END
+  before = <<-BEF
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false
       # t.datetime :current_sign_in_at
       # t.datetime :last_sign_in_at
       # t.string   :current_sign_in_ip
       # t.string   :last_sign_in_ip
-END
+  BEF
 
-  after =<<-END
+  after = <<-AFT
       ## Trackable
       t.integer  :sign_in_count, default: 0, null: false
       t.datetime :current_sign_in_at
       t.datetime :last_sign_in_at
       t.string   :current_sign_in_ip
       t.string   :last_sign_in_ip
-END
+  AFT
 
-  gsub_file Dir.glob('db/migrate/*').max_by{ |f| File.mtime(f) }, before, after
+  gsub_file Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) }, before, after
 
   generate :migration, 'add_fields_to_users username:string:uniq ' \
     'fullname department enabled:boolean provider extern_uid'
 
-  gsub_file Dir.glob('db/migrate/*').max_by{ |f| File.mtime(f) },
-    'add_column :users, :enabled, :boolean',
-    'add_column :users, :enabled, :boolean, default: true'
+  gsub_file Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) },
+            'add_column :users, :enabled, :boolean',
+            'add_column :users, :enabled, :boolean, default: true'
 end
 
 def add_roles
@@ -218,8 +217,8 @@ end
 
 def setup_devise
   gsub_file 'config/initializers/devise.rb',
-    '  # config.authentication_keys = [:email]',
-    '  config.authentication_keys = [ :login ]'
+            '  # config.authentication_keys = [:email]',
+            '  config.authentication_keys = [ :login ]'
 end
 
 def setup_warden
@@ -236,8 +235,8 @@ def setup_ajax_datatables
   generate 'datatable:config'
 
   gsub_file 'config/initializers/ajax_datatables_rails.rb',
-    "# config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym",
-    "config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym"
+            "# config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym",
+            "config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym"
 end
 
 def setup_foreman
@@ -262,8 +261,7 @@ def add_routes
   end
   route "get 'home/index'"
 
-
-  routes =<<-END
+  routes = <<-ROUTES
 
   devise_for :users, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }
 
@@ -287,7 +285,7 @@ def add_routes
     post  'ldap/multi_new'    => 'chaltron/ldap#multi_new'
     post  'ldap/multi_create' => 'chaltron/ldap#multi_create'
   end
-END
+  ROUTES
 
   gsub_file 'config/routes.rb', '  devise_for :users', routes
 end
