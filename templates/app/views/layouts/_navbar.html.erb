@@ -1,8 +1,9 @@
 <nav class='navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-0'>
   <%= link_to 'Home', root_url, class: 'navbar-brand' %>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+  <%= button_tag class: 'navbar-toggler', data: { toggle: 'collapse', target: '#navigation' },
+                 aria: { controls: 'navigation', expanded: false, label: 'Toggle navigation' } do %>
     <span class="navbar-toggler-icon"></span>
-  </button>
+  <% end %>
   <div class="collapse navbar-collapse" id="navigation">
     <%= render_navigation expand_all: true %>
     <%= render_navigation expand_all: true, context: :chaltron %>

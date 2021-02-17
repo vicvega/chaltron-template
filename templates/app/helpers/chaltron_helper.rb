@@ -32,7 +32,7 @@ module ChaltronHelper
     klass = options.delete(:class)
     content_tag :div, class: 'custom-control custom-checkbox' do
       check_box_tag('checkbox', nil, nil, options.merge(id: id, class: "custom-control-input d-none #{klass}")) +
-      label_tag(id, '', class: 'custom-control-label d-block', for: id)
+        label_tag(id, '', class: 'custom-control-label d-block', for: id)
     end
   end
 
@@ -42,16 +42,15 @@ module ChaltronHelper
   def bootstrap_class_for(flash_type)
     {
       success: 'alert-success',
-      error:   'alert-danger',
-      alert:   'alert-warning',
-      notice:  'alert-info'
+      error: 'alert-danger',
+      alert: 'alert-warning',
+      notice: 'alert-info'
     }[flash_type] || flash_type.to_s
   end
 
   def flash_message(message, type)
     content_tag(:div, message, class: "alert #{bootstrap_class_for(type)} rounded-0") do
-      content_tag(:strong, I18n.t("chaltron.flash.#{type}") + ': ') +
-      message
+      content_tag(:strong, I18n.t("chaltron.flash.#{type}") + ': ') + message
     end
   end
 
@@ -66,10 +65,9 @@ module ChaltronHelper
 
   def get_revision_number
     version_file = File.join(Rails.root, 'REVISION')
-    if File.exists?(version_file)
-      v = IO.read(version_file).strip
-      v.blank?? nil : v
-    end
-  end
+    return unless File.exist?(version_file)
 
+    v = IO.read(version_file).strip
+    v.blank? ? nil : v
+  end
 end

@@ -1,4 +1,3 @@
-
 require 'chaltron/ldap/user'
 
 if defined?(Warden)
@@ -17,17 +16,18 @@ if defined?(Warden)
   end
 
   # Log after authentication
-  Warden::Manager.after_authentication do |user, warden, options|
+  Warden::Manager.after_authentication do |user, _warden, options|
     if user
-      message = options[:kind].nil? ?
-        I18n.t('chaltron.logs.login', user: user.display_name) :
-        I18n.t('chaltron.logs.login_omniauth', user: user.display_name, provider: options[:kind])
-
+      message = if options[:kind].nil?
+                  I18n.t('chaltron.logs.login', user: user.display_name)
+                else
+                  I18n.t('chaltron.logs.login_omniauth', user: user.display_name, provider: options[:kind])
+                end
       Log.create(message: message, category: :login, severity: :info)
     end
   end
 
-  Warden::Manager.before_logout do |user, warden, options|
+  Warden::Manager.before_logout do |user, _warden, _options|
     # Here you can do a callback on LDAP just before logout
     # E.g.:
     #
@@ -38,10 +38,12 @@ if defined?(Warden)
     #   })
     # end
     # Log before logout
-    Log.create(
-      message: I18n.t('chaltron.logs.logout', user: user.display_name),
-      category: :login,
-      severity: :info
-    ) if user
+    if user
+      Log.create(
+        message: I18n.t('chaltron.logs.logout', user: user.display_name),
+        category: :login,
+        severity: :info
+      )
+    end
   end
 end

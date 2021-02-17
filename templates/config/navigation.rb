@@ -32,7 +32,8 @@ SimpleNavigation::Configuration.run do |navigation|
   # This turns it off globally (for the whole plugin)
   # navigation.auto_highlight = false
 
-  # If this option is set to true, all item names will be considered as safe (passed through html_safe). Defaults to false.
+  # If this option is set to true, all item names will be considered as safe (passed through html_safe).
+  # Defaults to false.
   # navigation.consider_item_names_as_safe = false
 
   # Define the primary navigation
@@ -40,8 +41,10 @@ SimpleNavigation::Configuration.run do |navigation|
     # Add an item to the primary navigation. The following params apply:
     # key - a symbol which uniquely defines your navigation item in the scope of the primary_navigation
     # name - will be displayed in the rendered navigation. This can also be a call to your I18n-framework.
-    # url - the address that the generated item links to. You can also use url_helpers (named routes, restful routes helper, url_for etc.)
-    # options - can be used to specify attributes that will be included in the rendered navigation item (e.g. id, class etc.)
+    # url - the address that the generated item links to.
+    # You can also use url_helpers (named routes, restful routes helper, url_for etc.)
+    # options - can be used to specify attributes that will be included in
+    # the rendered navigation item (e.g. id, class etc.)
     #           some special options that can be set:
     #           :if - Specifies a proc to call to determine if the item should
     #                 be rendered (e.g. <tt>if: -> { current_user.admin? }</tt>). The

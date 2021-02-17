@@ -1,7 +1,7 @@
 # require 'syslog'
 
 class Log < ApplicationRecord
-  SEVERITIES = %w( emerg alert crit err warning notice info debug )
+  SEVERITIES = %w[emerg alert crit err warning notice info debug].freeze
 
   validates_presence_of :severity, :message
   validates_inclusion_of :severity, in: SEVERITIES
@@ -13,9 +13,9 @@ class Log < ApplicationRecord
   private
 
   def standardize_severity
-    self.severity = :emerg   if self.severity && self.severity.to_sym == :panic
-    self.severity = :err     if self.severity && self.severity.to_sym == :error
-    self.severity = :warning if self.severity && self.severity.to_sym == :warn
+    self.severity = :emerg   if severity && severity.to_sym == :panic
+    self.severity = :err     if severity && severity.to_sym == :error
+    self.severity = :warning if severity && severity.to_sym == :warn
   end
 
   def truncate_message

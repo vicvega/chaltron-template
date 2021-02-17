@@ -1,5 +1,4 @@
 module Chaltron::LogsHelper
-
   def bootstrap_severity(severity)
     case severity.to_s
     when 'emerg', 'alert', 'crit', 'err'
@@ -12,5 +11,4 @@ module Chaltron::LogsHelper
       'primary'
     end
   end
-
 end

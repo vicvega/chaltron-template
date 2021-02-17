@@ -8,11 +8,11 @@ module Chaltron
     end
 
     def enabled?
-      self.enabled
+      enabled
     end
 
     def disabled?
-      !self.enabled
+      !enabled
     end
 
     def enable!
@@ -22,6 +22,5 @@ module Chaltron
     def disable!
       update!(enabled: false)
     end
-
   end
 end

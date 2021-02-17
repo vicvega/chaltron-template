@@ -1,7 +1,7 @@
 <div class='container-fluid'>
   <h3 class='pt-4'><%= t '.title' %></h3>
   <%= content_tag 'table', id: 'logs', class: 'table table-striped',
-    data: {source: logs_path(format: :json)} do %>
+    data: { source: logs_path(format: :json) } do %>
     <thead>
       <tr>
         <th class='severity'>

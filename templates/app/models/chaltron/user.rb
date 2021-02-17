@@ -14,11 +14,11 @@ class User < ApplicationRecord
   attr_writer :login
 
   def login
-    @login || self.username || self.email
+    @login || username || email
   end
 
   def display_name
-    self.fullname.blank? ? self.username : self.fullname
+    fullname.blank? ? username : fullname
   end
 
   def ldap_user?
@@ -28,9 +28,10 @@ class User < ApplicationRecord
   # override devise method to allow sign in with email or username
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
-      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
-    elsif conditions.has_key?(:username) || conditions.has_key?(:email)
+    if (login = conditions.delete(:login))
+      where(conditions.to_h)
+        .where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
+    elsif conditions.key?(:username) || conditions.key?(:email)
       where(conditions.to_h).first
     end
   end
@@ -43,5 +44,4 @@ class User < ApplicationRecord
   def inactive_message
     enabled? ? super : I18n.t('chaltron.users.inactive_message')
   end
-
 end

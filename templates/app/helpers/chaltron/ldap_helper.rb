@@ -17,5 +17,4 @@ module Chaltron::LdapHelper
       mail
     end
   end
-
 end

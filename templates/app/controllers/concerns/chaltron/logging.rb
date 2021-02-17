@@ -4,7 +4,7 @@ module Chaltron
 
     module ClassMethods
       def log_category
-        defined?(@log_category) ? @log_category : self.to_s.downcase
+        defined?(@log_category) ? @log_category : to_s.downcase
       end
 
       def default_log_category(cat)
@@ -28,6 +28,7 @@ module Chaltron
     end
 
     private
+
     def create_log_message(message, category, severity)
       category ||= self.class.log_category
       Log.create(

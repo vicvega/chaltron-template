@@ -1,4 +1,5 @@
-<%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name), layout: :horizontal, label_col: 'col-sm-3', control_col: 'col-sm-9') do |f| %>
+<%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name),
+                                 layout: :horizontal, label_col: 'col-sm-3', control_col: 'col-sm-9') do |f| %>
   <%= f.text_field :login, placeholder: t('.login_placeholder') %>
   <%= f.password_field :password, placeholder: 'Password' %>
   <% if devise_mapping.rememberable? %>

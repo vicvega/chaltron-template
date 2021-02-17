@@ -214,8 +214,8 @@ end
 
 def setup_devise
   gsub_file 'config/initializers/devise.rb',
-            '  # config.authentication_keys = [:email]',
-            '  config.authentication_keys = [ :login ]'
+            '# config.authentication_keys = [:email]',
+            'config.authentication_keys = [:login]'
 end
 
 def setup_warden

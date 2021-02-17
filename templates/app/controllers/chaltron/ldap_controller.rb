@@ -26,7 +26,7 @@ class Chaltron::LdapController < ApplicationController
     @created = []
     @error   = []
     (params[:uids] || []).each do |uid|
-      roles = Role.find(params[:user][:role_ids].reject{|x| x.empty?})
+      roles = Role.find(params[:user][:role_ids].reject(&:empty?))
       user = Chaltron::LDAP::Person.find_by_uid(uid).create_user(roles)
       if user.new_record?
         @error << user
@@ -34,13 +34,15 @@ class Chaltron::LdapController < ApplicationController
         @created << user
       end
     end
+    return unless @created.size.positive?
+
     info I18n.t('chaltron.logs.users.ldap_created',
-        current: current_user.display_name, count: @created.size,
-        user: @created.map(&:display_name).join(', ')) if @created.size > 0
+                current: current_user.display_name, count: @created.size,
+                user: @created.map(&:display_name).join(', '))
   end
 
   private
-  
+
   def find_options
     department = params[:department]
     name       = params[:lastname]
@@ -60,5 +62,4 @@ class Chaltron::LdapController < ApplicationController
   def authorize_create_user
     authorize! :create, User
   end
-
 end

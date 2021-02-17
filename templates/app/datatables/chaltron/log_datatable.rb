@@ -13,10 +13,10 @@ class Chaltron::LogDatatable < AjaxDatatablesRails::ActiveRecord
     # Declare strings in this format: ModelName.column_name
     # or in aliased_join_table.column_name format
     @view_columns ||= {
-      severity: { source: 'Log.severity',   searchable: false },
-      date:     { source: 'Log.created_at', searchable: false },
-      category: { source: 'Log.category',   searchable: false },
-      message:  { source: 'Log.message' }
+      severity: { source: 'Log.severity', searchable: false },
+      date: { source: 'Log.created_at', searchable: false },
+      category: { source: 'Log.category', searchable: false },
+      message: { source: 'Log.message' }
     }
   end
 
@@ -26,9 +26,9 @@ class Chaltron::LogDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |log|
       {
         severity: content_tag(:span, I18n.t("chaltron.logs.severity.#{log.severity}"),
-        class:    "badge badge-#{bootstrap_severity(log.severity)}"),
-        date:     I18n.l(log.created_at, format: :short),
-        message:  link_to(log.message, log),
+                              class: "badge badge-#{bootstrap_severity(log.severity)}"),
+        date: I18n.l(log.created_at, format: :short),
+        message: link_to(log.message, log),
         category: I18n.t("chaltron.logs.category.#{log.category}")
       }
     end
