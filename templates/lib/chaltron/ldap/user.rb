@@ -35,7 +35,7 @@ module Chaltron
         private
 
         def update_ldap_attributes(user, entry)
-          user.update_attributes!(
+          user.update!(
             email: entry.email,
             department: entry.department
           )
@@ -78,7 +78,7 @@ module Chaltron
         end
 
         def raise_error(message)
-          raise OmniAuth::Error, "(LDAP) #{message}" 
+          raise OmniAuth::Error, "(LDAP) #{message}"
         end
       end
     end
