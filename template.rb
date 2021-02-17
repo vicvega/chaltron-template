@@ -142,31 +142,27 @@ def add_views
   copy_file 'config/chaltron_navigation.rb'
 end
 
-def add_locales
-  directory 'config/locales'
-end
-
 def add_javascript
   run 'yarn add jquery popper.js bootstrap @fortawesome/fontawesome-free ' \
     'nprogress imports-loader datatables.net-bs4 datatables.net-responsive-bs4'
 
-  directory 'app/javascript/packs/chaltron'
-  directory 'app/javascript/packs/stylesheets'
+  directory 'app/javascript/chaltron'
+  directory 'app/javascript/stylesheets'
   copy_file 'app/javascript/packs/application.js', force: true
   directory 'config/webpack/loaders'
 
-  text = <<-JS
-const webpack = require('webpack');
-const datatables = require('./loaders/datatables');
+  text = <<~JS
+    const webpack = require('webpack');
+    const datatables = require('./loaders/datatables');
 
-environment.plugins.append('Provide',
-  new webpack.ProvidePlugin({
-    $: 'jquery',
-    jQuery: 'jquery',
-    Popper: ['popper.js', 'default']
-  })
-);
-environment.loaders.append('datatables', datatables);
+    environment.plugins.append('Provide',
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        Popper: ['popper.js', 'default']
+      })
+    );
+    environment.loaders.append('datatables', datatables);
 
   JS
   inject_into_file 'config/webpack/environment.js', text, before: 'module.exports = environment'
@@ -213,6 +209,10 @@ end
 
 def add_logs
   generate :model, 'Log message:string{1000} severity category'
+end
+
+def add_locales
+  directory 'config/locales'
 end
 
 def setup_devise
