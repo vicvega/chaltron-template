@@ -142,6 +142,10 @@ def add_views
   copy_file 'config/chaltron_navigation.rb'
 end
 
+def add_locales
+  directory 'config/locales'
+end
+
 def add_javascript
   run 'yarn add jquery popper.js bootstrap @fortawesome/fontawesome-free ' \
     'nprogress imports-loader datatables.net-bs4 datatables.net-responsive-bs4'
@@ -211,10 +215,6 @@ def add_logs
   generate :model, 'Log message:string{1000} severity category'
 end
 
-def add_locales
-  directory 'config/locales'
-end
-
 def setup_devise
   gsub_file 'config/initializers/devise.rb',
             '  # config.authentication_keys = [:email]',
@@ -229,14 +229,6 @@ def setup_chaltron
   directory 'lib/chaltron'
   copy_file 'lib/chaltron.rb'
   copy_file 'config/initializers/chaltron.rb'
-end
-
-def setup_ajax_datatables
-  generate 'datatable:config'
-
-  gsub_file 'config/initializers/ajax_datatables_rails.rb',
-            "# config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym",
-            "config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym"
 end
 
 def setup_foreman
@@ -361,7 +353,6 @@ after_bundle do
   add_datatables
   add_helpers
   add_views
-  add_locales
   add_javascript
 
   add_users
@@ -371,10 +362,10 @@ after_bundle do
   setup_devise
   setup_warden
   setup_chaltron
-  setup_ajax_datatables
   setup_foreman
   setup_application
 
+  add_locales
   add_routes
   add_models
   add_scaffold_templates
