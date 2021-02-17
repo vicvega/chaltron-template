@@ -18,12 +18,14 @@ module Chaltron
           end
           user = find_by_uid_and_provider
           entry = Chaltron::LDAP::Person.find_by_uid(username)
-          if user.nil? and create
+          if user.nil? && create
             # create user
             roles = Chaltron.default_roles
-            roles = entry.ldap_groups.map do |e|
-              Chaltron.ldap_role_mappings[e.dn]
-            end.compact if !Chaltron.ldap_role_mappings.blank?
+            unless Chaltron.ldap_role_mappings.blank?
+              roles = entry.ldap_groups.map do |e|
+                Chaltron.ldap_role_mappings[e.dn]
+              end.compact
+            end
             user = entry.create_user(roles)
           end
           update_ldap_attributes(user, entry) unless user.nil?
@@ -50,7 +52,7 @@ module Chaltron
             # * LDAP uid changed for user with same email and we need to update their uid
             #
             user = ::User.find_by(email: email)
-            user.update_attributes!(extern_uid: uid, provider: provider) unless user.nil?
+            user&.update!(extern_uid: uid, provider: provider)
           end
           user
         end
@@ -60,7 +62,7 @@ module Chaltron
         end
 
         def email
-          auth.info.email.downcase unless auth.info.email.nil?
+          auth&.info&.email&.downcase
         end
 
         def name
@@ -76,7 +78,7 @@ module Chaltron
         end
 
         def raise_error(message)
-          fail OmniAuth::Error, '(LDAP) ' + message
+          raise OmniAuth::Error, "(LDAP) #{message}" 
         end
       end
     end

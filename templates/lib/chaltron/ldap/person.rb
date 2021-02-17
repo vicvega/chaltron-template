@@ -29,7 +29,8 @@ module Chaltron
 
       def create_user(roles = [])
         password = Devise.friendly_token[0, 8].downcase
-        user = ::User.new(extern_uid: dn,
+        user = ::User.new(
+          extern_uid: dn,
           provider: provider,
           fullname: name,
           username: username,
@@ -44,7 +45,9 @@ module Chaltron
       end
 
       def department
-        entry.send(Chaltron.ldap_field_mappings[:department]).first rescue nil
+        entry.send(Chaltron.ldap_field_mappings[:department]).first
+      rescue StandardError
+        nil
       end
 
       def name
@@ -66,7 +69,9 @@ module Chaltron
       end
 
       def email
-        entry.send(Chaltron.ldap_field_mappings[:email]).first rescue nil
+        entry.send(Chaltron.ldap_field_mappings[:email]).first
+      rescue StandardError
+        nil
       end
 
       def dn
@@ -81,12 +86,9 @@ module Chaltron
         self.class.ldap.find_groups_by_member(self)
       end
 
-      private
-
       def self.ldap
-        @connection ||= Chaltron::LDAP::Connection.new
+        @ldap ||= Chaltron::LDAP::Connection.new
       end
-
     end
   end
 end

@@ -7,13 +7,13 @@ if defined?(Net::LDAP)
       class Connection
         NET_LDAP_ENCRYPTION_METHOD = {
           simple_tls: :simple_tls,
-          start_tls:  :start_tls,
-          plain:      nil
+          start_tls: :start_tls,
+          plain: nil
         }.freeze
 
         attr_reader :ldap
 
-        def initialize(params = {})
+        def initialize
           @ldap = Net::LDAP.new(adapter_options)
         end
 
@@ -25,7 +25,7 @@ if defined?(Net::LDAP)
         def find_by_uid(id)
           opts = {}
           opts[uid.to_sym] = id
-          ret = find_user(opts)
+          find_user(opts)
         end
 
         def find_user(*args)
@@ -36,9 +36,7 @@ if defined?(Net::LDAP)
           results = ldap.search(*args)
           if results.nil?
             response = ldap.get_operation_result
-            unless response.code.zero?
-              Rails.logger.warn("LDAP search error: #{response.message}")
-            end
+            Rails.logger.warn("LDAP search error: #{response.message}") unless response.code.zero?
             []
           else
             results
@@ -47,6 +45,7 @@ if defined?(Net::LDAP)
 
         def find_users(args)
           return [] if args.empty?
+
           limit = args.delete(:limit)
           fields = args.keys
 
@@ -79,8 +78,8 @@ if defined?(Net::LDAP)
           ldap_search(options)
         end
 
-        def update_attributes(dn, args)
-          ldap.modify dn: dn, operations: args.map { |k,v| [:replace, k, v] }
+        def update_attributes(distinguished_name, args)
+          ldap.modify dn: distinguished_name, operations: args.map { |k, v| [:replace, k, v] }
         end
 
         private
@@ -89,9 +88,10 @@ if defined?(Net::LDAP)
           Devise.omniauth_configs[:ldap].options
         end
 
-        def translate_field field
+        def translate_field(field)
           return uid if field.to_sym == :uid
           return Chaltron.ldap_field_mappings[field.to_sym] unless Chaltron.ldap_field_mappings[field.to_sym].nil?
+
           field
         end
 
@@ -102,7 +102,7 @@ if defined?(Net::LDAP)
             encryption: encryption_options,
             verbose: true
           }
-          opts.merge!(auth_options) if has_auth?
+          opts.merge!(auth_options) if auth?
           opts
         end
 
@@ -117,6 +117,7 @@ if defined?(Net::LDAP)
         def encryption_options
           method = translate_method
           return unless method
+
           {
             method: method,
             tls_options: tls_options
@@ -134,16 +135,15 @@ if defined?(Net::LDAP)
           return unless method
 
           opts = if options[:disable_verify_certificates]
-            # It is important to explicitly set verify_mode for two reasons:
-            # 1. The behavior of OpenSSL is undefined when verify_mode is not set.
-            # 2. The net-ldap gem implementation verifies the certificate hostname
-            #    unless verify_mode is set to VERIFY_NONE.
-            { verify_mode: OpenSSL::SSL::VERIFY_NONE }
-           else
-             # Dup so we don't accidentally overwrite the constant
-             OpenSSL::SSL::SSLContext::DEFAULT_PARAMS.dup
-           end
-
+                   # It is important to explicitly set verify_mode for two reasons:
+                   # 1. The behavior of OpenSSL is undefined when verify_mode is not set.
+                   # 2. The net-ldap gem implementation verifies the certificate hostname
+                   #    unless verify_mode is set to VERIFY_NONE.
+                   { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+                 else
+                   # Dup so we don't accidentally overwrite the constant
+                   OpenSSL::SSL::SSLContext::DEFAULT_PARAMS.dup
+                 end
           opts.merge!(custom_tls_options)
 
           @tls_options = opts
@@ -184,7 +184,7 @@ if defined?(Net::LDAP)
           }
         end
 
-        def has_auth?
+        def auth?
           options[:password] || options[:bind_dn]
         end
       end

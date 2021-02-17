@@ -3,7 +3,7 @@ class BootstrapForm::FormBuilder
   def role_select(opts = {})
     collection = Role.all.map { |role| [role.id, I18n.translate("roles.#{role.name}")] }
 
-    checked_ids = @object.nil?? false : @object.roles.map(&:id)
+    checked_ids = @object.nil? ? false : @object.roles.map(&:id)
     disabled_id = opts[:disabled].blank? ? nil : Role.find_by_name(opts[:disabled]).id
 
     html = inputs_collection(:role_ids, collection, :first, :last, checked: checked_ids) do |name, value, options|
@@ -18,5 +18,4 @@ class BootstrapForm::FormBuilder
     hidden = disabled_id || ''
     hidden_field(:role_ids, { value: hidden, multiple: true }).concat(html)
   end
-
 end

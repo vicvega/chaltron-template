@@ -234,13 +234,12 @@ end
 
 def setup_application
   application do
-<<-RUBY
-
-    # chaltron
-    config.autoload_paths << File.join([Rails.root], %w(app models chaltron))
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-    config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-RUBY
+    <<~RUBY
+      # chaltron
+      config.autoload_paths << File.join([Rails.root], %w[app models chaltron])
+      config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+      config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+    RUBY
   end
 end
 
@@ -297,20 +296,21 @@ def add_tests
 end
 
 def add_seeds
-  append_file 'db/seeds.rb' do <<RUBY
+  append_file 'db/seeds.rb' do
+    <<~RUBY
 
-Role.create(name: :admin)
-Role.create(name: :user_admin)
+      Role.create(name: :admin)
+      Role.create(name: :user_admin)
 
-User.create do |u|
-  u.username              = 'bella'
-  u.fullname              = 'Bellatrix Lestrange'
-  u.email                 = 'bellatrix.lestrange@azkaban.co.uk'
-  u.password              = 'password.1'
-  u.password_confirmation = 'password.1'
-  u.roles                 = Role.all
-end
-RUBY
+      User.create do |u|
+        u.username              = 'bella'
+        u.fullname              = 'Bellatrix Lestrange'
+        u.email                 = 'bellatrix.lestrange@azkaban.co.uk'
+        u.password              = 'password.1'
+        u.password_confirmation = 'password.1'
+        u.roles                 = Role.all
+      end
+    RUBY
   end
 end
 
