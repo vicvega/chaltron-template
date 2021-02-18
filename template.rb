@@ -58,7 +58,9 @@ def add_gems
   gem 'rails-i18n'
   gem 'ajax-datatables-rails'
 
-  gem 'foreman'
+  gem_group :development do
+    gem 'foreman'
+  end
 
   gem_group :development, :test do
     gem 'factory_bot_rails'
