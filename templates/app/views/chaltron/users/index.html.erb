@@ -14,12 +14,12 @@
           <% end %>
 
           <%= content_tag :div, class: 'dropdown-menu', aria: { labelledby: 'new_user_button' } do %>
-            <%= link_to t('.new_ldap_user'), ldap_search_path, class: 'dropdown-item' %>
-            <%= link_to t('.new_local_user'), new_user_path, class: 'dropdown-item' %>
+            <%= link_to t('.new_ldap_user'), chaltron_ldap_search_path, class: 'dropdown-item' %>
+            <%= link_to t('.new_local_user'), new_chaltron_user_path, class: 'dropdown-item' %>
           <% end %>
         </div>
       <% else %>
-        <%= link_to new_user_path, class: 'btn btn-primary pull-right' do %>
+        <%= link_to new_chaltron_user_path, class: 'btn btn-primary pull-right' do %>
           <%= icon :fas, :plus, t('.new_local_user') %>
         <% end %>
       <% end %>
@@ -31,16 +31,16 @@
           <thead>
             <tr>
               <th class='username'>
-                <%= User.human_attribute_name(:username) %>
+                <%= Chaltron::User.human_attribute_name(:username) %>
               </th>
               <th class='fullname'>
-                <%= User.human_attribute_name(:fullname) %>
+                <%= Chaltron::User.human_attribute_name(:fullname) %>
               </th>
               <th class='email'>
-                <%= User.human_attribute_name(:email) %>
+                <%= Chaltron::User.human_attribute_name(:email) %>
               </th>
               <th class='roles'>
-                <%= User.human_attribute_name(:roles) %>
+                <%= Chaltron::User.human_attribute_name(:roles) %>
               </th>
             </tr>
           </thead>

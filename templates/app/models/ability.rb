@@ -28,16 +28,16 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
-    user ||= User.new
+    user ||= Chaltron::User.new
 
     if user.role?(:user_admin)
-      can :manage, User
+      can :manage, Chaltron::User
       if Chaltron.ldap_allow_all
-        cannot :edit, User, { provider: 'ldap' }
-        cannot :destroy, User, { provider: 'ldap' }
+        cannot :edit, Chaltron::User, { provider: 'ldap' }
+        cannot :destroy, Chaltron::User, { provider: 'ldap' }
       end
-      can :read, Log, category: 'user_admin'
+      can :read, Chaltron::Log, category: 'user_admin'
     end
-    can :read, Log if user.role?(:admin)
+    can :read, Chaltron::Log if user.role?(:admin)
   end
 end

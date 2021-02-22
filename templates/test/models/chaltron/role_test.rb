@@ -1,24 +1,22 @@
 require 'test_helper'
 
 class RoleTest < ActiveSupport::TestCase
-
   test 'should create role' do
-    assert_difference 'Role.count' do
-      create(:role)
+    assert_difference 'Chaltron::Role.count' do
+      create(:chaltron_role)
     end
   end
 
   test 'name should be present' do
-    record = build(:role, name: nil)
+    record = build(:chaltron_role, name: nil)
     assert_equal false, record.valid?
     assert_not_empty record.errors[:name]
   end
 
   test 'name should be unique' do
-    role = create(:role)
-    record = build(:role, name: role.name)
+    role = create(:chaltron_role)
+    record = build(:chaltron_role, name: role.name)
     assert_equal false, record.valid?
     assert_not_empty record.errors[:name]
   end
-
 end

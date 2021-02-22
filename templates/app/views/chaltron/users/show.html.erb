@@ -7,25 +7,25 @@
         <div class='card-header'><%= t '.headers.details' %></div>
         <ul class='list-group list-group-flush'>
           <li class='list-group-item'>
-            <span><%= User.human_attribute_name(:username) %>: </span>
-            <strong><%= display_username(@user, false) %></strong>
+            <span><%= Chaltron::User.human_attribute_name(:username) %>: </span>
+            <strong><%= display_username(@user, link: false) %></strong>
           </li>
           <li class='list-group-item'>
-            <span><%= User.human_attribute_name(:fullname) %>: </span>
+            <span><%= Chaltron::User.human_attribute_name(:fullname) %>: </span>
             <strong><%= @user.fullname %></strong>
           </li>
           <li class='list-group-item'>
-            <span><%= User.human_attribute_name(:email) %>: </span>
+            <span><%= Chaltron::User.human_attribute_name(:email) %>: </span>
             <strong><%= @user.email %></strong>
           </li>
           <% unless @user.department.nil? %>
             <li class='list-group-item'>
-              <span><%= User.human_attribute_name(:department) %>: </span>
+              <span><%= Chaltron::User.human_attribute_name(:department) %>: </span>
               <strong><%= @user.department %> </strong>
             </li>
           <% end %>
           <li class='list-group-item'>
-            <span><%= User.human_attribute_name(:roles) %>: </span>
+            <span><%= Chaltron::User.human_attribute_name(:roles) %>: </span>
             <%= safe_join(@user.roles.map { |x| content_tag(:span, t("roles.#{x.name}"), class: 'badge badge-primary')},
                           ' ') %>
           </li>
@@ -38,18 +38,18 @@
         <div class='card-header'><%= t '.headers.activity' %></div>
         <ul class='list-group list-group-flush'>
           <li class='list-group-item'>
-            <span><%= User.human_attribute_name(:sign_in_count) %>: </span>
+            <span><%= Chaltron::User.human_attribute_name(:sign_in_count) %>: </span>
             <strong><%= @user.sign_in_count %></strong>
           </li>
           <% unless @user.last_sign_in_at.nil? %>
             <li class='list-group-item'>
-              <span><%= User.human_attribute_name(:last_sign_in_at) %>: </span>
+              <span><%= Chaltron::User.human_attribute_name(:last_sign_in_at) %>: </span>
               <strong><%= l @user.last_sign_in_at, format: :short %> </strong>
             </li>
           <% end %>
           <% unless @user.last_sign_in_ip.nil? %>
             <li class='list-group-item'>
-              <span><%= User.human_attribute_name(:last_sign_in_ip) %>: </span>
+              <span><%= Chaltron::User.human_attribute_name(:last_sign_in_ip) %>: </span>
               <strong><%= @user.last_sign_in_ip%> </strong>
             </li>
           <% end %>
@@ -60,7 +60,7 @@
   </div>
 
   <hr>
-  <%= link_to users_path, class: 'btn btn-primary' do %>
+  <%= link_to chaltron_users_path, class: 'btn btn-primary' do %>
     <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>
   <% end %>
 
@@ -70,15 +70,15 @@
       danger << 'disabled' if @user == current_user
     %>
     <% if can? :edit, @user %>
-      <%= link_to edit_user_path(@user), class: 'btn btn-primary' do %>
+      <%= link_to edit_chaltron_user_path(@user), class: 'btn btn-primary' do %>
         <%= icon :fas, :edit, t('.edit') %>
       <% end %>
       <% if @user.enabled? %>
-          <%= link_to disable_user_path(@user), class: danger do %>
+          <%= link_to disable_chaltron_user_path(@user), class: danger do %>
           <%= icon :fas, 'user-slash', t('.disable') %>
         <% end %>
       <% else %>
-        <%= link_to enable_user_path(@user), class: 'btn btn-primary' do %>
+        <%= link_to enable_chaltron_user_path(@user), class: 'btn btn-primary' do %>
           <%= icon :fas, :user, t('.enable') %>
         <% end %>
       <% end %>

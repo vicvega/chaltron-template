@@ -1,65 +1,66 @@
 require 'chaltron/ldap/person'
+module Chaltron
+  class LdapController < ApplicationController
+    before_action :authenticate_user!
+    before_action :authorize_create_user
 
-class Chaltron::LdapController < ApplicationController
-  before_action :authenticate_user!
-  before_action :authorize_create_user
+    default_log_category :user_admin
 
-  default_log_category :user_admin
-
-  def search
-    @limit = default_limit
-  end
-
-  def multi_new
-    @entries = []
-    userid = params[:userid]
-    if userid.present?
-      entry = Chaltron::LDAP::Person.find_by_uid(userid)
-      @entries << entry
-    else
-      @entries = Chaltron::LDAP::Person.find_by_fields(find_options)
+    def search
+      @limit = default_limit
     end
-    @entries.compact!
-  end
 
-  def multi_create
-    @created = []
-    @error   = []
-    (params[:uids] || []).each do |uid|
-      roles = Role.find(params[:user][:role_ids].reject(&:empty?))
-      user = Chaltron::LDAP::Person.find_by_uid(uid).create_user(roles)
-      if user.new_record?
-        @error << user
+    def multi_new
+      @entries = []
+      userid = params[:userid]
+      if userid.present?
+        entry = Chaltron::LDAP::Person.find_by_uid(userid)
+        @entries << entry
       else
-        @created << user
+        @entries = Chaltron::LDAP::Person.find_by_fields(find_options)
       end
+      @entries.compact!
     end
-    return unless @created.size.positive?
 
-    info I18n.t('chaltron.logs.users.ldap_created',
-                current: current_user.display_name, count: @created.size,
-                user: @created.map(&:display_name).join(', '))
-  end
+    def multi_create
+      @created = []
+      @error   = []
+      (params[:uids] || []).each do |uid|
+        roles = Chaltron::Role.find(params[:chaltron_user][:role_ids].reject(&:empty?))
+        user = Chaltron::LDAP::Person.find_by_uid(uid).create_user(roles)
+        if user.new_record?
+          @error << user
+        else
+          @created << user
+        end
+      end
+      return unless @created.size.positive?
 
-  private
+      info I18n.t('chaltron.logs.users.ldap_created',
+                  current: current_user.display_name, count: @created.size,
+                  user: @created.map(&:display_name).join(', '))
+    end
 
-  def find_options
-    department = params[:department]
-    name       = params[:lastname]
-    limit      = params[:limit].to_i
+    private
 
-    ret = {}
-    ret[:department] = "*#{department}*" unless department.blank?
-    ret[:last_name]  = "*#{name}*"       unless name.blank?
-    ret[:limit]      = limit.zero? ? default_limit : limit
-    ret
-  end
+    def find_options
+      department = params[:department]
+      name       = params[:lastname]
+      limit      = params[:limit].to_i
 
-  def default_limit
-    100
-  end
+      ret = {}
+      ret[:department] = "*#{department}*" if department.present?
+      ret[:last_name]  = "*#{name}*"       if name.present?
+      ret[:limit]      = limit.zero? ? default_limit : limit
+      ret
+    end
 
-  def authorize_create_user
-    authorize! :create, User
+    def default_limit
+      100
+    end
+
+    def authorize_create_user
+      authorize! :create, User
+    end
   end
 end

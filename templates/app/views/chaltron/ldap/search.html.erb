@@ -1,7 +1,7 @@
 <div class='container-fluid'>
   <h3 class='pt-4'><%= t('.title') %></h3>
 
-  <%= bootstrap_form_tag(url: ldap_multi_new_path, method: :post, layout: :horizontal,
+  <%= bootstrap_form_tag(url: chaltron_ldap_multi_new_path, method: :post, layout: :horizontal,
     label_col: 'col-sm-2', control_col: 'col-sm-10') do |f| %>
 
     <%= f.text_field :userid, label: t('.name_label'), help: t('.name_help') %>
@@ -13,7 +13,7 @@
       <div class='col-sm-2'></div>
       <div class='col-sm-10'>
         <%= submit_tag t('.submit_text'), class: 'btn btn-primary' %>
-        <%= link_to users_path, class: 'btn btn-link pull-right' do %>
+        <%= link_to chaltron_users_path, class: 'btn btn-link pull-right' do %>
           <%= icon :fas, :times, t('chaltron.common.cancel') %>
         <% end %>
       </div>

@@ -1,7 +1,7 @@
 en:
   activerecord:
     attributes:
-      user:
+      chaltron/user:
         username: Username
         fullname: Full name
         email:  E-mail
@@ -12,12 +12,12 @@ en:
         roles: Roles
         role_ids: Roles
         department: Department
-      log:
+      chaltron/log:
         created_at: Date
         message: Message
         category: Category
         severity: Severity
-  roles:
+  chaltron/roles:
     admin: Administrator
     user_admin: User administrator
   chaltron:

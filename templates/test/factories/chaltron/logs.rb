@@ -1,7 +1,7 @@
 FactoryBot.define do
-  factory :log do
+  factory :chaltron_log, class: 'Chaltron::Log' do
     message { FFaker::HipsterIpsum.paragraph }
-    severity { Log::SEVERITIES.sample }
+    severity { Chaltron::Log::SEVERITIES.sample }
     category { FFaker::Company.bs }
   end
 end

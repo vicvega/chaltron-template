@@ -175,7 +175,7 @@ def add_users
   generate 'devise:install'
   route "root to: 'home#index'"
 
-  generate :devise, 'User'
+  generate :devise, 'Chaltron::User'
 
   before = <<-BEF
       ## Trackable
@@ -197,21 +197,21 @@ def add_users
 
   gsub_file Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) }, before, after
 
-  generate :migration, 'add_fields_to_users username:string:uniq ' \
+  generate :migration, 'add_fields_to_chaltron_users username:string:uniq ' \
     'fullname department enabled:boolean provider extern_uid'
 
   gsub_file Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) },
-            'add_column :users, :enabled, :boolean',
-            'add_column :users, :enabled, :boolean, default: true'
+            'add_column :chaltron_users, :enabled, :boolean',
+            'add_column :chaltron_users, :enabled, :boolean, default: true'
 end
 
 def add_roles
-  generate :model, 'Role name:string:uniq'
-  generate :migration, 'CreateJoinTableRoleUser roles users'
+  generate :model, 'Chaltron::Role name:string:uniq'
+  generate :migration, 'CreateJoinTableRoleUser chaltron_roles chaltron_users'
 end
 
 def add_logs
-  generate :model, 'Log message:string{1000} severity category'
+  generate :model, 'Chaltron::Log message:string{1000} severity category'
 end
 
 def setup_devise
@@ -238,7 +238,6 @@ def setup_application
   application do
     <<~RUBY
       # chaltron
-      config.autoload_paths << File.join([Rails.root], %w[app models chaltron])
       config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
       config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
     RUBY
@@ -253,39 +252,40 @@ def add_routes
 
   routes = <<-ROUTES
 
-  devise_for :users, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }, class_name: 'Chaltron::User'
 
-  resources :logs, controller: 'chaltron/logs', only: [:index, :show]
+  namespace :chaltron do
 
-  resources :users, controller: 'chaltron/users' do
-    collection do
-      get   'self_show'
-      get   'self_edit'
-      patch 'self_update'
+    resources :logs, only: [:index, :show]
+
+    resources :users do
+      collection do
+        get   'self_show'
+        get   'self_edit'
+        patch 'self_update'
+      end
+      member do
+        get 'enable'
+        get 'disable'
+      end
     end
-    member do
-      get 'enable'
-      get 'disable'
-    end
-  end
 
-  # search and create LDAP users
-  if Devise.omniauth_providers.include?(:ldap) and !Chaltron.ldap_allow_all
-    get   'ldap/search'       => 'chaltron/ldap#search'
-    post  'ldap/multi_new'    => 'chaltron/ldap#multi_new'
-    post  'ldap/multi_create' => 'chaltron/ldap#multi_create'
+    # search and create LDAP users
+    if Devise.omniauth_providers.include?(:ldap) and !Chaltron.ldap_allow_all
+      get   'ldap/search'       => 'ldap#search'
+      post  'ldap/multi_new'    => 'ldap#multi_new'
+      post  'ldap/multi_create' => 'ldap#multi_create'
+    end
   end
   ROUTES
 
-  gsub_file 'config/routes.rb', '  devise_for :users', routes
+  gsub_file 'config/routes.rb', '  devise_for :users, class_name: "Chaltron::User"', routes
 end
 
 def add_models
-  # move models under chaltron directory
-  run 'rm -f "app/models/user.rb"'
-  run 'rm -f "app/models/log.rb"'
-  run 'rm -f "app/models/role.rb"'
   directory 'app/models', force: true
+  # self.table_name_prefix is defined in lib/chaltron.rb
+  run 'rm -rf "app/models/chaltron.rb"'
 end
 
 def add_scaffold_templates
@@ -301,16 +301,16 @@ def add_seeds
   append_file 'db/seeds.rb' do
     <<~RUBY
 
-      Role.create(name: :admin)
-      Role.create(name: :user_admin)
+      Chaltron::Role.create(name: :admin)
+      Chaltron::Role.create(name: :user_admin)
 
-      User.create do |u|
+      Chaltron::User.create do |u|
         u.username              = 'bella'
         u.fullname              = 'Bellatrix Lestrange'
         u.email                 = 'bellatrix.lestrange@azkaban.co.uk'
         u.password              = 'password.1'
         u.password_confirmation = 'password.1'
-        u.roles                 = Role.all
+        u.roles                 = Chaltron::Role.all
       end
     RUBY
   end

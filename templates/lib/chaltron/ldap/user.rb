@@ -1,4 +1,4 @@
-# LDAP extension for User ::User
+# LDAP extension for Chaltron::User
 #
 # * Find or create user from omniauth.auth data
 #
@@ -43,7 +43,7 @@ module Chaltron
 
         def find_by_uid_and_provider
           # LDAP distinguished name is case-insensitive
-          user = ::User.where('provider = ? and lower(extern_uid) = ?', provider, uid.downcase).last
+          user = Chaltron::User.where('provider = ? and lower(extern_uid) = ?', provider, uid.downcase).last
           if user.nil?
             # Look for user with same emails
             #
@@ -51,7 +51,7 @@ module Chaltron
             # * When user already has account and need to link their LDAP account.
             # * LDAP uid changed for user with same email and we need to update their uid
             #
-            user = ::User.find_by(email: email)
+            user = Chaltron::User.find_by(email: email)
             user&.update!(extern_uid: uid, provider: provider)
           end
           user

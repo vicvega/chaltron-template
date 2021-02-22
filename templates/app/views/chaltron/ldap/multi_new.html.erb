@@ -3,7 +3,7 @@
 
     <%= content_tag :p, t('.par') %>
 
-    <%= bootstrap_form_for(User.new, url: ldap_multi_create_path, method: :post,
+    <%= bootstrap_form_for(Chaltron::User.new, url: chaltron_ldap_multi_create_path, method: :post,
                                      layout: :horizontal, html: { id: 'ldap_create' }) do |f| %>
 
       <div class='form-group row'>
@@ -16,16 +16,16 @@
                   <%= custom_checkbox(id: 'entry-check-all', class: 'entry') %>
                 </th>
                 <th class='username'>
-                  <%= User.human_attribute_name(:username) %>
+                  <%= Chaltron::User.human_attribute_name(:username) %>
                 </th>
                 <th class='fullname'>
-                  <%= User.human_attribute_name(:fullname) %>
+                  <%= Chaltron::User.human_attribute_name(:fullname) %>
                 </th>
                 <th class='email'>
-                  <%= User.human_attribute_name(:email) %>
+                  <%= Chaltron::User.human_attribute_name(:email) %>
                 </th>
                 <th class='department'>
-                  <%= User.human_attribute_name(:department) %>
+                  <%= Chaltron::User.human_attribute_name(:department) %>
                 </th>
               </tr>
             </thead>

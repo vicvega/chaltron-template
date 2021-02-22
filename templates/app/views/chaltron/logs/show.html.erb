@@ -8,15 +8,15 @@
         <% end %>
         <ul class='list-group list-group-flush'>
           <li class='list-group-item'>
-            <span><%= Log.human_attribute_name(:created_at) %>: </span>
+            <span><%= Chaltron::Log.human_attribute_name(:created_at) %>: </span>
             <strong><%= l(@log.created_at, format: :short) %></strong>
           </li>
           <li class='list-group-item'>
-            <span><%= Log.human_attribute_name(:message) %>: </span>
+            <span><%= Chaltron::Log.human_attribute_name(:message) %>: </span>
             <strong><%= @log.message %></strong>
           </li>
           <li class='list-group-item'>
-            <span><%= Log.human_attribute_name(:category) %>: </span>
+            <span><%= Chaltron::Log.human_attribute_name(:category) %>: </span>
             <strong><%= t ("chaltron.logs.category.#{@log.category}") %></strong>
           </li>
         </ul>

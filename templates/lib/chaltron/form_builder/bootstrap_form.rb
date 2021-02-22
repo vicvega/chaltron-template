@@ -1,10 +1,10 @@
 class BootstrapForm::FormBuilder
 
   def role_select(opts = {})
-    collection = Role.all.map { |role| [role.id, I18n.translate("roles.#{role.name}")] }
+    collection = Chaltron::Role.all.map { |role| [role.id, I18n.translate("chaltron/roles.#{role.name}")] }
 
     checked_ids = @object.nil? ? false : @object.roles.map(&:id)
-    disabled_id = opts[:disabled].blank? ? nil : Role.find_by_name(opts[:disabled]).id
+    disabled_id = opts[:disabled].blank? ? nil : Chaltron::Role.find_by_name(opts[:disabled]).id
 
     html = inputs_collection(:role_ids, collection, :first, :last, checked: checked_ids) do |name, value, options|
       options[:multiple] = true
