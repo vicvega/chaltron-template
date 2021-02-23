@@ -10,7 +10,7 @@
     <%%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <%%= content_tag :body, data: { locale: I18n.locale } do %>
+  <%%= tag.body data: { locale: I18n.locale } do %>
       <%%= render 'layouts/navbar' %>
       <%%= render 'layouts/flash' %>
       <div id='content'>

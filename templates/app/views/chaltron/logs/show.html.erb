@@ -1,9 +1,9 @@
 <div class='container-fluid'>
-  <h3 class='pt-4'><%= t ("chaltron.logs.severity.#{@log.severity}") %></h3>
+  <h3 class='pt-4'><%= t "chaltron.logs.severity.#{@log.severity}" %></h3>
   <div class='row'>
     <div class='col-md-12'>
-      <%= content_tag :div, class: "card border-#{bootstrap_severity(@log.severity)}" do %>
-        <%= content_tag :div, class: "card-header text-white bg-#{bootstrap_severity(@log.severity)}" do %>
+      <%= tag.div(class: "card border-#{bootstrap_severity(@log.severity)}") do %>
+        <%= tag.div(class: "card-header text-white bg-#{bootstrap_severity(@log.severity)}") do %>
           <%= t '.headers.details' %>
         <% end %>
         <ul class='list-group list-group-flush'>
@@ -17,7 +17,7 @@
           </li>
           <li class='list-group-item'>
             <span><%= Chaltron::Log.human_attribute_name(:category) %>: </span>
-            <strong><%= t ("chaltron.logs.category.#{@log.category}") %></strong>
+            <strong><%= t "chaltron.logs.category.#{@log.category}" %></strong>
           </li>
         </ul>
       <% end %>

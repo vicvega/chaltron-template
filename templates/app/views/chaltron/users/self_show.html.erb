@@ -41,7 +41,7 @@
           <% unless current_user.last_sign_in_ip.nil? %>
             <li class='list-group-item'>
               <span><%= Chaltron::User.human_attribute_name(:last_sign_in_ip) %>: </span>
-              <strong><%= current_user.last_sign_in_ip%> </strong>
+              <strong><%= current_user.last_sign_in_ip %> </strong>
             </li>
           <% end %>
         </ul>

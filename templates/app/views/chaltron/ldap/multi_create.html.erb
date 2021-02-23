@@ -6,10 +6,8 @@
       <div class='card'>
         <div class='card-header'><%= t '.result' %></div>
         <ul class='list-group list-group-flush'>
-          <%= content_tag(:li, t('.created', count: @created.size),
-            class: 'list-group-item') unless @created.empty? %>
-          <%= content_tag(:li, t('.error', count: @error.size),
-            class: 'list-group-item') unless @error.empty? %>
+          <%= tag.li(t('.created', count: @created.size), class: 'list-group-item') unless @created.empty? %>
+          <%= tag.li(t('.error', count: @error.size), class: 'list-group-item') unless @error.empty? %>
         </ul>
       </div>
       <hr>
@@ -23,7 +21,7 @@
         <div class='card mb-4'>
           <ul class='list-group list-group-flush'>
             <% @created.each do |u| %>
-              <%= content_tag :li, class: 'list-group-item list-group-item-success' do %>
+              <%= tag.li(class: 'list-group-item list-group-item-success') do %>
                 <%= icon :fas, :check, u.display_name %>
               <% end %>
             <% end %>
@@ -36,7 +34,7 @@
             <div class='card-header'><%= u.display_name %></div>
             <ul class='list-group list-group-flush text-danger'>
               <% u.errors.full_messages.each do |message| %>
-                <%= content_tag :li, message, class: 'list-group-item' %>
+                <%= tag.li(message, class: 'list-group-item') %>
               <% end %>
             </ul>
           </div>

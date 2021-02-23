@@ -4,7 +4,8 @@
         <h3 class='pt-4'><%= t('.title') %></h3>
 
         <%= bootstrap_form_for(current_user, as: :chaltron_user, url: self_update_chaltron_users_path,
-          layout: :horizontal, label_col: 'col-sm-2', control_col: 'col-sm-10') do |f| %>
+                                             layout: :horizontal, label_col: 'col-sm-2',
+                                             control_col: 'col-sm-10') do |f| %>
           <%= f.text_field :fullname %>
           <% if current_user.provider.nil? %>
           <%= f.email_field :email %>

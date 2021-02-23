@@ -7,13 +7,13 @@
 
       <% if ldap_enabled? and !Chaltron.ldap_allow_all %>
         <div class='dropdown pull-right'>
-          <%= content_tag :button, type: 'button', class: 'btn btn-primary dropdown-toggle',
-                          data: { toggle: 'dropdown' }, aria: { expanded: false, haspopup: true },
-                          id: 'new_user_button' do %>
+          <%= button_tag type: 'button', class: 'btn btn-primary dropdown-toggle',
+                         data: { toggle: 'dropdown' }, aria: { expanded: false, haspopup: true },
+                         id: 'new_user_button' do %>
             <%= icon :fas, :plus, t('.new_user') %>
           <% end %>
 
-          <%= content_tag :div, class: 'dropdown-menu', aria: { labelledby: 'new_user_button' } do %>
+          <%= tag.div(class: 'dropdown-menu', aria: { labelledby: 'new_user_button' }) do %>
             <%= link_to t('.new_ldap_user'), chaltron_ldap_search_path, class: 'dropdown-item' %>
             <%= link_to t('.new_local_user'), new_chaltron_user_path, class: 'dropdown-item' %>
           <% end %>
@@ -27,7 +27,7 @@
     </div>
     <div class='col-md-9'>
       <div class='table-responsive'>
-        <%= content_tag 'table', id: 'users', class: 'table table-striped' do %>
+        <%= tag.table(id: 'users', class: 'table table-striped') do %>
           <thead>
             <tr>
               <th class='username'>
