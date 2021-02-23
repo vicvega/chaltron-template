@@ -1,7 +1,7 @@
 // to keep space for navbars (top and bottom)
 div#content {
-  margin-top: 2.7em;
   margin-bottom: 2.7em;
+  margin-top: 2.7em;
 }
 
 /**
@@ -11,12 +11,13 @@ div#content {
 .flash-container {
   cursor: pointer;
   margin: 0;
-  text-align: center;
+  opacity: .8;
   position: fixed;
+  text-align: center;
   top: 2.5em;
   width: 100%;
-  opacity: 0.8;
   z-index: 100;
+
   .alert {
     margin: 0;
   }
@@ -28,7 +29,7 @@ div#content {
  *
  */
 
-#login-box{
+#login-box {
   margin-top: 100px;
   max-width: 650px;
 }
