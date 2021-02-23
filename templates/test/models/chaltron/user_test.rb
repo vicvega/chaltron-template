@@ -15,24 +15,24 @@ class UserTest < ActiveSupport::TestCase
 
   test 'username should be present' do
     record = build(:chaltron_user, username: '')
-    assert_equal false, record.valid?
+    assert_not record.valid?
     assert_not_empty record.errors[:username]
   end
 
   test 'username should be unique' do
     user = create(:chaltron_user)
     record = build(:chaltron_user, username: user.username)
-    assert_equal false, record.valid?
+    assert_not record.valid?
     assert_not_empty record.errors[:username]
 
     record = build(:chaltron_user, username: user.username.upcase)
-    assert_equal false, record.valid?
+    assert_not record.valid?
     assert_not_empty record.errors[:username]
   end
 
   test 'username should not contain special characters' do
     record = build(:chaltron_user, username: 'user,name')
-    assert_equal false, record.valid?
+    assert_not record.valid?
     assert_not_empty record.errors[:username]
   end
 end

@@ -10,7 +10,7 @@ module Chaltron
     validates :username, presence: true, uniqueness: { case_sensitive: false }
     # Only allow letter, number, underscore and punctuation.
     # see https://github.com/heartcombo/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address
-    validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, multiline: true
+    validates :username, format: /\A[a-zA-Z0-9_.]*\z/
 
     attr_writer :login
 
@@ -19,7 +19,7 @@ module Chaltron
     end
 
     def display_name
-      fullname.blank? ? username : fullname
+      fullname.presence || username
     end
 
     def ldap_user?
@@ -31,9 +31,9 @@ module Chaltron
       conditions = warden_conditions.dup
       if (login = conditions.delete(:login))
         where(conditions.to_h)
-          .where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
+          .find_by(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }])
       elsif conditions.key?(:username) || conditions.key?(:email)
-        where(conditions.to_h).first
+        find_by(conditions.to_h)
       end
     end
 

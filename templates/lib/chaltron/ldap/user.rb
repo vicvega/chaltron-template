@@ -21,7 +21,7 @@ module Chaltron
           if user.nil? && create
             # create user
             roles = Chaltron.default_roles
-            unless Chaltron.ldap_role_mappings.blank?
+            if Chaltron.ldap_role_mappings.present?
               roles = entry.ldap_groups.map do |e|
                 Chaltron.ldap_role_mappings[e.dn]
               end.compact

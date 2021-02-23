@@ -238,7 +238,7 @@ def setup_application
   application do
     <<~RUBY
       # chaltron
-      config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+      config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
       config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
     RUBY
   end
@@ -255,8 +255,7 @@ def add_routes
   devise_for :users, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }, class_name: 'Chaltron::User'
 
   namespace :chaltron do
-
-    resources :logs, only: [:index, :show]
+    resources :logs, only: %i[index show]
 
     resources :users do
       collection do
@@ -271,7 +270,7 @@ def add_routes
     end
 
     # search and create LDAP users
-    if Devise.omniauth_providers.include?(:ldap) and !Chaltron.ldap_allow_all
+    if Devise.omniauth_providers.include?(:ldap) && !Chaltron.ldap_allow_all
       get   'ldap/search'       => 'ldap#search'
       post  'ldap/multi_new'    => 'ldap#multi_new'
       post  'ldap/multi_create' => 'ldap#multi_create'

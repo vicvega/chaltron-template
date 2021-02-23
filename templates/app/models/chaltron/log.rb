@@ -3,8 +3,8 @@ module Chaltron
   class Log < ApplicationRecord
     SEVERITIES = %w[emerg alert crit err warning notice info debug].freeze
 
-    validates_presence_of :severity, :message
-    validates_inclusion_of :severity, in: SEVERITIES
+    validates :severity, :message, presence: true
+    validates :severity, inclusion: SEVERITIES
 
     before_validation :standardize_severity, :truncate_message
 

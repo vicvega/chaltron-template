@@ -12,8 +12,8 @@ module ChaltronHelper
     content_class << " #{html_options[:class]}" if html_options.key?(:class)
     html_options[:class] = content_class
 
-    html = content_tag(:i, nil, html_options)
-    html << ' ' << text.to_s unless text.blank?
+    html = tag.i(nil, html_options)
+    html << ' ' << text.to_s if text.present?
     html
   end
 
@@ -30,7 +30,7 @@ module ChaltronHelper
   def custom_checkbox(options)
     id = options.delete(:id)
     klass = options.delete(:class)
-    content_tag :div, class: 'custom-control custom-checkbox' do
+    tag.div(class: 'custom-control custom-checkbox') do
       check_box_tag('checkbox', nil, nil, options.merge(id: id, class: "custom-control-input d-none #{klass}")) +
         label_tag(id, '', class: 'custom-control-label d-block', for: id)
     end
@@ -49,8 +49,8 @@ module ChaltronHelper
   end
 
   def flash_message(message, type)
-    content_tag(:div, message, class: "alert #{bootstrap_class_for(type)} rounded-0") do
-      content_tag(:strong, I18n.t("chaltron.flash.#{type}") + ': ') + message
+    tag.div(message, class: "alert #{bootstrap_class_for(type)} rounded-0") do
+      tag.strong "#{I18n.t(['chaltron', 'flash', type].join('.'))}: #{message}"
     end
   end
 
@@ -58,16 +58,10 @@ module ChaltronHelper
   # Get current revision
   #
   def revision
-    @revision || get_revision_number
-  end
-
-  private
-
-  def get_revision_number
-    version_file = File.join(Rails.root, 'REVISION')
+    version_file = Rails.root.join('REVISION')
     return unless File.exist?(version_file)
 
     v = IO.read(version_file).strip
-    v.blank? ? nil : v
+    v.presence
   end
 end

@@ -3,7 +3,10 @@ require 'chaltron/ldap/connection'
 module Chaltron
   module LDAP
     class Person
+      extend Forwardable
       attr_accessor :entry
+
+      def_delegators :entry, :dn
 
       def self.valid_credentials?(login, password)
         ldap.auth(login, password)
@@ -72,10 +75,6 @@ module Chaltron
         entry.send(Chaltron.ldap_field_mappings[:email]).first
       rescue StandardError
         nil
-      end
-
-      def dn
-        entry.dn
       end
 
       def provider

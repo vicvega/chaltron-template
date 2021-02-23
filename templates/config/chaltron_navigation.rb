@@ -16,7 +16,7 @@ SimpleNavigation::Configuration.run do |navigation|
           end
         end
       end
-      primary.item :logged, current_user.display_name.html_safe, '#',
+      primary.item :logged, current_user.display_name, '#',
                    html: { class: 'dropdown-menu-right' } do |user|
         user.item :self_edit, I18n.t('chaltron.menu.self_show'), self_show_chaltron_users_path,
                   link_html: { icon: 'user' }, highlights_on: %r{/self_(show|edit|update)}

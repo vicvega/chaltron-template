@@ -64,7 +64,7 @@ if defined?(Net::LDAP)
               filter: filters.inject { |sum, n| Net::LDAP::Filter.join(sum, n) }
             }
           end
-          options.merge!(size: limit) unless limit.nil?
+          options[:size] = limit unless limit.nil?
           ldap_search(options).map do |entry|
             Chaltron::LDAP::Person.new(entry, uid) if entry.respond_to? uid
           end.compact

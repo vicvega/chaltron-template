@@ -20,7 +20,7 @@ module Chaltron
   @@ldap_group_base = nil
 
   mattr_accessor :ldap_group_member_filter
-  @@ldap_group_member_filter = -> (entry) { "uniquemember=#{entry.dn}" }
+  @@ldap_group_member_filter = ->(entry) { "uniquemember=#{entry.dn}" }
 
   mattr_accessor :ldap_role_mappings
   @@ldap_role_mappings = {}
