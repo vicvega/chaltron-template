@@ -50,7 +50,9 @@ module ChaltronHelper
 
   def flash_message(message, type)
     tag.div(message, class: "alert #{bootstrap_class_for(type)} rounded-0") do
-      tag.strong "#{I18n.t(['chaltron', 'flash', type].join('.'))}: #{message}"
+      concat tag.strong I18n.t("chaltron.flash.#{type}")
+      concat tag.strong ': '
+      concat tag.span message
     end
   end
 
