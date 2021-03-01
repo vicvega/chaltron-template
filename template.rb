@@ -163,9 +163,8 @@ def add_javascript
       new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
-        Popper: ['popper.js', 'default']
-      })
-    );
+        Popper: ['popper.js', 'default'],
+      }));
 
   JS
   inject_into_file 'config/webpack/environment.js', text, before: 'module.exports = environment'

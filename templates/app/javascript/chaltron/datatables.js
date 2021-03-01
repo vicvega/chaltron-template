@@ -1,20 +1,19 @@
-import { Chaltron } from './chaltron';
+import chaltron from './chaltron';
 
-$(document).on('turbolinks:load', function() {
-
+$(document).on('turbolinks:load', () => {
   const defaultOptions = {
     destroy: true,
     autoWidth: false,
     responsive: true,
     stateSave: true,
-    language: Chaltron.translate('datatables')
+    language: chaltron.translate('datatables'),
   };
 
   // generic datatable
   let container = $('table.datatable');
   if (container.length > 0) {
     const table = container.DataTable(defaultOptions);
-    document.addEventListener('turbolinks:before-cache', function() {
+    document.addEventListener('turbolinks:before-cache', () => {
       table.destroy();
     });
   }
@@ -22,52 +21,51 @@ $(document).on('turbolinks:load', function() {
   // users
   container = $('table#users');
   if (container.length > 0) {
-    const user_table = container.DataTable(defaultOptions);
-    document.addEventListener('turbolinks:before-cache', function() {
-      user_table.destroy();
+    const userTable = container.DataTable(defaultOptions);
+    document.addEventListener('turbolinks:before-cache', () => {
+      userTable.destroy();
     });
   }
 
   // logs
   container = $('table#logs');
   if (container.length > 0) {
-    const log_table = container.DataTable($.extend({}, defaultOptions, {
+    const logTable = container.DataTable($.extend({}, defaultOptions, {
       processing: true,
       serverSide: true,
       ajax: container.data('source'),
       // default sorting: date (2nd column) desc
-      order: [[1,'desc']],
+      order: [[1, 'desc']],
       columns: [
         { data: 'severity', searchable: false },
-        { data: 'date',     searchable: false },
+        { data: 'date', searchable: false },
         { data: 'message' },
         { data: 'category', searchable: false },
       ],
       columnDefs: [
-        { orderSequence: ['desc', 'asc'], targets: [ 1 ] },
-        { className: 'text-center', 'targets': [ 0 ] }
-      ]
+        { orderSequence: ['desc', 'asc'], targets: [1] },
+        { className: 'text-center', targets: [0] },
+      ],
     }));
-    document.addEventListener('turbolinks:before-cache', function() {
-      log_table.destroy();
+    document.addEventListener('turbolinks:before-cache', () => {
+      logTable.destroy();
     });
   }
 
   // ldap_create
   container = $('table#ldap_create');
   if (container.length > 0) {
-    const ldap_create_table = container.DataTable($.extend({}, defaultOptions, {
+    const ldapCreateTable = container.DataTable($.extend({}, defaultOptions, {
       stateSave: false,
       paging: false,
       // default sorting: uid (2nd column) asc
-      order: [[1,'asc']],
+      order: [[1, 'asc']],
       columnDefs: [
-        { orderable: false, className: 'select-checkbox', targets: 0 }
-      ]
+        { orderable: false, className: 'select-checkbox', targets: 0 },
+      ],
     }));
-    document.addEventListener('turbolinks:before-cache', function() {
-      ldap_create_table.destroy();
+    document.addEventListener('turbolinks:before-cache', () => {
+      ldapCreateTable.destroy();
     });
   }
-
 });

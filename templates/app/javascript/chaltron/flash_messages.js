@@ -1,11 +1,11 @@
-$(document).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', () => {
   // flash messages
-  var flash = $('.flash-container div.alert');
+  const flash = $('.flash-container div.alert');
   if (flash.length > 0) {
-    flash.click(function(){
+    flash.click(function f() {
       $(this).fadeOut();
     });
-    setTimeout(function(){
+    setTimeout(() => {
       flash.fadeOut();
     }, 5000);
   }

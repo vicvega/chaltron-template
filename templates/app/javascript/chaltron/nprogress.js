@@ -1,16 +1,16 @@
-import NProgress from 'nprogress/nprogress.js';
+import NProgress from 'nprogress/nprogress';
 
 $(document)
-  .on('page:fetch turbolinks:request-start', function() {
+  .on('page:fetch turbolinks:request-start', () => {
     NProgress.start();
   })
-  .on('page:receive turbolinks:request-end', function() {
+  .on('page:receive turbolinks:request-end', () => {
     NProgress.set(0.7);
   })
-  .on('page:change turbolinks:load', function() {
+  .on('page:change turbolinks:load', () => {
     NProgress.done();
   })
-  .on('page:restore turbolinks:request-end turbolinks:before-cache', function() {
+  .on('page:restore turbolinks:request-end turbolinks:before-cache', () => {
     NProgress.remove();
   });
 
