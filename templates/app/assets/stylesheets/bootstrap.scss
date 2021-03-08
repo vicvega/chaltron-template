@@ -1,0 +1,24 @@
+//
+// bootstrap
+//
+$font-size-base: .85rem;
+
+// $theme-colors: (
+//   "primary": #0074d9,
+//   "danger": #ff4136
+// );
+
+@import 'bootstrap/scss/bootstrap';
+
+.datepicker {
+  transform: translate(0, 2.7em);
+}
+
+.badge-light-disabled {
+  background-color: #eee;
+  color: #c0c0c0;
+
+  a {
+    color: #777;
+  }
+}

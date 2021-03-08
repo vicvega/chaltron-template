@@ -113,6 +113,13 @@ end
 def add_assets
   directory 'app/assets/images'
   directory 'app/assets/stylesheets'
+
+  style = <<-STYLE
+   *= require datatables
+   *= require nprogress/nprogress
+  STYLE
+
+  inject_into_file 'app/assets/stylesheets/application.css', style, before: ' *= require_tree .'
 end
 
 def add_controllers
@@ -153,7 +160,6 @@ def add_javascript
     'nprogress datatables.net-bs4 datatables.net-responsive-bs4'
 
   directory 'app/javascript/chaltron'
-  directory 'app/javascript/stylesheets'
   copy_file 'app/javascript/packs/application.js', force: true
 
   text = <<~JS

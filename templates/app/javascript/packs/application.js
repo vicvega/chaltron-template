@@ -11,12 +11,6 @@ import 'datatables.net-responsive-bs4';
 import 'chaltron';
 import 'chaltron/locales/it';
 
-// stylesheets
-import 'stylesheets/bootstrap';
-import 'nprogress/nprogress.css';
-import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
-import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.css';
-
 require('@rails/ujs').start();
 require('turbolinks').start();
 require('@rails/activestorage').start();
