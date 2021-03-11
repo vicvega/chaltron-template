@@ -114,11 +114,7 @@ def add_assets
   directory 'app/assets/images'
   directory 'app/assets/stylesheets'
 
-  style = <<-STYLE
-   *= require datatables
-   *= require nprogress/nprogress
-  STYLE
-
+  style = " *= require datatables\n *= require nprogress/nprogress\n"
   inject_into_file 'app/assets/stylesheets/application.css', style, before: ' *= require_tree .'
 end
 
