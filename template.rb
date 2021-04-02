@@ -178,25 +178,14 @@ def add_users
 
   generate :devise, 'Chaltron::User'
 
-  before = <<-BEF
-      ## Trackable
-      # t.integer  :sign_in_count, default: 0, null: false
-      # t.datetime :current_sign_in_at
-      # t.datetime :last_sign_in_at
-      # t.string   :current_sign_in_ip
-      # t.string   :last_sign_in_ip
-  BEF
+  devise_migration = Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) }
 
-  after = <<-AFT
-      ## Trackable
-      t.integer  :sign_in_count, default: 0, null: false
-      t.datetime :current_sign_in_at
-      t.datetime :last_sign_in_at
-      t.string   :current_sign_in_ip
-      t.string   :last_sign_in_ip
-  AFT
-
-  gsub_file Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) }, before, after
+  gsub_file devise_migration, '# t.integer  :sign_in_count, default: 0, null: false',
+            't.integer  :sign_in_count, default: 0, null: false'
+  gsub_file devise_migration, '# t.datetime :current_sign_in_at', 't.datetime :current_sign_in_at'
+  gsub_file devise_migration, '# t.datetime :last_sign_in_at',    't.datetime :last_sign_in_at'
+  gsub_file devise_migration, '# t.string   :current_sign_in_ip', 't.string   :current_sign_in_ip'
+  gsub_file devise_migration, '# t.string   :last_sign_in_ip',    't.string   :last_sign_in_ip'
 
   generate :migration, 'add_fields_to_chaltron_users username:string:uniq ' \
     'fullname department enabled:boolean provider extern_uid'
