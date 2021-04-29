@@ -156,7 +156,6 @@ def add_javascript
     'nprogress datatables.net-bs4 datatables.net-responsive-bs4'
 
   directory 'app/javascript/chaltron'
-  copy_file 'app/javascript/packs/application.js', force: true
 
   text = <<~JS
     const webpack = require('webpack');
@@ -170,6 +169,18 @@ def add_javascript
 
   JS
   inject_into_file 'config/webpack/environment.js', text, before: 'module.exports = environment'
+
+  text = <<~JS
+
+    import 'bootstrap';
+    import '@fortawesome/fontawesome-free/js/all';
+    import 'datatables.net-bs4';
+    import 'datatables.net-responsive-bs4';
+
+    import 'chaltron';
+    import 'chaltron/locales/it';
+  JS
+  inject_into_file 'app/javascript/packs/application.js', text, after: "import \"channels\"\n"
 end
 
 def add_users
