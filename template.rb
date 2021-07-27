@@ -152,8 +152,8 @@ def add_locales
 end
 
 def add_javascript
-  run 'yarn add jquery popper.js bootstrap@4.6.0 @fortawesome/fontawesome-free ' \
-    'nprogress datatables.net-bs4 datatables.net-responsive-bs4'
+  run 'yarn add jquery @popperjs/core bootstrap @fortawesome/fontawesome-free ' \
+    'nprogress datatables.net-bs5 datatables.net-responsive datatables.net-responsive-bs5'
 
   directory 'app/javascript/chaltron'
 
@@ -172,10 +172,12 @@ def add_javascript
 
   text = <<~JS
 
-    import 'bootstrap';
+    import * as bootstrap from 'bootstrap';
+    window.bootstrap = bootstrap;
+
     import '@fortawesome/fontawesome-free/js/all';
-    import 'datatables.net-bs4';
-    import 'datatables.net-responsive-bs4';
+    import 'datatables.net-bs5';
+    import 'datatables.net-responsive-bs5';
 
     import 'chaltron';
     import 'chaltron/locales/it';
