@@ -54,7 +54,7 @@ def add_gems
 
   gem 'autoprefixer-rails'
   gem 'simple-navigation'
-  gem 'bootstrap_form'
+  gem 'simple_form'
   gem 'rails-i18n'
   gem 'ajax-datatables-rails'
 
@@ -233,6 +233,16 @@ def setup_chaltron
   copy_file 'config/initializers/chaltron.rb'
 end
 
+def setup_simple_form
+  generate 'simple_form:install --bootstrap'
+
+  gsub_file 'config/initializers/simple_form_bootstrap.rb',
+            "config.wrappers :horizontal_form, tag: 'div', class: 'form-group row'",
+            "config.wrappers :horizontal_form, tag: 'div', class: 'row mb-3'"
+
+  copy_file 'config/locales/simple_form.it.yml'
+end
+
 def setup_foreman
   copy_file 'Procfile'
 end
@@ -363,6 +373,7 @@ after_bundle do
   setup_devise
   setup_warden
   setup_chaltron
+  setup_simple_form
   setup_foreman
   setup_application
 
