@@ -26,7 +26,7 @@
           <% end %>
           <li class='list-group-item'>
             <span><%= Chaltron::User.human_attribute_name(:roles) %>: </span>
-            <%= safe_join(@user.roles.map { |x| tag.span(t("roles.#{x.name}"), class: 'badge badge-primary') }, ' ') %>
+            <%= safe_join(@user.roles.map { |x| tag.span(t("roles.#{x.name}"), class: 'badge bg-primary') }, ' ') %>
           </li>
         </ul>
       </div>
