@@ -1,11 +1,11 @@
 <div class='container-fluid'>
   <div class='row'>
-    <div class='col-lg-12'>
+    <div class='col'>
       <h1 class='pt-4'>
         Welcome to Chaltron! <small> aka Muffaster reloaded</small>
       </h1>
 
-      <div class='card-deck'>
+      <div class='card-group'>
         <div class='card'>
           <%= image_tag('700x300.gif', class: 'card-img-top') %>
           <div class='card-body'>
@@ -115,7 +115,7 @@
   <hr>
 
   <div class='row'%>
-    <div class='col-lg-12'>
+    <div class='col'>
       <h2 class='pt-4'>
         <%= icon(:far, 'question-circle') %>
         FAQ
@@ -143,9 +143,10 @@
   %>
 
   <div class='row'>
-    <div class='col-lg-12'>
-      <div id='accordion' role='tablist'>
-        <%= render partial: 'faq', collection: faqs %>
+    <div class='col'>
+      <div id='accordion' class='accordion'>
+         <%= render partial: 'faq', collection: faqs %>
+      </div>
     </div>
   </div>
 
