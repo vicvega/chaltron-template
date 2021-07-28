@@ -63,7 +63,7 @@
     <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>
   <% end %>
 
-  <div class='float-right'>
+  <div class='float-end'>
     <% danger = %w[btn btn-danger]
        danger << 'disabled' if @user == current_user %>
     <% if can? :edit, @user %>

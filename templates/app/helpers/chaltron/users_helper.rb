@@ -16,7 +16,7 @@ module Chaltron
       klass = 'list-group-item list-group-item-action'
       klass += ' active' if active
 
-      badge_klass = 'badge rounded-pill float-right'
+      badge_klass = 'badge rounded-pill float-end'
       badge_klass += if active
                        ' bg-light'
                      else
