@@ -4,7 +4,7 @@ module Chaltron
       capture do
         concat entry.name
         if User.exists?(username: entry.username)
-          concat tag.span(I18n.t('chaltron.users.already_present'), class: 'badge bg-danger ml-1')
+          concat tag.span(I18n.t('chaltron.users.already_present'), class: 'badge bg-danger ms-1')
         end
       end
     end
