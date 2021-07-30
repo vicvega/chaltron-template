@@ -235,14 +235,19 @@ end
 
 def setup_simple_form
   generate 'simple_form:install --bootstrap'
+  file = 'config/initializers/simple_form_bootstrap.rb'
 
-  gsub_file 'config/initializers/simple_form.rb',
-            'config.default_wrapper = :vertical_form',
-            'config.default_wrapper = :horizontal_form'
-
-  gsub_file 'config/initializers/simple_form_bootstrap.rb',
+  gsub_file file,
             "config.wrappers :horizontal_form, tag: 'div', class: 'form-group row'",
             "config.wrappers :horizontal_form, tag: 'div', class: 'row mb-3'"
+
+  gsub_file file,
+            "config.wrappers :vertical_form, tag: 'div', class: 'form-group'",
+            "config.wrappers :vertical_form, tag: 'div', class: 'form-group mb-3'"
+
+  gsub_file file,
+            "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group'",
+            "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group mb-3'"
 
   copy_file 'config/locales/simple_form.it.yml'
 end

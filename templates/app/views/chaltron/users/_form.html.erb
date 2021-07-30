@@ -7,24 +7,20 @@
     <%= f.input :email, required: true %>
     <%= f.input :password, required: true %>
     <%= f.input :password_confirmation, required: true %>
-    <%= f.input :role_ids, as: :check_boxes, wrapper: :horizontal_collection_inline,
+    <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
                            collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] } %>
   <% elsif context == :update %>
     <% if current_user == @user %>
-      <%= f.input :role_ids, as: :check_boxes, wrapper: :horizontal_collection_inline,
+      <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
                              collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] },
                              disabled: Chaltron::Role.where(name: 'user_admin').map(&:id) %>
     <% else %>
-      <%= f.input :role_ids, as: :check_boxes, wrapper: :horizontal_collection_inline,
+      <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
                              collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] } %>
     <% end %>
   <% end %>
 
-  <div class='row mb-3'>
-    <div class='col-sm-9 offset-sm-3'>
-      <%= f.submit submit_text, class: 'btn btn-primary' %>
-      <%= back_link class: 'btn btn-light', text: t('.cancel_text'), icon: 'times' %>
-    </div>
-  </div>
+  <%= f.submit submit_text, class: 'btn btn-primary' %>
+  <%= back_link class: 'btn btn-light', text: t('.cancel_text'), icon: 'times' %>
 
 <% end %>

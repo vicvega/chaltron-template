@@ -17,14 +17,10 @@
             <%= f.input :email, disabled: true %>
           <% end %>
 
-          <div class='row mb-3'>
-            <div class='col-sm-9 offset-sm-3'>
-              <%= f.submit t('.submit'), class: 'btn btn-primary' %>
-              <%= link_to self_show_chaltron_users_path, class: 'btn btn-link pull-right' do %>
-                <%= icon :fas, :times, t('chaltron.common.cancel') %>
-              <% end %>
-            </div>
-          </div>
+          <%= f.submit t('.submit'), class: 'btn btn-primary' %>
+          <%= link_to self_show_chaltron_users_path, class: 'btn btn-link pull-right' do %>
+            <%= icon :fas, :times, t('chaltron.common.cancel') %>
+          <% end %>
       <% end %>
     </div>
   </div>

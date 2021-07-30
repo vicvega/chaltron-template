@@ -2,7 +2,8 @@
   <h2><%= t '.title' %></h2>
   <div class='card'>
     <div class='card-body'>
-      <%= simple_form_for resource, as: resource_name, url: password_path(resource_name) do |f| %>
+      <%= simple_form_for resource, as: resource_name, url: password_path(resource_name),
+                                    wrapper: :horizontal_form do |f| %>
         <%= f.error_notification %>
         <p><%= t '.par1' %></p>
         <%= f.input :email, autofocus: true %>
