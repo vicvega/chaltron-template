@@ -18,7 +18,7 @@ module Chaltron
 
       badge_klass = 'badge rounded-pill float-end'
       badge_klass += if active
-                       ' bg-light'
+                       ' bg-light text-dark'
                      else
                        ' bg-primary'
                      end

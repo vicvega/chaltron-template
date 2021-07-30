@@ -1,25 +1,29 @@
 <div class='container-fluid'>
-  <h3 class='pt-4'><%= t '.title' %></h3>
+  <h3><%= t '.title' %></h3>
   <div class='row'>
     <div class='col-md-3'>
       <%= render partial: 'side_filters', locals: { filters: @filters } %>
       <hr>
 
       <% if ldap_enabled? and !Chaltron.ldap_allow_all %>
-        <div class='dropdown pull-right'>
+        <div class='dropdown'>
           <%= button_tag type: 'button', class: 'btn btn-primary dropdown-toggle',
-                         data: { toggle: 'dropdown' }, aria: { expanded: false, haspopup: true },
+                         data: { 'bs-toggle' => 'dropdown' }, aria: { expanded: false },
                          id: 'new_user_button' do %>
             <%= icon :fas, :plus, t('.new_user') %>
           <% end %>
 
-          <%= tag.div(class: 'dropdown-menu', aria: { labelledby: 'new_user_button' }) do %>
-            <%= link_to t('.new_ldap_user'), chaltron_ldap_search_path, class: 'dropdown-item' %>
-            <%= link_to t('.new_local_user'), new_chaltron_user_path, class: 'dropdown-item' %>
+          <%= tag.ul(class: 'dropdown-menu', aria: { labelledby: 'new_user_button' }) do %>
+            <li>
+              <%= link_to t('.new_ldap_user'), chaltron_ldap_search_path, class: 'dropdown-item' %>
+            </li>
+            <li>
+              <%= link_to t('.new_local_user'), new_chaltron_user_path, class: 'dropdown-item' %>
+            </li>
           <% end %>
         </div>
       <% else %>
-        <%= link_to new_chaltron_user_path, class: 'btn btn-primary pull-right' do %>
+        <%= link_to new_chaltron_user_path, class: 'btn btn-primary' do %>
           <%= icon :fas, :plus, t('.new_local_user') %>
         <% end %>
       <% end %>
