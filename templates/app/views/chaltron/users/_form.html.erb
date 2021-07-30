@@ -7,7 +7,7 @@
     <%= f.input :password, required: true %>
     <%= f.input :password_confirmation, required: true %>
     <%= f.input :role_ids, as: :check_boxes, wrapper: :horizontal_collection_inline,
-                           collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id]}  %>
+                           collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] } %>
   <% elsif context == :update %>
     <% if current_user == @user %>
       <%= f.role_select disabled: 'user_admin' %>
