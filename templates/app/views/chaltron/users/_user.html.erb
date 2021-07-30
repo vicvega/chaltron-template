@@ -5,6 +5,6 @@
   <td class='fullname'><%= user.fullname %></td>
   <td class='email'><%= user.email %></td>
   <td class='roles'>
-    <%= safe_join(user.roles.map { |x| tag.span(t("roles.#{x.name}"), class: 'badge bg-primary') }, ' ') %>
+    <%= safe_join(user.roles.map { |x| tag.span(t("chaltron/roles.#{x.name}"), class: 'badge bg-primary') }, ' ') %>
   </td>
 </tr>
