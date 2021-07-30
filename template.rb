@@ -236,6 +236,10 @@ end
 def setup_simple_form
   generate 'simple_form:install --bootstrap'
 
+  gsub_file 'config/initializers/simple_form.rb',
+            'config.default_wrapper = :vertical_form',
+            'config.default_wrapper = :horizontal_form'
+
   gsub_file 'config/initializers/simple_form_bootstrap.rb',
             "config.wrappers :horizontal_form, tag: 'div', class: 'form-group row'",
             "config.wrappers :horizontal_form, tag: 'div', class: 'row mb-3'"

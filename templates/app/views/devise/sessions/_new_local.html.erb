@@ -1,5 +1,4 @@
-<%= simple_form_for resource, as: resource_name, url: session_path(resource_name),
-                              wrapper: :horizontal_form do |f| %>
+<%= simple_form_for resource, as: resource_name, url: session_path(resource_name) do |f| %>
   <%= f.input :login, placeholder: t('.login_placeholder') %>
   <%= f.input :password, placeholder: 'Password' %>
   <% if devise_mapping.rememberable? %>
