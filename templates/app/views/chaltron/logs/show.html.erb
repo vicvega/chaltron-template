@@ -1,7 +1,7 @@
 <div class='container-fluid'>
-  <h3 class='pt-4'><%= t "chaltron.logs.severity.#{@log.severity}" %></h3>
+  <h3><%= t "chaltron.logs.severity.#{@log.severity}" %></h3>
   <div class='row'>
-    <div class='col-md-12'>
+    <div class='col'>
       <%= tag.div(class: "card border-#{bootstrap_severity(@log.severity)}") do %>
         <%= tag.div(class: "card-header text-white bg-#{bootstrap_severity(@log.severity)}") do %>
           <%= t '.headers.details' %>
