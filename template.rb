@@ -54,7 +54,7 @@ def add_gems
 
   gem 'autoprefixer-rails'
   gem 'simple-navigation'
-  gem 'bootstrap_form'
+  gem 'simple_form'
   gem 'rails-i18n'
   gem 'ajax-datatables-rails'
 
@@ -152,8 +152,8 @@ def add_locales
 end
 
 def add_javascript
-  run 'yarn add jquery popper.js bootstrap@4.6.0 @fortawesome/fontawesome-free ' \
-    'nprogress datatables.net-bs4 datatables.net-responsive-bs4'
+  run 'yarn add jquery @popperjs/core bootstrap @fortawesome/fontawesome-free ' \
+    'nprogress datatables.net-bs5 datatables.net-responsive datatables.net-responsive-bs5'
 
   directory 'app/javascript/chaltron'
 
@@ -172,10 +172,12 @@ def add_javascript
 
   text = <<~JS
 
-    import 'bootstrap';
+    import * as bootstrap from 'bootstrap';
+    window.bootstrap = bootstrap;
+
     import '@fortawesome/fontawesome-free/js/all';
-    import 'datatables.net-bs4';
-    import 'datatables.net-responsive-bs4';
+    import 'datatables.net-bs5';
+    import 'datatables.net-responsive-bs5';
 
     import 'chaltron';
     import 'chaltron/locales/it';
@@ -229,6 +231,25 @@ def setup_chaltron
   directory 'lib/chaltron'
   copy_file 'lib/chaltron.rb'
   copy_file 'config/initializers/chaltron.rb'
+end
+
+def setup_simple_form
+  generate 'simple_form:install --bootstrap'
+  file = 'config/initializers/simple_form_bootstrap.rb'
+
+  gsub_file file,
+            "config.wrappers :horizontal_form, tag: 'div', class: 'form-group row'",
+            "config.wrappers :horizontal_form, tag: 'div', class: 'row mb-3'"
+
+  gsub_file file,
+            "config.wrappers :vertical_form, tag: 'div', class: 'form-group'",
+            "config.wrappers :vertical_form, tag: 'div', class: 'form-group mb-3'"
+
+  gsub_file file,
+            "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group'",
+            "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group mb-3'"
+
+  copy_file 'config/locales/simple_form.it.yml'
 end
 
 def setup_foreman
@@ -289,7 +310,7 @@ def add_models
 end
 
 def add_scaffold_templates
-  directory 'lib/templates'
+  directory 'lib/templates', force: true
 end
 
 def add_tests
@@ -361,6 +382,7 @@ after_bundle do
   setup_devise
   setup_warden
   setup_chaltron
+  setup_simple_form
   setup_foreman
   setup_application
 

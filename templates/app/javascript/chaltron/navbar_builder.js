@@ -5,18 +5,19 @@ class NavbarBuilder {
     let i;
     let ref = $('#navigation ul');
     for (i = 0; i < ref.length; i += 1) {
-      this.prependClass(ref[i], 'navbar-nav mr-auto');
+      this.prependClass(ref[i], 'navbar-nav me-auto mb-2 mb-lg-0');
     }
     $('#navigation ul li').addClass('nav-item');
     $('#navigation ul li a').addClass('nav-link');
     $('#navigation ul li ul').parent().addClass('dropdown');
+    $('#navigation ul li ul').addClass('dropdown-menu');
     $('#navigation ul li.dropdown').children('a').addClass('dropdown-toggle').attr(
       {
         id: 'navbarDropdown',
         role: 'button',
         'aria-haspopup': 'true',
         'aria-expanded': 'false',
-        'data-toggle': 'dropdown',
+        'data-bs-toggle': 'dropdown',
       },
     );
     ref = $('#navigation ul li.dropdown');
@@ -64,7 +65,7 @@ class NavbarBuilder {
     }
     $(item).addClass(klass);
     if ($(item).hasClass('justify-content-end')) {
-      $(item).removeClass('mr-auto');
+      $(item).removeClass('me-auto');
     }
   }
 

@@ -1,6 +1,4 @@
 require 'syslog'
-require 'chaltron/form_builder/bootstrap_form'
-
 module Chaltron
   mattr_accessor :default_roles
   @@default_roles = []

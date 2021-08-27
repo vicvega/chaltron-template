@@ -1,5 +1,5 @@
 <% if ldap_enabled? %>
-  <div class='list-group'>
+  <ul class='list-group'>
     <%= display_side_filter_link(chaltron_users_path(filters: filters.merge(provider: nil).to_h),
                                  filters[:provider].blank?, t('.provider.all'), Chaltron::User.count) %>
     <%= display_side_filter_link(chaltron_users_path(filters: filters.merge(provider: 'local').to_h),
@@ -8,16 +8,16 @@
     <%= display_side_filter_link(chaltron_users_path(filters: filters.merge(provider: 'ldap').to_h),
                                  (filters[:provider] == 'ldap'), t('.provider.ldap'),
                                  Chaltron::User.where(provider: 'ldap').count) %>
-  </div>
+  </ul>
 <% end %>
-<div class='list-group mt-4'>
+<ul class='list-group mt-4'>
   <%= display_side_filter_link(chaltron_users_path(filters: filters.merge(activity: 'no_login').to_h),
                                (filters[:activity] == 'no_login'), t('.activity.no_login'),
                                Chaltron::User.where(sign_in_count: 0).count) %>
-</div>
+</ul>
 
 <fieldset class='mt-4'>
-  <%= link_to nil, class: 'pull-right' do %>
+  <%= link_to nil do %>
     <strong><%= icon :fas, :times, t('chaltron.common.clear_filter') %></strong>
   <% end %>
 </fieldset>

@@ -27,7 +27,7 @@ module Chaltron
       records.map do |log|
         {
           severity: tag.span(I18n.t("chaltron.logs.severity.#{log.severity}"),
-                             class: "badge badge-#{bootstrap_severity(log.severity)}"),
+                             class: "badge bg-#{bootstrap_severity(log.severity)}"),
           date: I18n.l(log.created_at, format: :short),
           message: link_to(log.message, log),
           category: I18n.t("chaltron.logs.category.#{log.category}")

@@ -1,5 +1,5 @@
 <div class='container-fluid'>
-  <h3 class='pt-4'><%= t '.title' %></h3>
+  <h3><%= t '.title' %></h3>
   <%= tag.table(id: 'logs', class: 'table table-striped', data: { source: chaltron_logs_path(format: :json) }) do %>
     <thead>
       <tr>

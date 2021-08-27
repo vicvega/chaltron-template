@@ -1,5 +1,5 @@
 <div class='container-fluid'>
-  <h3 class='pt-4'><%= @user.display_name %></h3>
+  <h3><%= @user.display_name %></h3>
   <div class='row'>
 
     <div class='col-md-9'>
@@ -26,7 +26,7 @@
           <% end %>
           <li class='list-group-item'>
             <span><%= Chaltron::User.human_attribute_name(:roles) %>: </span>
-            <%= safe_join(@user.roles.map { |x| tag.span(t("roles.#{x.name}"), class: 'badge badge-primary') }, ' ') %>
+            <%= safe_join(@user.roles.map { |x| tag.span(t("chaltron/roles.#{x.name}"), class: 'badge bg-primary') }, ' ') %>
           </li>
         </ul>
       </div>
@@ -63,7 +63,7 @@
     <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>
   <% end %>
 
-  <div class='float-right'>
+  <div class='float-end'>
     <% danger = %w[btn btn-danger]
        danger << 'disabled' if @user == current_user %>
     <% if can? :edit, @user %>
