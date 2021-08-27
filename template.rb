@@ -310,7 +310,7 @@ def add_models
 end
 
 def add_scaffold_templates
-  directory 'lib/templates'
+  directory 'lib/templates', force: true
 end
 
 def add_tests
