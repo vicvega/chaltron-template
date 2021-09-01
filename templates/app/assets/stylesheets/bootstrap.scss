@@ -9,3 +9,7 @@ $font-size-base: .85rem;
 // );
 
 @import 'bootstrap/scss/bootstrap';
+
+a {
+  text-decoration: none;
+}
