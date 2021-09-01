@@ -12,9 +12,11 @@
   <%%= tag.body data: { locale: I18n.locale } do %>
       <%%= render 'layouts/navbar' %>
       <%%= render 'layouts/flash' %>
-      <div id='content' class='my-5'>
+      <div id='content' class='py-5'>
         <%%= yield %>
       </div>
-      <%%= render 'layouts/footer' %>
+      <div class='pt-5'>
+        <%%= render 'layouts/footer' %>
+      </div>
     <%% end %>
 </html>
