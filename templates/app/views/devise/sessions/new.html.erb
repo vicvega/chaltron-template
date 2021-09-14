@@ -1,4 +1,4 @@
-<div class='container w-50'>
+<div class='container text-center' id='login-box'>
   <h2><%= t '.title' %></h2>
    <div class='card'>
     <div class='card-header'>
@@ -28,7 +28,7 @@
     </div>
     <% else %>
     </div>
-    <!-- LDAP not enabled -->
+    <%# LDAP not enabled %>
     <div class='card-body'>
       <%= render partial: 'devise/sessions/new_local' %>
     </div>

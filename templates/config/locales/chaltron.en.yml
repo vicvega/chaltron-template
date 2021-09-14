@@ -12,6 +12,7 @@ en:
         roles: Roles
         role_ids: Roles
         department: Department
+        created_at: Creation date
       chaltron/log:
         created_at: Date
         message: Message

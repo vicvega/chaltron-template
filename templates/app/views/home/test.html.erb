@@ -1,19 +1,10 @@
-<div class='container'>
-  <div class='p-5 mb-4 bg-light rounded-3'>
-    <div class='container-fluid py-5'>
-      <h1 class= 'display-5 fw-bold'>Test #<%= @test %></h1>
-      <p class='fs-4'>
-        Chaltron uses <%= link_to 'simple-navigation',
-        'https://github.com/codeplant/simple-navigation' %>
-        to build navbar menu.
-      </p>
-      <p class='fs-4'>
-        Edit <code>config/navigation.rb</code> to setup your own navbar
-      </p>
-      <p class='fs-4'>
-        <%= link_to 'Learn more', 'https://github.com/codeplant/simple-navigation',
-          class: 'btn btn-primary btn-lg' %>
-      </p>
-    </div>
+<div class='bg-light rounded-3'>
+  <div class='container-fluid p-5 fs-4'>
+    <h1 class= 'display-5 fw-bold'>Test #<%= @test %></h1>
+    <p>
+      Chaltron rocks!
+      <%= icon :fas, :rocket %>
+    </p>
+    <%= back_link %>
   </div>
 </div>

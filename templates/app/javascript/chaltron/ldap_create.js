@@ -1,41 +1,41 @@
-$(document).on('turbolinks:load', () => {
-  const container = $('table#ldap_create');
-  if (container.length > 0) {
+document.addEventListener("turbolinks:load", function() {
+  if (document.querySelector('table#ldap_create')) {
     const toggleButton = function f() {
-      const any = $('input.entry:checkbox')
-        .filter(function c() { return this.checked; })
-        .length > 0;
-      if (any) {
-        $('#ldap_create_button').prop('disabled', false);
+      const button = document.getElementById('ldap_create_button');
+      if (document.querySelectorAll('tbody input:checked').length === 0) {
+        button.setAttribute('disabled', 'disabled');
       } else {
-        $('#ldap_create_button').prop('disabled', true);
+        button.removeAttribute('disabled');
       }
     };
+
     // checkboxes
-    $('input.entry:checkbox:disabled').prop('indeterminate', true);
-    $('input.entry:checkbox').off().on('click', () => {
+    const checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
+    checkboxes.forEach(f => f.addEventListener('click', () => {
       toggleButton();
-    });
-    $('#entry-check-all').off().on('click', function f() {
-      $('input.entry:checkbox:enabled').prop('checked', this.checked);
+    }));
+    // check all
+    document.getElementById('entry-check-all').addEventListener('click', (e) => {
+      checkboxes.forEach(c => c.checked = e.target.checked);
       toggleButton();
     });
 
-    $('form#ldap_create').on('submit', (event) => {
-      const selectedEntry = $('input.entry:checkbox:checked')
-        .map(function f() { return $(this).attr('data-entry'); })
-        .get();
+    document.querySelector('form#ldap_create').addEventListener('submit', (event) => {
+      const selected = document.querySelectorAll('tbody input:checked');
+      const selectedEntry = Array.prototype.map.call(selected ,function (el) {
+        return el.getAttribute('data-entry');
+      });
       if (selectedEntry.lenght === 0) {
         // should never be here!!
         event.preventDefault();
       } else {
-        $.each(selectedEntry, (index, entry) => {
-          $('<input/>', {
-            name: 'uids[]',
-            type: 'hidden',
-            multiple: 'multiple',
-            value: entry,
-          }).appendTo('form#ldap_create');
+        selectedEntry.forEach(e => {
+          const input = document.createElement('input');
+          input.setAttribute('name', 'uids[]');
+          input.setAttribute('type', 'hidden');
+          input.setAttribute('multiple', 'multiple');
+          input.setAttribute('value', e);
+          document.querySelector('form#ldap_create').appendChild(input);
         });
       }
     });

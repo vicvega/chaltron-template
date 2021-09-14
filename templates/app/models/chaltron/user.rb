@@ -14,6 +14,14 @@ module Chaltron
 
     attr_writer :login
 
+    def self.search(search)
+      if search
+        where('username LIKE :query or fullname LIKE :query or email LIKE :query', { query: "%#{search}%" })
+      else
+        all
+      end
+    end
+
     def login
       @login || username || email
     end

@@ -1,23 +1,2 @@
-<div class='container-fluid'>
-  <h3><%= t '.title' %></h3>
-  <%= tag.table(id: 'logs', class: 'table table-striped', data: { source: chaltron_logs_path(format: :json) }) do %>
-    <thead>
-      <tr>
-        <th class='severity'>
-          <%= Chaltron::Log.human_attribute_name(:severity) %>
-        </th>
-        <th class='timestamp'>
-          <%= Chaltron::Log.human_attribute_name(:created_at) %>
-        </th>
-        <th class='message'>
-          <%= Chaltron::Log.human_attribute_name(:message) %>
-        </th>
-        <th class='category'>
-          <%= Chaltron::Log.human_attribute_name(:category) %>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  <% end %>
-</div>
+<h3><%= t '.title' %></h3>
+<%= render partial: 'logs', locals: { logs: @logs, pagy: @pagy } %>
