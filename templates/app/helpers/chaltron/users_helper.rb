@@ -11,21 +11,5 @@ module Chaltron
         concat tag.span(t('chaltron.users.user_disabled'), class: 'badge bg-danger ms-2') if user.disabled?
       end
     end
-
-    def display_side_filter_link(url, active, text, count)
-      klass = 'list-group-item list-group-item-action'
-      klass += ' active' if active
-
-      badge_klass = 'badge rounded-pill float-end'
-      badge_klass += if active
-                       ' bg-light text-dark'
-                     else
-                       ' bg-primary'
-                     end
-
-      link_to url, class: klass do
-        tag.span(count, class: badge_klass) + text
-      end
-    end
   end
 end

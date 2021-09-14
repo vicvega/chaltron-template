@@ -10,6 +10,14 @@ module Chaltron
 
     # after_create :to_syslog
 
+    def self.search(search)
+      if search
+        where('message LIKE :query', { query: "%#{search}%" })
+      else
+        all
+      end
+    end
+
     private
 
     def standardize_severity

@@ -25,6 +25,12 @@ it:
     logs:
       index:
         title: Elenco dei log
+      logs:
+        search: Cerca
+        category_filter: Filtra per categoria
+        severity_filter: Filtra per severità
+        reset_filters: Resetta filtri
+        sort_per_page: '%{count} log per pagina'
       show:
         headers:
           details: Dettagli
@@ -34,14 +40,18 @@ it:
         new_user: Nuovo utente
         new_local_user: Nuovo utente locale
         new_ldap_user: Nuovo utente LDAP
-      side_filters:
-          provider:
-            all: Tutti
-            local: Locali
-            ldap: LDAP
-          activity:
-            inactive: Inattivi
-            no_login: Mai loggati
+      users:
+        search: Cerca
+        sorted_by: Ordinamento per
+        sort_per_page: '%{count} utenti per pagina'
+        reset_filters: Resetta filtri
+        provider_filter: Filtra per provider
+        inactivity_filter: Filtra per inattività
+        local: Locale
+        ldap: Ldap
+        no_login: Mai loggati
+      user:
+        created_ago: Creato %{time} fa
       new:
         title: Nuovo utente locale
         submit_text: Crea utente locale

@@ -1,10 +1,30 @@
-<tr>
-  <td class='username'>
-    <%= display_username(user) %>
-  </td>
-  <td class='fullname'><%= user.fullname %></td>
-  <td class='email'><%= user.email %></td>
-  <td class='roles'>
-    <%= safe_join(user.roles.map { |x| tag.span(t("chaltron/roles.#{x.name}"), class: 'badge bg-primary') }, ' ') %>
-  </td>
-</tr>
+<%= link_to user, class: 'list-group-item list-group-item-action d-flex gap-3 py-3' do %>
+  <div class='d-flex gap-2 w-100 justify-content-between'>
+    <div>
+
+      <div class='d-flex'>
+        <h5 class='mb-0'>
+          <%= user.display_name %>
+          <%= safe_join(user.roles.map do |x|
+                          tag.span(t("chaltron/roles.#{x.name}"), class: 'badge bg-primary me-2')
+                        end) %>
+        </h5>
+      </div>
+      <p class='mb-0 opacity-75'>
+        <%= user.username %>
+        <%= tag.span(I18n.t('chaltron.users.it_s_you'), class: 'badge bg-success me-2') if user == current_user %>
+        <%= tag.span(t('chaltron.users.user_disabled'), class: 'badge bg-danger me-2') if user.disabled? %>
+       </p>
+      <p class='mb-0 opacity-75'><%= user.email %></p>
+    </div>
+    <div class='d-flex flex-column'>
+      <small class='opacity-50 text-nowrap'>
+        <%= t('.created_ago', time: time_ago_in_words(user.created_at)) %>
+      </small>
+      <small class='opacity-50 text-nowrap'>
+        <span><%= Chaltron::User.human_attribute_name(:sign_in_count) %>: </span>
+        <strong><%= user.sign_in_count %></strong>
+      </small>
+    </div>
+  </div>
+<% end %>

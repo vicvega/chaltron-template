@@ -1,0 +1,2 @@
+document.querySelector('#users').outerHTML = "<%= j render(partial: 'users',
+                                                           locals: { users: @users, pagy: @pagy }) %>"

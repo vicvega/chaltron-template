@@ -25,6 +25,12 @@ en:
     logs:
       index:
         title: Log list
+      logs:
+        search: Search
+        category_filter: Category filter
+        severity_filter: Severity filter
+        reset_filters: Reset filters
+        sort_per_page: '%{count} log per page'
       show:
         headers:
           details: Details
@@ -34,14 +40,18 @@ en:
         new_user: New user
         new_local_user: New local user
         new_ldap_user: New LDAP user
-      side_filters:
-          provider:
-            all: All
-            local: Local
-            ldap: LDAP
-          activity:
-            inactive: Inactive
-            no_login: Never logged
+      users:
+        search: Search
+        sorted_by: Ordered by
+        sort_per_page: '%{count} users per page'
+        reset_filters: Reset filters
+        provider_filter: Provider filter
+        inactivity_filter: Inactivity filter
+        local: Local
+        ldap: Ldap
+        no_login: Never logged in
+      user:
+        created_ago: Created %{time} ago
       new:
         title: New local user
         submit_text: Create local user

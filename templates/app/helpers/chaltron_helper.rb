@@ -66,4 +66,45 @@ module ChaltronHelper
     v = IO.read(version_file).strip
     v.presence
   end
+
+  def display_side_filter_link(url, active, text, count)
+    return unless count.positive?
+
+    klass = 'list-group-item list-group-item-action'
+    klass += ' active' if active
+
+    badge_klass = 'badge rounded-pill float-end'
+    badge_klass += if active
+                     ' bg-light text-dark'
+                   else
+                     ' bg-primary'
+                   end
+
+    link_to url, class: klass, remote: true do
+      tag.span(count, class: badge_klass) + text
+    end
+  end
+
+  def sortable(column, options = {})
+    title = options.fetch(:label, column.to_s.titleize)
+    remote = options.fetch(:remote, false)
+    data = options.fetch(:data, {})
+    direction = column.to_s == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
+
+    params = request.params.merge(sort: column, direction: direction, page: nil)
+
+    if column.to_s == sort_column
+      link_to(params, class: 'current', remote: remote, data: data) do
+        tag.span class: 'text-body' do
+          icon :fas, sort_direction == 'asc' ? 'sort-up' : 'sort-down', title
+        end
+      end
+    else
+      link_to(params, remote: remote, data: data) do
+        tag.span class: 'text-secondary' do
+          icon :fas, 'sort', title
+        end
+      end
+    end
+  end
 end

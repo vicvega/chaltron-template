@@ -20,6 +20,7 @@ module Chaltron
         @entries = Chaltron::LDAP::Person.find_by_fields(find_options)
       end
       @entries.compact!
+      @entries.sort_by!(&:name)
     end
 
     def multi_create

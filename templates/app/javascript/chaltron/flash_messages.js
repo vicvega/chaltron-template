@@ -1,12 +1,9 @@
-$(document).on('turbolinks:load', () => {
+document.addEventListener("turbolinks:load", function() {
+
   // flash messages
-  const flash = $('.flash-container div.alert');
+  const flash = document.querySelectorAll('.flash-container div.alert');
   if (flash.length > 0) {
-    flash.on ('click', function f() {
-      $(this).fadeOut();
-    });
-    setTimeout(() => {
-      flash.fadeOut();
-    }, 5000);
+    flash.forEach(f => f.addEventListener('click', () => f.style.opacity = '0'));
+    setTimeout(() => flash.forEach(f => f.style.opacity = '0'), 5000);
   }
 });

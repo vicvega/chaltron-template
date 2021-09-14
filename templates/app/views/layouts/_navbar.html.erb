@@ -1,13 +1,117 @@
-<nav class='navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-0'>
-  <div class="container-fluid">
-    <%= link_to 'Home', root_url, class: 'navbar-brand' %>
-    <%= button_tag class: 'navbar-toggler', data: { toggle: 'collapse', target: '#navigation' },
-                  aria: { controls: 'navigation', expanded: false, label: 'Toggle navigation' } do %>
-      <span class="navbar-toggler-icon"></span>
-    <% end %>
-    <div class="collapse navbar-collapse" id="navigation">
-      <%= render_navigation expand_all: true %>
-      <%= render_navigation expand_all: true, context: :chaltron %>
+<nav id='navbar-top' class='navbar navbar-expand-lg navbar-dark bg-dark'>
+  <div class='container-fluid'>
+    <%= link_to 'Home page', root_path, class: 'navbar-brand' %>
+    <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent'
+            aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
+      <span class='navbar-toggler-icon'></span>
+    </button>
+    <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+      <ul class='navbar-nav me-auto'>
+        <li class='nav-item'>
+          <%= link_to home_test1_path,
+                      class: class_names('nav-link', { active: current_page?(home_test1_path) }) do %>
+            <%= icon :fas, :bullhorn, 'Link1' %>
+          <% end %>
+        </li>
+        <li class='nav-item'>
+          <%= link_to home_test2_path,
+                      class: class_names('nav-link', { active: current_page?(home_test2_path) }) do %>
+            <%= icon :fas, 'chart-line', 'Link2' %>
+          <% end %>
+        </li>
+        <li class='nav-item dropdown'>
+          <%
+            urls = [home_test3_path, home_test4_path, home_test5_path]
+            klass = class_names('nav-link', 'dropdown-toggle', { active: urls.any? { |url| current_page?(url) } })
+          %>
+          <%= link_to '#', id: 'navbarDropdown', class: klass, data: { 'bs-toggle' => 'dropdown' } do %>
+            <%= icon :fas, 'hand-point-down', 'Submenu' %>
+          <% end %>
+          <ul class='dropdown-menu dropdown-menu-dark' aria-labelledby='navbarDropdown'>
+            <li>
+              <%= link_to home_test3_path,
+                  class: class_names('dropdown-item', { active: current_page?(home_test3_path) }) do %>
+                <%= icon :fas, :book, 'Link3' %>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to home_test4_path,
+                  class: class_names('dropdown-item', { active: current_page?(home_test4_path) }) do %>
+                <%= icon :fas, :headphones, 'Link4' %>
+              <% end %>
+            </li>
+            <li><hr class='dropdown-divider'></li>
+            <li>
+              <%= link_to home_test5_path,
+                  class: class_names('dropdown-item', { active: current_page?(home_test5_path) }) do %>
+                <%= icon :fas, :futbol, 'Link5' %>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <%# Right navbar %>
+      <ul class='navbar-nav'>
+        <% if signed_in? %>
+          <%# Admin navbar %>
+          <li class='nav-item dropdown'>
+          <%
+            logs = params[:controller] == 'chaltron/logs'
+            users = params[:controller] == 'chaltron/ldap' ||
+                    (params[:controller] == 'chaltron/users' and !params[:action].start_with?('self'))
+            klass = class_names('nav-link', 'dropdown-toggle', { active: logs || users })
+          %>
+            <%= link_to '#', id: 'navbarDropdownAdmin', class: klass,
+                                                        data: { 'bs-toggle' => 'dropdown' } do %>
+              <%= icon :fas, :cogs, I18n.t('chaltron.menu.admin') %>
+            <% end %>
+            <ul class='dropdown-menu dropdown-menu-dark dropdown-menu-end' aria-labelledby='navbarDropdownAdmin'>
+              <li>
+                <%= link_to chaltron_users_path,
+                            class: class_names('dropdown-item', { active: users }) do %>
+                  <%= icon :fas, :user, I18n.t('chaltron.menu.users') %>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to chaltron_logs_path,
+                            class: class_names('dropdown-item', { active: logs }) do %>
+                  <%= icon :fas, :book,  I18n.t('chaltron.menu.logs') %>
+                <% end %>
+              </li>
+            </ul>
+          </li>
+          <%# Login navbar %>
+          <li class='nav-item dropdown'>
+            <%
+              active = params[:action].start_with?('self')
+              klass = class_names('nav-link', 'dropdown-toggle', { active: active })
+            %>
+            <%= link_to current_user.display_name, '#', id: 'navbarDropdownLogin', class: klass,
+                                                        data: { 'bs-toggle' => 'dropdown' } %>
+            <ul class='dropdown-menu dropdown-menu-dark dropdown-menu-end' aria-labelledby='navbarDropdownLogin'>
+              <li>
+                <%= link_to self_show_chaltron_users_path,
+                            class: class_names('dropdown-item', { active: active }) do %>
+                  <%= icon :fas, :user, I18n.t('chaltron.menu.self_show') %>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to destroy_user_session_path, class: 'dropdown-item', method: :delete do %>
+                  <%= icon :fas, 'sign-out-alt', 'Logout' %>
+                <% end %>
+              </li>
+            </ul>
+          </li>
+        </li>
+        <% else %>
+        <li>
+          <%= link_to new_user_session_path,
+                      class: class_names('nav-link', { active: current_page?(new_user_session_path) }) do %>
+            <%= icon :fas, 'sign-in-alt', 'Login' %>
+          <% end %>
+        </li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </nav>

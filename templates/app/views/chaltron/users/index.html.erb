@@ -1,58 +1,34 @@
-<div class='container-fluid'>
-  <h3><%= t '.title' %></h3>
-  <div class='row'>
-    <div class='col-md-3'>
-      <%= render partial: 'side_filters', locals: { filters: @filters } %>
-      <hr>
+<div class='d-flex w-100 justify-content-between mb-3'>
+  <div>
+    <h3><%= t '.title' %></h3>
+  </div>
 
-      <% if ldap_enabled? and !Chaltron.ldap_allow_all %>
-        <div class='dropdown'>
-          <%= button_tag type: 'button', class: 'btn btn-primary dropdown-toggle',
-                         data: { 'bs-toggle' => 'dropdown' }, aria: { expanded: false },
-                         id: 'new_user_button' do %>
-            <%= icon :fas, :plus, t('.new_user') %>
-          <% end %>
-
-          <%= tag.ul(class: 'dropdown-menu', aria: { labelledby: 'new_user_button' }) do %>
-            <li>
-              <%= link_to t('.new_ldap_user'), chaltron_ldap_search_path, class: 'dropdown-item' %>
-            </li>
-            <li>
-              <%= link_to t('.new_local_user'), new_chaltron_user_path, class: 'dropdown-item' %>
-            </li>
-          <% end %>
-        </div>
-      <% else %>
-        <%= link_to new_chaltron_user_path, class: 'btn btn-primary' do %>
-          <%= icon :fas, :plus, t('.new_local_user') %>
-        <% end %>
+  <div>
+  <% if ldap_enabled? and !Chaltron.ldap_allow_all %>
+    <div class='dropdown'>
+      <%= button_tag type: 'button', class: 'btn btn-lg btn-primary dropdown-toggle',
+                    data: { 'bs-toggle' => 'dropdown' }, aria: { expanded: false },
+                    id: 'new_user_button' do %>
+        <%= icon :fas, :plus, t('.new_user') %>
       <% end %>
 
+      <%= tag.ul(class: 'dropdown-menu', aria: { labelledby: 'new_user_button' }) do %>
+        <li>
+          <%= link_to t('.new_ldap_user'), chaltron_ldap_search_path, class: 'dropdown-item' %>
+        </li>
+        <li>
+          <%= link_to t('.new_local_user'), new_chaltron_user_path, class: 'dropdown-item' %>
+        </li>
+      <% end %>
     </div>
-    <div class='col-md-9'>
-      <div class='table-responsive'>
-        <%= tag.table(id: 'users', class: 'table table-striped') do %>
-          <thead>
-            <tr>
-              <th class='username'>
-                <%= Chaltron::User.human_attribute_name(:username) %>
-              </th>
-              <th class='fullname'>
-                <%= Chaltron::User.human_attribute_name(:fullname) %>
-              </th>
-              <th class='email'>
-                <%= Chaltron::User.human_attribute_name(:email) %>
-              </th>
-              <th class='roles'>
-                <%= Chaltron::User.human_attribute_name(:roles) %>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= render @users %>
-          </tbody>
-        <% end %>
-      </div>
-    </div>
+  <% else %>
+    <%= link_to new_chaltron_user_path, class: 'btn btn-lg btn-primary' do %>
+      <%= icon :fas, :plus, t('.new_local_user') %>
+    <% end %>
+  <% end %>
   </div>
+
 </div>
+
+<%= render partial: 'users', locals: { users: @users, pagy: @pagy } %>
+

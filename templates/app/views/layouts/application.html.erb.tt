@@ -9,14 +9,14 @@
     <%%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <%%= tag.body data: { locale: I18n.locale } do %>
-      <%%= render 'layouts/navbar' %>
-      <%%= render 'layouts/flash' %>
-      <div id='content' class='py-5'>
-        <%%= yield %>
-      </div>
-      <div class='pt-5'>
-        <%%= render 'layouts/footer' %>
-      </div>
-    <%% end %>
+  <body>
+    <%%= render 'layouts/navbar' %>
+    <%%= render 'layouts/flash' %>
+    <div id='content' class='container-fluid p-3'>
+      <%%= yield %>
+    </div>
+    <div class='pt-3'>
+      <%%= render 'layouts/footer' %>
+    </div>
+  </body>
 </html>

@@ -52,11 +52,9 @@ def add_gems
   gem 'gitlab_omniauth-ldap', require: 'omniauth-ldap'
   gem 'cancancan'
 
-  gem 'autoprefixer-rails'
-  gem 'simple-navigation'
   gem 'simple_form'
   gem 'rails-i18n'
-  gem 'ajax-datatables-rails'
+  gem 'pagy'
 
   gem_group :development do
     gem 'foreman'
@@ -64,7 +62,7 @@ def add_gems
 
   gem_group :development, :test do
     gem 'factory_bot_rails'
-    gem 'ffaker'
+    gem 'faker'
   end
 end
 
@@ -113,9 +111,6 @@ end
 def add_assets
   directory 'app/assets/images'
   directory 'app/assets/stylesheets'
-
-  style = " *= require datatables\n *= require nprogress/nprogress\n"
-  inject_into_file 'app/assets/stylesheets/application.css', style, before: ' *= require_tree .'
 end
 
 def add_controllers
@@ -125,12 +120,9 @@ def add_controllers
   inject_into_file 'app/controllers/application_controller.rb', "  include Chaltron::Logging\n", before: 'end'
 end
 
-def add_datatables
-  directory 'app/datatables'
-end
-
 def add_helpers
   directory 'app/helpers'
+  inject_into_file 'app/helpers/application_helper.rb', "  include Pagy::Frontend\n", before: 'end'
 end
 
 def add_views
@@ -142,9 +134,6 @@ def add_views
   copy_file 'app/views/layouts/_flash.html.erb'
   copy_file 'app/views/layouts/_footer.html.erb'
   copy_file 'app/views/layouts/_navbar.html.erb'
-
-  copy_file 'config/navigation.rb'
-  copy_file 'config/chaltron_navigation.rb'
 end
 
 def add_locales
@@ -152,35 +141,18 @@ def add_locales
 end
 
 def add_javascript
-  run 'yarn add jquery @popperjs/core bootstrap @fortawesome/fontawesome-free ' \
-    'nprogress datatables.net-bs5 datatables.net-responsive datatables.net-responsive-bs5'
+  run 'yarn add @popperjs/core bootstrap @fortawesome/fontawesome-free'
 
   directory 'app/javascript/chaltron'
-
-  text = <<~JS
-    const webpack = require('webpack');
-
-    environment.plugins.append('Provide',
-      new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        Popper: ['popper.js', 'default'],
-      }));
-
-  JS
-  inject_into_file 'config/webpack/environment.js', text, before: 'module.exports = environment'
 
   text = <<~JS
 
     import * as bootstrap from 'bootstrap';
     window.bootstrap = bootstrap;
 
-    import '@fortawesome/fontawesome-free/js/all';
-    import 'datatables.net-bs5';
-    import 'datatables.net-responsive-bs5';
-
     import 'chaltron';
-    import 'chaltron/locales/it';
+    import '@fortawesome/fontawesome-free/js/all';
+
   JS
   inject_into_file 'app/javascript/packs/application.js', text, after: "import \"channels\"\n"
 end
@@ -239,7 +211,7 @@ def setup_simple_form
 
   gsub_file file,
             "config.wrappers :horizontal_form, tag: 'div', class: 'form-group row'",
-            "config.wrappers :horizontal_form, tag: 'div', class: 'row mb-3'"
+            "config.wrappers :horizontal_form, tag: 'div', class: 'form-group row mb-3'"
 
   gsub_file file,
             "config.wrappers :vertical_form, tag: 'div', class: 'form-group'",
@@ -248,8 +220,10 @@ def setup_simple_form
   gsub_file file,
             "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group'",
             "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group mb-3'"
+end
 
-  copy_file 'config/locales/simple_form.it.yml'
+def setup_pagy
+  copy_file 'config/initializers/pagy.rb'
 end
 
 def setup_foreman
@@ -309,10 +283,6 @@ def add_models
   run 'rm -rf "app/models/chaltron.rb"'
 end
 
-def add_scaffold_templates
-  directory 'lib/templates', force: true
-end
-
 def add_tests
   directory 'test', force: true
   run 'rm -rf "test/fixtures"'
@@ -370,7 +340,6 @@ after_bundle do
 
   add_assets
   add_controllers
-  add_datatables
   add_helpers
   add_views
   add_javascript
@@ -383,13 +352,13 @@ after_bundle do
   setup_warden
   setup_chaltron
   setup_simple_form
+  setup_pagy
   setup_foreman
   setup_application
 
   add_locales
   add_routes
   add_models
-  add_scaffold_templates
   add_tests
   add_seeds
 
