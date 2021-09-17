@@ -51,7 +51,7 @@
                         data: { 'bs-toggle': 'dropdown' }, aria: { expanded: false },
                         class: 'btn btn-primary dropdown-toggle' %>
             <ul class='dropdown-menu' aria-labelledby='per-page'>
-              <% %w[10 20 50 100].each do |count| %>
+              <% [10, 20, 50, 100].each do |count| %>
                 <li>
                 <%= link_to t('.sort_per_page', count: count),
                             request.params.merge(per_page: count, page: nil),
@@ -68,16 +68,24 @@
         <thead class='text-nowrap'>
           <tr>
             <th>
-              <%= sortable :severity, label: Chaltron::Log.human_attribute_name(:severity), remote: true %>
+              <h5>
+                <%= sortable :severity, label: Chaltron::Log.human_attribute_name(:severity), remote: true %>
+              </h5>
             </th>
             <th>
-              <%= sortable :created_at, label: Chaltron::Log.human_attribute_name(:created_at), remote: true %>
+              <h5>
+                <%= sortable :created_at, label: Chaltron::Log.human_attribute_name(:created_at), remote: true %>
+              </h5>
             </th>
             <th>
-              <%= sortable :message, label: Chaltron::Log.human_attribute_name(:message), remote: true %>
+              <h5>
+                <%= sortable :message, label: Chaltron::Log.human_attribute_name(:message), remote: true %>
+              </h5>
             </th>
             <th>
-              <%= sortable :category, label: Chaltron::Log.human_attribute_name(:category), remote: true %>
+              <h5>
+                <%= sortable :category, label: Chaltron::Log.human_attribute_name(:category), remote: true %>
+              </h5>
             </th>
           </tr>
         </thead>

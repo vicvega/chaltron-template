@@ -50,7 +50,7 @@
                         data: { 'bs-toggle': 'dropdown' }, aria: { expanded: false },
                         class: 'btn btn-primary dropdown-toggle' %>
             <ul class='dropdown-menu' aria-labelledby='per-page'>
-              <% %w[10 20 50 100].each do |count| %>
+              <% [10, 20, 50, 100].each do |count| %>
                 <li>
                 <%= link_to t('.sort_per_page', count: count),
                             request.params.merge(per_page: count, page: nil),
@@ -69,24 +69,15 @@
                 <%= t('.sorted_by') %> <%= Chaltron::User.human_attribute_name(sort_column).downcase %>
               </button>
               <ul class='dropdown-menu' aria-labelledby='sort-column'>
+                <% %w[username email created_at].each do |field| %>
                 <li>
-                  <%= link_to Chaltron::User.human_attribute_name(:username),
-                              request.params.merge(sort: :username, page: nil),
-                              class: class_names('dropdown-item', { active: sort_column == 'username' }),
-                              remote: true %>
+                  <%= link_to request.params.merge(sort: field, page: nil),
+                              class: class_names('dropdown-item', { active: sort_column == field }),
+                              remote: true do %>
+                      <%= t('.sorted_by') %> <%= Chaltron::User.human_attribute_name(field).downcase %>
+                  <% end %>
                 </li>
-                <li>
-                  <%= link_to Chaltron::User.human_attribute_name(:email),
-                              request.params.merge(sort: :email, page: nil),
-                              class: class_names('dropdown-item', { active: sort_column == 'email' }),
-                              remote: true %>
-                </li>
-                <li>
-                  <%= link_to Chaltron::User.human_attribute_name(:created_at),
-                              request.params.merge(sort: :created_at, page: nil),
-                              class: class_names('dropdown-item', { active: sort_column == 'created_at' }),
-                              remote: true %>
-                </li>
+                <% end %>
               </ul>
             </div>
             <%= link_to(request.params.merge(direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: nil),
