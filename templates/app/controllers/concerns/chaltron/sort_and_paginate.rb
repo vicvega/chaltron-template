@@ -17,7 +17,7 @@ module Chaltron
       end
 
       def per_page
-        defined?(@per_page) ? @per_page : Pagy::VARS[:items]
+        defined?(@per_page) ? @per_page : Pagy::DEFAULT[:items]
       end
 
       def default_sort_direction(dir)
