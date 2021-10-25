@@ -27,14 +27,14 @@
       </div>
       <%# Reset filters %>
       <%= link_to t('.reset_filters'), request.params.merge(category: nil, severity: nil),
-                  class: 'btn btn-primary w-100 mb-3', remote: true %>
+                  class: 'btn btn-primary w-100 mb-3' %>
     </div>
     <div class='col-md-9'>
 
       <div class='d-flex'>
         <%# Search form %>
         <div class='flex-grow-1'>
-          <%= form_tag chaltron_logs_path, method: 'get', remote: true do %>
+          <%= form_tag chaltron_logs_path, method: 'get' do %>
             <%= hidden_field_tag :direction, params[:direction] %>
             <%= hidden_field_tag :sort, params[:sort] %>
             <div class='input-group mb-3'>
@@ -55,8 +55,7 @@
                 <li>
                 <%= link_to t('.sort_per_page', count: count),
                             request.params.merge(per_page: count, page: nil),
-                            class: class_names('dropdown-item', { active: sort_per_page == count }),
-                            remote: true %>
+                            class: class_names('dropdown-item', { active: sort_per_page == count }) %>
                 </li>
               <% end %>
             </ul>
@@ -69,22 +68,22 @@
           <tr>
             <th>
               <h5>
-                <%= sortable :severity, label: Chaltron::Log.human_attribute_name(:severity), remote: true %>
+                <%= sortable :severity, label: Chaltron::Log.human_attribute_name(:severity) %>
               </h5>
             </th>
             <th>
               <h5>
-                <%= sortable :created_at, label: Chaltron::Log.human_attribute_name(:created_at), remote: true %>
+                <%= sortable :created_at, label: Chaltron::Log.human_attribute_name(:created_at) %>
               </h5>
             </th>
             <th>
               <h5>
-                <%= sortable :message, label: Chaltron::Log.human_attribute_name(:message), remote: true %>
+                <%= sortable :message, label: Chaltron::Log.human_attribute_name(:message) %>
               </h5>
             </th>
             <th>
               <h5>
-                <%= sortable :category, label: Chaltron::Log.human_attribute_name(:category), remote: true %>
+                <%= sortable :category, label: Chaltron::Log.human_attribute_name(:category) %>
               </h5>
             </th>
           </tr>
@@ -97,7 +96,7 @@
                           class: "badge bg-#{bootstrap_severity(log.severity)}") %>
             </td>
             <td><%= I18n.l(log.created_at, format: :short) %></td>
-            <td><%= link_to(log.message, log) %></td>
+            <td><%= link_to(log.message, log, data: { 'turbo-frame' => '_top' }) %></td>
             <td><%= I18n.t("chaltron.logs.category.#{log.category}") %></td>
           </tr>
         <% end %>
@@ -106,7 +105,7 @@
       <% end %>
       <%== pagy_info(pagy) %>
       <div class='float-end'>
-        <%== pagy_bootstrap_nav(pagy, link_extra: 'data-remote="true"') %>
+        <%== pagy_bootstrap_nav(pagy) %>
       </div>
     </div>
   </div>

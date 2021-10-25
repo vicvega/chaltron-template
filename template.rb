@@ -46,6 +46,9 @@ def print_banner
 end
 
 def add_gems
+  gem 'cssbundling-rails'
+  gem 'jsbundling-rails'
+  gem 'hotwire-rails'
   gem 'devise'
   gem 'omniauth'
   gem 'omniauth-rails_csrf_protection'
@@ -108,9 +111,28 @@ def setup_mysql
   gsub_file 'config/database.yml', before, after
 end
 
+def install_jsbundling
+  rails_command 'javascript:install:esbuild'
+end
+
+def install_bootstrap
+  rails_command 'css:install:bootstrap'
+
+  file = 'app/assets/stylesheets/application.bootstrap.scss'
+  inject_into_file file, "$font-size-base: .85rem;\n\n",
+                   before: "@import 'bootstrap/scss/bootstrap';"
+end
+
+def install_hotwire
+  rails_command 'hotwire:install'
+end
+
 def add_assets
   directory 'app/assets/images'
-  directory 'app/assets/stylesheets'
+  copy_file 'app/assets/stylesheets/chaltron.scss'
+
+  file = 'app/assets/stylesheets/application.bootstrap.scss'
+  inject_into_file file, "@import './chaltron';"
 end
 
 def add_controllers
@@ -147,14 +169,11 @@ def add_javascript
 
   text = <<~JS
 
-    import * as bootstrap from 'bootstrap';
-    window.bootstrap = bootstrap;
-
-    import 'chaltron';
     import '@fortawesome/fontawesome-free/js/all';
+    import './chaltron';
 
   JS
-  inject_into_file 'app/javascript/packs/application.js', text, after: "import \"channels\"\n"
+  inject_into_file 'app/javascript/application.js', text
 end
 
 def add_users
@@ -324,7 +343,7 @@ def finalize
   say
   say 'And now:'
   say " - cd #{app_name}"
-  say ' - foreman start'
+  say ' - ./bin/dev'
   say
   say 'Enjoy! 🍺🍺'
 end
@@ -338,6 +357,9 @@ after_bundle do
   stop_spring
   setup_database
 
+  install_jsbundling
+  install_bootstrap
+  install_hotwire
   add_assets
   add_controllers
   add_helpers

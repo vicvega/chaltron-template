@@ -1,2 +1,4 @@
 <h3><%= t '.title' %></h3>
-<%= render partial: 'logs', locals: { logs: @logs, pagy: @pagy } %>
+<%= turbo_frame_tag 'chaltron_logs' do %>
+  <%= render partial: 'logs', locals: { logs: @logs, pagy: @pagy } %>
+<% end %>
