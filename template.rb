@@ -214,6 +214,63 @@ def setup_devise
             'config.authentication_keys = [:login]'
 end
 
+def fix_devise
+  file = 'config/initializers/devise.rb'
+  text = <<JS
+
+  class TurboFailureApp < Devise::FailureApp
+    def respond
+      if request_format == :turbo_stream
+        redirect
+      else
+        super
+      end
+    end
+
+    def skip_format?
+      %w[html turbo_stream */*].include? request_format.to_s
+    end
+  end
+  class TurboController < ApplicationController
+    class Responder < ActionController::Responder
+      def to_turbo_stream
+        controller.render(options.merge(formats: :html))
+      rescue ActionView::MissingTemplate => e
+        raise e if get?
+
+        if has_errors? && default_action
+          render rendering_options.merge(formats: :html, status: :unprocessable_entity)
+        else
+          redirect_to navigation_location
+        end
+      end
+    end
+
+    self.responder = Responder
+    respond_to :html, :turbo_stream
+  end
+
+JS
+
+  inject_into_file file, text, after: '# frozen_string_literal: true'
+
+  gsub_file file,
+            "# config.parent_controller = 'DeviseController'",
+            "config.parent_controller = 'TurboController'"
+
+  gsub_file file,
+            "# config.navigational_formats = ['*/*', :html]",
+            "config.navigational_formats = ['*/*', :html, :turbo_stream]"
+
+  text = <<JS
+  config.warden do |manager|
+    manager.failure_app = TurboFailureApp
+  end
+
+JS
+  inject_into_file file, text, before: '# config.warden do |manager|'
+end
+
 def setup_warden
   copy_file 'config/initializers/warden.rb'
 end
@@ -371,6 +428,7 @@ after_bundle do
   add_logs
 
   setup_devise
+  fix_devise
   setup_warden
   setup_chaltron
   setup_simple_form
