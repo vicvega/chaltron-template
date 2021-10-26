@@ -37,13 +37,15 @@ module Chaltron
       if @user.save
         flash[:notice] = I18n.t('chaltron.users.created')
         info I18n.t('chaltron.logs.users.created', current: current_user.display_name, user: @user.display_name)
+        redirect_to chaltron_users_path
+      else
+        render :new, status: :unprocessable_entity
       end
-      respond_with(@user)
     end
 
     def update
       flash[:notice] = I18n.t('chaltron.users.updated') if @user.update(update_params)
-      respond_with(@user)
+      redirect_to @user
     end
 
     def enable
@@ -62,7 +64,7 @@ module Chaltron
       else
         info I18n.t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
         @user.destroy
-        respond_with(@user)
+        redirect_to chaltron_users_path
       end
     end
 
