@@ -80,7 +80,13 @@
         <% end %>
       <% end %>
     <% end %>
-    <%= link_to @user, method: :delete, class: danger, data: { confirm: t('.destroy_confirm', user: @user.username) } do %>
+    <%= link_to @user, class: danger, method: :delete,
+                data: {
+                  'turbo-method': :delete,
+                  controller: 'confirmation',
+                  'confirmation-message-value': t('.destroy_confirm', user: @user.username),
+                  action: 'confirmation#confirm'
+                } do %>
       <%= icon :fas, :trash, t('.destroy') %>
     <% end if can? :destroy, @user %>
   </div>

@@ -127,6 +127,12 @@ def install_hotwire
   rails_command 'hotwire:install'
 end
 
+def add_stimulus_controller
+  run 'rm "app/javascript/hello_controller.js"'
+  copy_file 'app/javascript/confirmation_controller.js'
+  rails_command 'stimulus:manifest:update'
+end
+
 def add_assets
   directory 'app/assets/images'
   copy_file 'app/assets/stylesheets/chaltron.scss'
@@ -417,6 +423,7 @@ after_bundle do
   install_jsbundling
   install_bootstrap
   install_hotwire
+  add_stimulus_controller
   add_assets
   add_controllers
   add_helpers
