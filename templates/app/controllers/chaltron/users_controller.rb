@@ -77,13 +77,14 @@ module Chaltron
     end
 
     def destroy
+      options = { status: :see_other }
       if current_user == @user
-        redirect_to({ action: :index }, alert: I18n.t('chaltron.users.cannot_self_destroy'))
+        options[:alert] = I18n.t('chaltron.users.cannot_self_destroy')
       else
         info I18n.t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
         @user.destroy
-        redirect_to chaltron_users_path
       end
+      redirect_to({ action: :index }, options)
     end
 
     private
