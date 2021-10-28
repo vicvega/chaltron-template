@@ -87,7 +87,6 @@ en:
         lastname_help: Search by last name (also partial match)
         department_label: Department
         department_help: Search by department (also partial match)
-        limit_label: Limit
         limit_help: Max shown results
       multi_new:
         title: New LDAP users

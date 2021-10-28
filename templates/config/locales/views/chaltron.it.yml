@@ -87,7 +87,6 @@ it:
         lastname_help: Ricerca per cognome (anche match parziale)
         department_label: Funzione
         department_help: Ricerca per sigla di funzione (anche match parziale)
-        limit_label: Limite
         limit_help: Massimo numero di risultati visualizzati
       multi_new:
         title: Nuovi utenti LDAP
