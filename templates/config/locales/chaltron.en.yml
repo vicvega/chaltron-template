@@ -44,6 +44,7 @@ en:
       updated: User was successfully updated.
       enabled: User was successfully enabled.
       disabled: User was successfully disabled.
+      deleted: User was successfully deleted.
       self_updated: Account data successfully updated.
       cannot_self_destroy: You cannot destroy your own account.
       it_s_you: It's you!
