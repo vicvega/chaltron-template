@@ -128,8 +128,7 @@ def install_hotwire
 end
 
 def add_stimulus_controller
-  run 'rm "app/javascript/hello_controller.js"'
-  copy_file 'app/javascript/confirmation_controller.js'
+  directory 'app/javascript/controllers/chaltron'
   rails_command 'stimulus:manifest:update'
 end
 
