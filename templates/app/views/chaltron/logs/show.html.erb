@@ -24,5 +24,7 @@
     </div>
   </div>
   <hr>
-  <%= back_link %>
+  <%= link_to chaltron_logs_path, class: 'btn btn-primary' do %>
+    <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>
+  <% end %>
 </div>

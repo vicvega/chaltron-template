@@ -19,8 +19,5 @@
                              collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] } %>
     <% end %>
   <% end %>
-
   <%= f.submit submit_text, class: 'btn btn-primary' %>
-  <%= back_link class: 'btn btn-light', text: t('.cancel_text'), icon: 'times' %>
-
 <% end %>
