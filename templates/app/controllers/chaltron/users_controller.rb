@@ -70,7 +70,7 @@ module Chaltron
       end
       if current_user.update(user_params_with_pass)
         flash[:notice] = I18n.t('chaltron.users.self_updated')
-        render :self_show
+        redirect_to action: :self_show
       else
         render :self_edit
       end
