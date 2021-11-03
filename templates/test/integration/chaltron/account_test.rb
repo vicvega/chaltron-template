@@ -28,6 +28,8 @@ class AccountTest < ActionDispatch::IntegrationTest
         email: new_email
       }
     }
+    follow_redirect!
+
     assert_select '.alert.alert-info', "#{I18n.t('chaltron.flash.notice')}: #{I18n.t('chaltron.users.self_updated')}"
     assert_select 'li.list-group-item' do
       assert_select 'strong', new_email
@@ -45,12 +47,11 @@ class AccountTest < ActionDispatch::IntegrationTest
     end
     assert_select "a[href='#{self_edit_chaltron_users_path}']", I18n.t('chaltron.users.self_show.edit')
 
-    get self_edit_chaltron_users_path
+    get change_password_chaltron_users_path
     assert_select "form#edit_chaltron_user[action='#{self_update_chaltron_users_path}']" do
       assert_select "input[name='chaltron_user[password]']"
       assert_select "input[name='chaltron_user[password_confirmation]']"
     end
-
     new_password = 'password.1'
     patch self_update_chaltron_users_path, params: {
       chaltron_user: {
@@ -58,6 +59,8 @@ class AccountTest < ActionDispatch::IntegrationTest
         password_confirmation: new_password
       }
     }
+    follow_redirect!
+
     assert_select '.alert.alert-info', "#{I18n.t('chaltron.flash.notice')}: #{I18n.t('chaltron.users.self_updated')}"
   end
 end

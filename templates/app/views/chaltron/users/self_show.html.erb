@@ -46,12 +46,15 @@
           <% end %>
         </ul>
       </div>
-
-      <%= link_to self_edit_chaltron_users_path, class: 'btn btn-primary mt-4' do %>
-        <%= icon :far, :edit, t('.edit') %>
-      <% end %>
-
     </div>
   </div>
 
+  <hr>
+
+  <%= link_to self_edit_chaltron_users_path, class: 'btn btn-primary' do %>
+    <%= icon :fas, 'user-edit', t('.edit') %>
+  <% end %>
+  <%= link_to change_password_chaltron_users_path, class: 'btn btn-primary' do %>
+    <%= icon :far, :edit, t('.change_password') %>
+  <% end %>
 </div>

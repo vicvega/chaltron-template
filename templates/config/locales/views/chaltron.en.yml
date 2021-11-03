@@ -60,6 +60,9 @@ en:
       self_edit:
         title: Edit account data
         submit: Submit
+      change_password:
+        title: Change password
+        submit: Submit
       form:
         cancel_text: Cancel
       show:
@@ -77,6 +80,7 @@ en:
           activity: Activity
           details: Details
         edit: Edit account data
+        change_password: Change password
     ldap:
       search:
         title: Search for LDAP sers
@@ -87,6 +91,7 @@ en:
         lastname_help: Search by last name (also partial match)
         department_label: Department
         department_help: Search by department (also partial match)
+        limit_label: Limit
         limit_help: Max shown results
       multi_new:
         title: New LDAP users

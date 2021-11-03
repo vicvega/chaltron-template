@@ -338,6 +338,7 @@ def add_routes
       collection do
         get   'self_show'
         get   'self_edit'
+        get   'change_password'
         patch 'self_update'
       end
       member do

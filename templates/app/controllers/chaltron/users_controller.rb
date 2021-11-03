@@ -3,7 +3,7 @@ module Chaltron
     include SortAndPaginate
     helper_method :filter_provider, :filter_activity
     before_action :authenticate_user!
-    load_and_authorize_resource except: %i[self_show self_edit self_update]
+    load_and_authorize_resource except: %i[self_show self_edit self_update change_password]
 
     respond_to :html
     default_log_category :user_admin
@@ -37,6 +37,10 @@ module Chaltron
 
     def self_edit; end
 
+    def change_password
+      redirect_to root_path unless current_user.provider.nil?
+    end
+
     def create
       if @user.save
         flash[:notice] = I18n.t('chaltron.users.created')
@@ -63,16 +67,16 @@ module Chaltron
     end
 
     def self_update
-      user_params_with_pass = self_update_params.dup.to_h
-      if params[:chaltron_user][:password].present?
-        user_params_with_pass[:password] = params[:chaltron_user][:password]
-        user_params_with_pass[:password_confirmation] = params[:chaltron_user][:password_confirmation]
-      end
-      if current_user.update(user_params_with_pass)
+      change_pwd = self_update_params.include?(:password)
+      if current_user.update(self_update_params)
+        # to mantain session after password change
+        bypass_sign_in(current_user) if change_pwd
         flash[:notice] = I18n.t('chaltron.users.self_updated')
         redirect_to action: :self_show
       else
-        render :self_edit
+        back = :self_edit
+        back = :change_password if change_pwd
+        render back, status: :unprocessable_entity
       end
     end
 
@@ -81,8 +85,8 @@ module Chaltron
       if current_user == @user
         options[:alert] = I18n.t('chaltron.users.cannot_self_destroy')
       else
-        @user.destroy
         info I18n.t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
+        @user.destroy
         options[:notice] = I18n.t('chaltron.users.deleted')
       end
       redirect_to({ action: :index }, options)
@@ -108,7 +112,7 @@ module Chaltron
     end
 
     def self_update_params
-      allowed = [:fullname]
+      allowed = %i[fullname password password_confirmation]
       allowed << :email if current_user.provider.nil?
       params.require(:chaltron_user).permit(allowed)
     end
