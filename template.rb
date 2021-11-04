@@ -220,6 +220,7 @@ def setup_devise
 end
 
 def fix_devise
+  copy_file 'app/controllers/turbo_controller.rb'
   file = 'config/initializers/devise.rb'
   text = <<JS
 
@@ -235,24 +236,6 @@ def fix_devise
     def skip_format?
       %w[html turbo_stream */*].include? request_format.to_s
     end
-  end
-  class TurboController < ApplicationController
-    class Responder < ActionController::Responder
-      def to_turbo_stream
-        controller.render(options.merge(formats: :html))
-      rescue ActionView::MissingTemplate => e
-        raise e if get?
-
-        if has_errors? && default_action
-          render rendering_options.merge(formats: :html, status: :unprocessable_entity)
-        else
-          redirect_to navigation_location
-        end
-      end
-    end
-
-    self.responder = Responder
-    respond_to :html, :turbo_stream
   end
 
 JS
