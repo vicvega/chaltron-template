@@ -22,7 +22,7 @@
 
   <div class='mb-3'>
     <%= label_tag :limit, t('.limit_label'), class: 'col-sm-2 col-form-label' %>
-    <%= tag.input id: :limit, type: :text, name: :limit, class: 'form-control' %>
+    <%= tag.input id: :limit, type: :text, name: :limit, class: 'form-control', value: @limit %>
     <%= content_tag :div, t('.limit_help'), class: 'form-text' %>
   </div>
 
