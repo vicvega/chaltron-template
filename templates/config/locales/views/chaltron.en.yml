@@ -34,6 +34,8 @@ en:
       show:
         headers:
           details: Details
+      log:
+        time_ago: '%{time} ago'
     users:
       index:
         title: User list
@@ -60,6 +62,9 @@ en:
       self_edit:
         title: Edit account data
         submit: Submit
+      change_password:
+        title: Change password
+        submit: Submit
       form:
         cancel_text: Cancel
       show:
@@ -77,6 +82,7 @@ en:
           activity: Activity
           details: Details
         edit: Edit account data
+        change_password: Change password
     ldap:
       search:
         title: Search for LDAP sers

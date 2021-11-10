@@ -34,6 +34,8 @@ it:
       show:
         headers:
           details: Dettagli
+      log:
+        time_ago: '%{time} fa'
     users:
       index:
         title: Elenco degli utenti
@@ -60,6 +62,9 @@ it:
       self_edit:
         title: Modifica dati personali
         submit: Invia
+      change_password:
+        title: Cambia password
+        submit: Invia
       form:
         cancel_text: Annulla
       show:
@@ -77,6 +82,7 @@ it:
           activity: Attività
           details: Dettagli
         edit: Modifica dati personali
+        change_password: Cambia password
     ldap:
       search:
         title: Ricerca utenti LDAP
