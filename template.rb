@@ -153,6 +153,13 @@ def add_javascript
     import 'chaltron';
     import '@fortawesome/fontawesome-free/js/all';
 
+    document.addEventListener('turbolinks:load', function () {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
+    });
+
   JS
   inject_into_file 'app/javascript/packs/application.js', text, after: "import \"channels\"\n"
 end

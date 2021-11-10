@@ -1,4 +1,4 @@
-document.addEventListener("turbolinks:load", function() {
+document.addEventListener('turbolinks:load', function() {
   if (document.querySelector('table#ldap_create')) {
     const toggleButton = function f() {
       const button = document.getElementById('ldap_create_button');

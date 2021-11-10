@@ -27,6 +27,7 @@ it:
         title: Elenco dei log
       logs:
         search: Cerca
+        sorted_by: Ordinamento per
         category_filter: Filtra per categoria
         severity_filter: Filtra per severità
         reset_filters: Resetta filtri

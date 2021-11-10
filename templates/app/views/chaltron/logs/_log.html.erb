@@ -1,0 +1,21 @@
+<%= link_to log, class: 'list-group-item list-group-item-action d-flex gap-3 py-3',
+                 id: dom_id(log) do %>
+    <div class='d-flex gap-2 w-100 justify-content-between'>
+
+    <h5>
+      <%= tag.span t("chaltron.logs.severity.#{log.severity}"), class: "badge bg-#{bootstrap_severity(log.severity)} me-2" %>
+    </h5>
+    <div class='flex-grow-1'>
+      <h5>
+        <%= t "chaltron.logs.category.#{log.category}" %>
+      </h5>
+      <p class='mb-0 opacity-75'><%= log.message %></p>
+    </div>
+    <div>
+      <%= tag.p t('.time_ago', time: time_ago_in_words(log.created_at)),
+                class: 'opacity-50 text-nowrap', title: l(log.created_at),
+                data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+    </div>
+  </div>
+
+<% end %>
