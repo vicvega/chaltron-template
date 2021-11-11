@@ -90,7 +90,7 @@
                                                         data: { 'bs-toggle' => 'dropdown' } %>
             <ul class='dropdown-menu dropdown-menu-dark dropdown-menu-end' aria-labelledby='navbarDropdownLogin'>
               <li>
-                <%= link_to self_show_chaltron_users_path,
+                <%= link_to chaltron_self_user_show_path,
                             class: class_names('dropdown-item', { active: active }) do %>
                   <%= icon :fas, :user, I18n.t('chaltron.menu.self_show') %>
                 <% end %>

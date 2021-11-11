@@ -1,0 +1,27 @@
+<div class='container-fluid'>
+  <div class='row'>
+      <div class='col'>
+        <h3><%= t('.title') %></h3>
+
+        <%= simple_form_for current_user, as: :chaltron_user, url: chaltron_self_user_update_path do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :fullname %>
+          <% if current_user.provider.nil? %>
+          <%= f.input :email %>
+            <fieldset>
+              <legend>Password</legend>
+              <%= f.input :password %>
+              <%= f.input :password_confirmation %>
+            </fieldset>
+          <% else %>
+            <%= f.input :email, disabled: true %>
+          <% end %>
+
+          <%= f.submit t('.submit'), class: 'btn btn-primary' %>
+          <%= link_to chaltron_self_user_show_path, class: 'btn btn-link pull-right' do %>
+            <%= icon :fas, :times, t('chaltron.common.cancel') %>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

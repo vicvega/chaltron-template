@@ -25,6 +25,7 @@ en:
     logs:
       index:
         title: Log list
+        sorted_by: Sorted by
       logs:
         search: Search
         category_filter: Category filter
@@ -34,6 +35,8 @@ en:
       show:
         headers:
           details: Details
+      log:
+        time_ago: '%{time} ago'
     users:
       index:
         title: User list
@@ -42,7 +45,7 @@ en:
         new_ldap_user: New LDAP user
       users:
         search: Search
-        sorted_by: Ordered by
+        sorted_by: Sorted by
         sort_per_page: '%{count} users per page'
         reset_filters: Reset filters
         provider_filter: Provider filter

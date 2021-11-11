@@ -318,17 +318,16 @@ def add_routes
     resources :logs, only: %i[index show]
 
     resources :users do
-      collection do
-        get   'self_show'
-        get   'self_edit'
-        get   'change_password'
-        patch 'self_update'
-      end
       member do
         get 'enable'
         get 'disable'
       end
     end
+
+    get   'self_user/show'
+    get   'self_user/edit'
+    get   'self_user/change_password'
+    patch 'self_user/update'
 
     # search and create LDAP users
     if Devise.omniauth_providers.include?(:ldap) && !Chaltron.ldap_allow_all
