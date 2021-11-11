@@ -87,13 +87,10 @@
             <% end %>
           </div>
         </div>
-
-
-
       </div>
-      <% for log in logs %>
-        <%= render partial: 'log', locals: { log: log, user: current_user } %>
-      <% end %>
+
+      <%= render partial: 'log', collection: logs %>
+
       <div class='mt-3'>
         <%== pagy_info(pagy) %>
         <div class='float-end'>

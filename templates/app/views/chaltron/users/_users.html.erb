@@ -88,9 +88,8 @@
         </div>
       </div>
 
-      <% for user in users %>
-        <%= render partial: 'user', locals: { user: user } %>
-      <% end %>
+      <%= render partial: 'user', collection: users %>
+
       <div class='mt-3'>
         <%== pagy_info(pagy) %>
         <div class='float-end'>
