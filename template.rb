@@ -46,6 +46,7 @@ def print_banner
 end
 
 def add_gems
+  gem 'jsbundling-rails'
   gem 'devise'
   gem 'omniauth'
   gem 'omniauth-rails_csrf_protection'
@@ -108,9 +109,21 @@ def setup_mysql
   gsub_file 'config/database.yml', before, after
 end
 
+def install_jsbundling
+  rails_command 'javascript:install:webpack'
+end
+
 def add_assets
   directory 'app/assets/images'
   directory 'app/assets/stylesheets'
+
+  append_file 'config/initializers/assets.rb' do
+    <<~RUBY
+
+      # Add Yarn node_modules folder to the asset load path.
+      Rails.application.config.assets.paths << Rails.root.join('node_modules')
+    RUBY
+  end
 end
 
 def add_controllers
@@ -141,27 +154,10 @@ def add_locales
 end
 
 def add_javascript
-  run 'yarn add @popperjs/core bootstrap @fortawesome/fontawesome-free'
+  run 'yarn add @rails/actioncable @rails/activestorage @rails/ujs turbolinks ' \
+      '@popperjs/core bootstrap @fortawesome/fontawesome-free'
 
-  directory 'app/javascript/chaltron'
-
-  text = <<~JS
-
-    import * as bootstrap from 'bootstrap';
-    window.bootstrap = bootstrap;
-
-    import 'chaltron';
-    import '@fortawesome/fontawesome-free/js/all';
-
-    document.addEventListener('turbolinks:load', function () {
-      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-      })
-    });
-
-  JS
-  inject_into_file 'app/javascript/packs/application.js', text, after: "import \"channels\"\n"
+  directory 'app/javascript', force: true
 end
 
 def add_users
@@ -331,7 +327,7 @@ def finalize
   say
   say 'And now:'
   say " - cd #{app_name}"
-  say ' - foreman start'
+  say ' - ./bin/dev'
   say
   say 'Enjoy! 🍺🍺'
 end
@@ -345,6 +341,7 @@ after_bundle do
   stop_spring
   setup_database
 
+  install_jsbundling
   add_assets
   add_controllers
   add_helpers
