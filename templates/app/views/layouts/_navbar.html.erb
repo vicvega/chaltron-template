@@ -83,7 +83,7 @@
           <%# Login navbar %>
           <li class='nav-item dropdown'>
             <%
-              active = params[:action].start_with?('self')
+              active = params[:controller] == 'chaltron/self_user'
               klass = class_names('nav-link', 'dropdown-toggle', { active: active })
             %>
             <%= link_to current_user.display_name, '#', id: 'navbarDropdownLogin', class: klass,
