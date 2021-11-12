@@ -12,7 +12,7 @@ module Chaltron
       end
     end
 
-    def display_user_avatar(user, options)
+    def display_user_avatar(user, options = {})
       size = options.fetch(:size, 40)
       image = 'user.png'
       if user.avatar.attached?
