@@ -12,6 +12,10 @@ module Chaltron
     # see https://github.com/heartcombo/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address
     validates :username, format: /\A[a-zA-Z0-9_.]*\z/
 
+    validate :avatar_variable
+
+    has_one_attached :avatar
+
     attr_writer :login
 
     def self.search(search)
@@ -52,6 +56,13 @@ module Chaltron
 
     def inactive_message
       enabled? ? super : I18n.t('chaltron.users.inactive_message')
+    end
+
+    def avatar_variable
+      return unless avatar.attached?
+      return if avatar.variable?
+
+      errors.add(:avatar, :unvariable)
     end
   end
 end

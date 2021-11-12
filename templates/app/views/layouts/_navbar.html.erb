@@ -86,8 +86,10 @@
               active = params[:controller] == 'chaltron/self_user'
               klass = class_names('nav-link', 'dropdown-toggle', { active: active })
             %>
-            <%= link_to current_user.display_name, '#', id: 'navbarDropdownLogin', class: klass,
-                                                        data: { 'bs-toggle' => 'dropdown' } %>
+            <%= link_to '#', id: 'navbarDropdownLogin', class: klass,
+                             data: { 'bs-toggle' => 'dropdown' } do %>
+              <%= display_user_avatar current_user, class: 'rounded-circle', size: '22' %>
+            <% end %>
             <ul class='dropdown-menu dropdown-menu-dark dropdown-menu-end' aria-labelledby='navbarDropdownLogin'>
               <li>
                 <%= link_to chaltron_self_user_show_path,

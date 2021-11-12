@@ -65,6 +65,8 @@ def add_gems
     gem 'factory_bot_rails'
     gem 'faker'
   end
+
+  gsub_file 'Gemfile', "# gem 'image_processing'", "gem 'image_processing'"
 end
 
 def stop_spring
@@ -160,6 +162,10 @@ def add_javascript
   directory 'app/javascript', force: true
 end
 
+def install_active_storage
+  rails_command 'active_storage:install'
+end
+
 def add_users
   generate 'devise:install'
   route "root to: 'home#index'"
@@ -223,6 +229,14 @@ def setup_simple_form
   gsub_file file,
             "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group'",
             "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group mb-3'"
+
+  gsub_file file,
+            "config.wrappers :vertical_file, tag: 'div', class: 'form-group', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|",
+            "config.wrappers :vertical_file, tag: 'div', class: 'form-group mb-3', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|"
+
+  gsub_file file,
+            "b.use :input, class: 'form-control-file', error_class: 'is-invalid', valid_class: 'is-valid'",
+            "b.use :input, class: 'form-control', error_class: 'is-invalid', valid_class: 'is-valid'"
 end
 
 def setup_pagy
@@ -347,6 +361,7 @@ after_bundle do
   add_helpers
   add_views
   add_javascript
+  install_active_storage
 
   add_users
   add_roles

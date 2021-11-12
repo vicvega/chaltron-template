@@ -27,7 +27,7 @@ module Chaltron
     private
 
     def update_params
-      allowed = %i[fullname password password_confirmation]
+      allowed = %i[fullname password password_confirmation avatar]
       allowed << :email if current_user.provider.nil?
       params.require(:chaltron_user).permit(allowed)
     end
