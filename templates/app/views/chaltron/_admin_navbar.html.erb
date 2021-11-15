@@ -1,4 +1,5 @@
 <% if signed_in? %>
+<% if can?(:read, Chaltron::User) || can?(:read, Chaltron::Log)  %>
   <ul class='navbar-nav'>
     <%# Admin navbar %>
     <li class='nav-item dropdown'>
@@ -11,19 +12,20 @@
         <%= icon :fas, :cogs, I18n.t('chaltron.menu.admin') %>
       <% end %>
       <ul class='dropdown-menu dropdown-menu-dark dropdown-menu-end' aria-labelledby='navbarDropdownAdmin'>
-        <li>
+        <%= tag.li do %>
           <%= link_to chaltron_users_path,
                       class: class_names('dropdown-item', { active: users }) do %>
             <%= icon :fas, :user, I18n.t('chaltron.menu.users') %>
           <% end %>
-        </li>
-        <li>
+        <% end if can?(:read, Chaltron::User) %>
+        <%= tag.li do %>
           <%= link_to chaltron_logs_path,
                       class: class_names('dropdown-item', { active: logs }) do %>
             <%= icon :fas, :book, I18n.t('chaltron.menu.logs') %>
           <% end %>
-        </li>
+        <% end if can?(:read, Chaltron::Log) %>
       </ul>
     </li>
   </ul>
+<% end %>
 <% end %>
