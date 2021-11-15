@@ -8,7 +8,7 @@ module Chaltron
     end
 
     def role?(role)
-      roles.include?(Role.find_by_name(role))
+      roles.include?(Role.find_by(name: role))
     end
   end
 end

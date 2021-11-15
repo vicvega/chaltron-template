@@ -22,9 +22,9 @@ module Chaltron
             # create user
             roles = Chaltron.default_roles
             if Chaltron.ldap_role_mappings.present?
-              roles = entry.ldap_groups.map do |e|
+              roles = entry.ldap_groups.filter_map do |e|
                 Chaltron.ldap_role_mappings[e.dn]
-              end.compact
+              end
             end
             user = entry.create_user(roles)
           end

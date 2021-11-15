@@ -63,7 +63,7 @@ module ChaltronHelper
     version_file = Rails.root.join('REVISION')
     return unless File.exist?(version_file)
 
-    v = IO.read(version_file).strip
+    v = File.read(version_file).strip
     v.presence
   end
 
