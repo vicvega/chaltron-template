@@ -81,7 +81,7 @@ module ChaltronHelper
                    end
 
     link_to url, class: klass, remote: true do
-      tag.span(count, class: badge_klass) + text
+      tag.span(number_with_delimiter(count), class: badge_klass) + text
     end
   end
 
