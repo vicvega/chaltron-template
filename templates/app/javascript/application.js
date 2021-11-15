@@ -3,19 +3,17 @@ import Turbolinks from 'turbolinks';
 import * as ActiveStorage from '@rails/activestorage';
 import './channels';
 
+import './chaltron';
 import '@fortawesome/fontawesome-free/js/all';
 import * as bootstrap from 'bootstrap';
-window.bootstrap = bootstrap;
 
-import './chaltron';
+window.bootstrap = bootstrap;
 
 Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
 
-document.addEventListener('turbolinks:load', function () {
-  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-  })
+document.addEventListener('turbolinks:load', () => {
+  const list = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  list.map((tooltip) => new bootstrap.Tooltip(tooltip));
 });

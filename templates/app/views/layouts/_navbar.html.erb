@@ -30,20 +30,20 @@
           <ul class='dropdown-menu dropdown-menu-dark' aria-labelledby='navbarDropdown'>
             <li>
               <%= link_to home_test3_path,
-                  class: class_names('dropdown-item', { active: current_page?(home_test3_path) }) do %>
+                          class: class_names('dropdown-item', { active: current_page?(home_test3_path) }) do %>
                 <%= icon :fas, :book, 'Link3' %>
               <% end %>
             </li>
             <li>
               <%= link_to home_test4_path,
-                  class: class_names('dropdown-item', { active: current_page?(home_test4_path) }) do %>
+                          class: class_names('dropdown-item', { active: current_page?(home_test4_path) }) do %>
                 <%= icon :fas, :headphones, 'Link4' %>
               <% end %>
             </li>
             <li><hr class='dropdown-divider'></li>
             <li>
               <%= link_to home_test5_path,
-                  class: class_names('dropdown-item', { active: current_page?(home_test5_path) }) do %>
+                          class: class_names('dropdown-item', { active: current_page?(home_test5_path) }) do %>
                 <%= icon :fas, :futbol, 'Link5' %>
               <% end %>
             </li>
@@ -51,8 +51,8 @@
         </li>
       </ul>
       <%# Right navbar %>
-      <%= render 'chaltron/admin_navbar'%>
-      <%= render 'chaltron/login_navbar'%>
+      <%= render 'chaltron/admin_navbar' %>
+      <%= render 'chaltron/login_navbar' %>
     </div>
   </div>
 </nav>

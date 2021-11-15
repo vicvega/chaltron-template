@@ -9,9 +9,9 @@
         </div>
         <div class='list-group list-group-flush'>
           <%= display_side_filter_link(request.params.merge(provider: 'ldap', page: nil),
-                                      filter_provider == 'ldap', t('.ldap'), @count_users_ldap) %>
+                                       filter_provider == 'ldap', t('.ldap'), @count_users_ldap) %>
           <%= display_side_filter_link(request.params.merge(provider: 'local', page: nil),
-                                      filter_provider == 'local', t('.local'), @count_users_local) %>
+                                       filter_provider == 'local', t('.local'), @count_users_local) %>
         </div>
       </div>
       <% end %>
@@ -22,12 +22,12 @@
         </div>
         <div class='list-group list-group-flush'>
           <%= display_side_filter_link(request.params.merge(activity: 'no_login', page: nil),
-                                      filter_activity == 'no_login', t('.no_login'), @count_users_inactive) %>
+                                       filter_activity == 'no_login', t('.no_login'), @count_users_inactive) %>
         </div>
       </div>
       <%# Reset filters %>
       <%= link_to t('.reset_filters'), request.params.merge(provider: nil, activity: nil),
-                                                    class: 'btn btn-primary w-100 mb-3', remote: true %>
+                  class: 'btn btn-primary w-100 mb-3', remote: true %>
     </div>
     <div class='col-md-9'>
       <div class='d-flex'>
@@ -38,7 +38,7 @@
             <%= hidden_field_tag :sort, sort_column %>
             <div class='input-group'>
               <%= text_field_tag :search, params[:search],
-                                  class: 'form-control', placeholder: t('.search')%>
+                                 class: 'form-control', placeholder: t('.search') %>
               <button class='btn btn-primary' type='submit'>Cerca</button>
             </div>
           <% end %>

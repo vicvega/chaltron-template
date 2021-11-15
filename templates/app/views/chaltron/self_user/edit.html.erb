@@ -9,7 +9,8 @@
 
           <%= f.input :fullname %>
           <%= f.input :email, disabled: current_user.provider.present? %>
-          <%= f.input :avatar, as: :file, input_html: { accept: 'image/png image/jpeg image/gif image/bmp image/tiff'} %>
+          <%= f.input :avatar, as: :file,
+                               input_html: { accept: 'image/png image/jpeg image/gif image/bmp image/tiff' } %>
 
           <%= f.submit t('.submit'), class: 'btn btn-primary' %>
           <%= link_to chaltron_self_user_show_path, class: 'btn btn-link pull-right' do %>

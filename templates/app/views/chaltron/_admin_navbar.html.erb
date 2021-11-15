@@ -2,14 +2,12 @@
   <ul class='navbar-nav'>
     <%# Admin navbar %>
     <li class='nav-item dropdown'>
-    <%
-      logs = params[:controller] == 'chaltron/logs'
-      users = params[:controller] == 'chaltron/ldap' ||
-              (params[:controller] == 'chaltron/users' and !params[:action].start_with?('self'))
-      klass = class_names('nav-link', 'dropdown-toggle', { active: logs || users })
-    %>
+    <% logs = params[:controller] == 'chaltron/logs'
+       users = params[:controller] == 'chaltron/ldap' ||
+               (params[:controller] == 'chaltron/users' and !params[:action].start_with?('self'))
+       klass = class_names('nav-link', 'dropdown-toggle', { active: logs || users }) %>
       <%= link_to '#', id: 'navbarDropdownAdmin', class: klass,
-                                                  data: { 'bs-toggle' => 'dropdown' } do %>
+                       data: { 'bs-toggle' => 'dropdown' } do %>
         <%= icon :fas, :cogs, I18n.t('chaltron.menu.admin') %>
       <% end %>
       <ul class='dropdown-menu dropdown-menu-dark dropdown-menu-end' aria-labelledby='navbarDropdownAdmin'>
@@ -22,7 +20,7 @@
         <li>
           <%= link_to chaltron_logs_path,
                       class: class_names('dropdown-item', { active: logs }) do %>
-            <%= icon :fas, :book,  I18n.t('chaltron.menu.logs') %>
+            <%= icon :fas, :book, I18n.t('chaltron.menu.logs') %>
           <% end %>
         </li>
       </ul>
