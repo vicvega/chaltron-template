@@ -15,6 +15,10 @@ module Chaltron
 
     has_one_attached :avatar
 
+    validate :avatar_variable
+
+    has_one_attached :avatar
+
     attr_writer :login
 
     def self.search(search)

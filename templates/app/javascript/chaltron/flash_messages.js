@@ -1,5 +1,4 @@
 document.addEventListener("turbo:load", function() {
-
   // flash messages
   const flash = document.querySelectorAll('.flash-container div.alert');
   if (flash.length > 0) {
