@@ -11,5 +11,18 @@ module Chaltron
         concat tag.span(t('chaltron.users.user_disabled'), class: 'badge bg-danger ms-2') if user.disabled?
       end
     end
+
+    def display_user_avatar(user, options = {})
+      size = options.fetch(:size, 40)
+      image = 'user.png'
+      if user.avatar.attached?
+        image = begin
+          user.avatar.variant(resize: "#{size}x#{size}!")
+        rescue StandardError
+          'user.png'
+        end
+      end
+      image_tag image, class: options[:class], size: size
+    end
   end
 end

@@ -13,10 +13,10 @@
   <body>
     <%%= render 'layouts/navbar' %>
     <%%= render 'layouts/flash' %>
-    <div id='content' class='container-fluid p-3'>
+    <div id='content' class='container-fluid p-3 mx-auto'>
       <%%= yield %>
     </div>
-    <div class='pt-3'>
+    <div class='pt-4'>
       <%%= render 'layouts/footer' %>
     </div>
   </body>

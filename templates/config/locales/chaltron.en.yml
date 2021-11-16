@@ -1,5 +1,11 @@
 en:
   activerecord:
+    errors:
+      models:
+        chaltron/user:
+          attributes:
+            avatar:
+              unvariable: 'has an invalid format'
     attributes:
       chaltron/user:
         username: Username
@@ -13,6 +19,7 @@ en:
         role_ids: Roles
         department: Department
         created_at: Creation date
+        avatar: Avatar
       chaltron/log:
         created_at: Date
         message: Message

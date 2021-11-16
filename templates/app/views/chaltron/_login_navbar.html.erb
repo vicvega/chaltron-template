@@ -1,0 +1,34 @@
+<ul class='navbar-nav'>
+  <% if signed_in? %>
+      <%# Login navbar %>
+    <li class='nav-item dropdown'>
+      <% active = params[:controller] == 'chaltron/self_user'
+         klass = class_names('nav-link dropdown-toggle', { active: active }) %>
+      <%= link_to '#', id: 'navbarDropdownLogin', class: klass,
+                       data: { 'bs-toggle' => 'dropdown' } do %>
+        <%= display_user_avatar current_user, class: 'rounded-circle', size: '23' %>
+      <% end %>
+      <ul class='dropdown-menu dropdown-menu-dark dropdown-menu-end' aria-labelledby='navbarDropdownLogin'>
+        <li>
+          <%= link_to chaltron_self_user_show_path,
+                      class: class_names('dropdown-item', { active: active }) do %>
+            <%= icon :fas, :user, I18n.t('chaltron.menu.self_show') %>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to destroy_user_session_path, class: 'dropdown-item', method: :delete do %>
+            <%= icon :fas, 'sign-out-alt', 'Logout' %>
+          <% end %>
+        </li>
+      </ul>
+    </li>
+  </li>
+  <% else %>
+  <li>
+    <%= link_to new_user_session_path,
+                class: class_names('nav-link', { active: current_page?(new_user_session_path) }) do %>
+      <%= icon :fas, 'sign-in-alt', 'Login' %>
+    <% end %>
+  </li>
+  <% end %>
+</ul>
