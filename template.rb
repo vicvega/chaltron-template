@@ -46,7 +46,13 @@ def print_banner
 end
 
 def add_gems
+<<<<<<< HEAD
+  gem 'cssbundling-rails'
   gem 'jsbundling-rails'
+  gem 'hotwire-rails'
+=======
+  gem 'jsbundling-rails'
+>>>>>>> master
   gem 'devise'
   gem 'omniauth'
   gem 'omniauth-rails_csrf_protection'
@@ -65,7 +71,10 @@ def add_gems
     gem 'factory_bot_rails'
     gem 'faker'
   end
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
   gsub_file 'Gemfile', "# gem 'image_processing'", "gem 'image_processing'"
 end
 
@@ -112,20 +121,32 @@ def setup_mysql
 end
 
 def install_jsbundling
-  rails_command 'javascript:install:webpack'
+  rails_command 'javascript:install:esbuild'
+end
+
+def install_bootstrap
+  rails_command 'css:install:bootstrap'
+
+  file = 'app/assets/stylesheets/application.bootstrap.scss'
+  inject_into_file file, "$font-size-base: .85rem;\n\n",
+                   before: "@import 'bootstrap/scss/bootstrap';"
+end
+
+def install_hotwire
+  rails_command 'hotwire:install'
+end
+
+def add_stimulus_controller
+  directory 'app/javascript/controllers/chaltron'
+  rails_command 'stimulus:manifest:update'
 end
 
 def add_assets
   directory 'app/assets/images'
-  directory 'app/assets/stylesheets'
+  copy_file 'app/assets/stylesheets/chaltron.scss'
 
-  append_file 'config/initializers/assets.rb' do
-    <<~RUBY
-
-      # Add Yarn node_modules folder to the asset load path.
-      Rails.application.config.assets.paths << Rails.root.join('node_modules')
-    RUBY
-  end
+  file = 'app/assets/stylesheets/application.bootstrap.scss'
+  inject_into_file file, "@import './chaltron';"
 end
 
 def add_controllers
@@ -151,6 +172,10 @@ def add_views
   copy_file 'app/views/layouts/_navbar.html.erb'
 end
 
+def install_active_storage
+  rails_command 'active_storage:install'
+end
+
 def add_locales
   directory 'config/locales', force: true
 end
@@ -159,11 +184,13 @@ def add_javascript
   run 'yarn add @rails/actioncable @rails/activestorage @rails/ujs turbolinks ' \
       '@popperjs/core bootstrap @fortawesome/fontawesome-free'
 
-  directory 'app/javascript', force: true
-end
+  text = <<~JS
 
-def install_active_storage
-  rails_command 'active_storage:install'
+    import './chaltron';
+    import '@fortawesome/fontawesome-free/js/all';
+
+  JS
+  inject_into_file 'app/javascript/application.js', text
 end
 
 def add_users
@@ -202,6 +229,46 @@ def setup_devise
   gsub_file 'config/initializers/devise.rb',
             '# config.authentication_keys = [:email]',
             'config.authentication_keys = [:login]'
+end
+
+def fix_devise
+  copy_file 'app/controllers/turbo_controller.rb'
+  file = 'config/initializers/devise.rb'
+  text = <<JS
+
+  class TurboFailureApp < Devise::FailureApp
+    def respond
+      if request_format == :turbo_stream
+        redirect
+      else
+        super
+      end
+    end
+
+    def skip_format?
+      %w[html turbo_stream */*].include? request_format.to_s
+    end
+  end
+
+JS
+
+  inject_into_file file, text, after: '# frozen_string_literal: true'
+
+  gsub_file file,
+            "# config.parent_controller = 'DeviseController'",
+            "config.parent_controller = 'TurboController'"
+
+  gsub_file file,
+            "# config.navigational_formats = ['*/*', :html]",
+            "config.navigational_formats = ['*/*', :html, :turbo_stream]"
+
+  text = <<JS
+  config.warden do |manager|
+    manager.failure_app = TurboFailureApp
+  end
+
+JS
+  inject_into_file file, text, before: '# config.warden do |manager|'
 end
 
 def setup_warden
@@ -356,6 +423,9 @@ after_bundle do
   setup_database
 
   install_jsbundling
+  install_bootstrap
+  install_hotwire
+  add_stimulus_controller
   add_assets
   add_controllers
   add_helpers
@@ -368,6 +438,7 @@ after_bundle do
   add_logs
 
   setup_devise
+  fix_devise
   setup_warden
   setup_chaltron
   setup_simple_form

@@ -1,5 +1,8 @@
-document.addEventListener('turbolinks:load', function() {
-  if (document.querySelector('table#ldap_create')) {
+import { Controller } from '@hotwired/stimulus'
+
+export default class extends Controller {
+
+  connect() {
     const toggleButton = function f() {
       const button = document.getElementById('ldap_create_button');
       if (document.querySelectorAll('tbody input:checked').length === 0) {
@@ -40,4 +43,4 @@ document.addEventListener('turbolinks:load', function() {
       }
     });
   }
-});
+}

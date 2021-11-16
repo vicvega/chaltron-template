@@ -1,5 +1,5 @@
 <div class='d-flex w-100 justify-content-between mb-3'>
-  <div>
+  <div class='align-self-center'>
     <h3><%= t '.title' %></h3>
   </div>
 
@@ -27,7 +27,7 @@
     <% end %>
   <% end %>
   </div>
-
 </div>
-
-<%= render partial: 'users', locals: { users: @users, pagy: @pagy } %>
+<%= turbo_frame_tag 'chaltron_users' do %>
+  <%= render partial: 'users', locals: { users: @users, pagy: @pagy } %>
+<% end %>

@@ -57,9 +57,7 @@
         </ul>
       </div>
     </div>
-
   </div>
-
   <hr>
   <%= link_to chaltron_users_path, class: 'btn btn-primary' do %>
     <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>
@@ -82,7 +80,13 @@
         <% end %>
       <% end %>
     <% end %>
-    <%= link_to @user, method: :delete, class: danger, data: { confirm: t('.destroy_confirm', user: @user.username) } do %>
+    <%= link_to @user, class: danger, method: :delete,
+                data: {
+                  'turbo-method': :delete,
+                  controller: 'chaltron--confirmation',
+                  'chaltron--confirmation-message-value': t('.destroy_confirm', user: @user.username),
+                  action: 'chaltron--confirmation#confirm'
+                } do %>
       <%= icon :fas, :trash, t('.destroy') %>
     <% end if can? :destroy, @user %>
   </div>

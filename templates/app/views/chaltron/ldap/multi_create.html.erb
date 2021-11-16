@@ -1,44 +1,42 @@
-<h3 class='pt-4'><%= t('.title') %></h3>
-<div class='row'>
+<%= turbo_frame_tag :results do %>
+  <h3 class='mt-3'><%= t('.title') %></h3>
+  <div class='row'>
 
-  <div class='col-md-3'>
-    <div class='card'>
-      <div class='card-header'><%= t '.result' %></div>
-      <ul class='list-group list-group-flush'>
-        <%= tag.li(t('.created', count: @created.size), class: 'list-group-item') unless @created.empty? %>
-        <%= tag.li(t('.error', count: @error.size), class: 'list-group-item') unless @error.empty? %>
-      </ul>
-    </div>
-    <hr>
-    <%= link_to chaltron_users_path, class: 'btn btn-primary' do %>
-      <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>
-    <% end %>
-  </div>
-
-  <div class='col-md-9'>
-    <% unless @created.empty? %>
-      <div class='card mb-4'>
+    <div class='col-md-3'>
+      <div class='card'>
+        <div class='card-header'><%= t '.result' %></div>
         <ul class='list-group list-group-flush'>
-          <% @created.each do |u| %>
-            <%= tag.li(class: 'list-group-item list-group-item-success') do %>
-              <%= icon :fas, :check, u.display_name %>
-            <% end %>
-          <% end %>
+          <%= tag.li(t('.created', count: @created.size), class: 'list-group-item') unless @created.empty? %>
+          <%= tag.li(t('.error', count: @error.size), class: 'list-group-item') unless @error.empty? %>
         </ul>
       </div>
-    <% end %>
-    <% unless @error.empty? %>
-      <% @error.each do |u| %>
-        <div class='card text-white bg-danger mb-4'>
-          <div class='card-header'><%= u.display_name %></div>
-          <ul class='list-group list-group-flush text-danger'>
-            <% u.errors.full_messages.each do |message| %>
-              <%= tag.li(message, class: 'list-group-item') %>
+    </div>
+
+    <div class='col-md-9'>
+      <% unless @created.empty? %>
+        <div class='card mb-4'>
+          <ul class='list-group list-group-flush'>
+            <% @created.each do |u| %>
+              <%= tag.li(class: 'list-group-item list-group-item-success') do %>
+                <%= icon :fas, :check, u.display_name %>
+              <% end %>
             <% end %>
           </ul>
         </div>
       <% end %>
-    <% end %>
-  </div>
+      <% unless @error.empty? %>
+        <% @error.each do |u| %>
+          <div class='card text-white bg-danger mb-4'>
+            <div class='card-header'><%= u.display_name %></div>
+            <ul class='list-group list-group-flush text-danger'>
+              <% u.errors.full_messages.each do |message| %>
+                <%= tag.li(message, class: 'list-group-item') %>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
 
-</div>
+  </div>
+<% end %>
