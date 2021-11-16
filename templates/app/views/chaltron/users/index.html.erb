@@ -27,9 +27,7 @@
     <% end %>
   <% end %>
   </div>
-
 </div>
-
 <%= turbo_frame_tag 'chaltron_users' do %>
   <%= render partial: 'users', locals: { users: @users, pagy: @pagy } %>
 <% end %>
