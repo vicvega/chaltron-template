@@ -174,8 +174,7 @@ end
 
 def add_javascript
   directory 'app/javascript/chaltron'
-  run 'yarn add @rails/actioncable @rails/activestorage @rails/ujs turbolinks ' \
-      '@popperjs/core bootstrap @fortawesome/fontawesome-free'
+  run 'yarn add @popperjs/core bootstrap @fortawesome/fontawesome-free'
 
   text = <<~JS
 
