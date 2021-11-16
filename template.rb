@@ -46,13 +46,9 @@ def print_banner
 end
 
 def add_gems
-<<<<<<< HEAD
   gem 'cssbundling-rails'
   gem 'jsbundling-rails'
   gem 'hotwire-rails'
-=======
-  gem 'jsbundling-rails'
->>>>>>> master
   gem 'devise'
   gem 'omniauth'
   gem 'omniauth-rails_csrf_protection'
@@ -71,10 +67,6 @@ def add_gems
     gem 'factory_bot_rails'
     gem 'faker'
   end
-<<<<<<< HEAD
-=======
-
->>>>>>> master
   gsub_file 'Gemfile', "# gem 'image_processing'", "gem 'image_processing'"
 end
 
@@ -181,6 +173,7 @@ def add_locales
 end
 
 def add_javascript
+  directory 'app/javascript/chaltron'
   run 'yarn add @rails/actioncable @rails/activestorage @rails/ujs turbolinks ' \
       '@popperjs/core bootstrap @fortawesome/fontawesome-free'
 
