@@ -64,6 +64,7 @@ module Chaltron
         options[:alert] = I18n.t('chaltron.users.cannot_self_destroy')
       else
         info I18n.t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
+        options[:notice] = I18n.t('chaltron.users.deleted')
         @user.destroy
       end
       redirect_to({ action: :index }, options)
