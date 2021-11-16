@@ -72,8 +72,7 @@
                 <% %w[created_at message].each do |field| %>
                 <li>
                   <%= link_to request.params.merge(sort: field, page: nil),
-                              class: class_names('dropdown-item', { active: sort_column == field }),
-                              remote: true do %>
+                              class: class_names('dropdown-item', { active: sort_column == field }) do %>
                       <%= t('.sorted_by') %> <%= Chaltron::Log.human_attribute_name(field).downcase %>
                   <% end %>
                 </li>
