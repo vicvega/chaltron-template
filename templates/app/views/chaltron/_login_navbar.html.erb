@@ -16,7 +16,7 @@
           <% end %>
         </li>
         <li>
-          <%= link_to destroy_user_session_path, class: 'dropdown-item', method: :delete do %>
+          <%= button_to destroy_user_session_path, class: 'dropdown-item', method: :delete do %>
             <%= icon :fas, 'sign-out-alt', 'Logout' %>
           <% end %>
         </li>
