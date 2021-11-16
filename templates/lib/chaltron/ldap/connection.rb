@@ -65,9 +65,9 @@ if defined?(Net::LDAP)
             }
           end
           options[:size] = limit unless limit.nil?
-          ldap_search(options).map do |entry|
+          ldap_search(options).filter_map do |entry|
             Chaltron::LDAP::Person.new(entry, uid) if entry.respond_to? uid
-          end.compact
+          end
         end
 
         def find_groups_by_member(entry)
