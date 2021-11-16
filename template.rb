@@ -179,8 +179,8 @@ def add_javascript
 
   text = <<~JS
 
-    import '@fortawesome/fontawesome-free/js/all';
     import './chaltron';
+    import '@fortawesome/fontawesome-free/js/all';
 
   JS
   inject_into_file 'app/javascript/application.js', text

@@ -3,7 +3,8 @@
     <div class='d-flex gap-2 w-100 justify-content-between'>
 
     <h5>
-      <%= tag.span t("chaltron.logs.severity.#{log.severity}"), class: "badge bg-#{bootstrap_severity(log.severity)} me-2" %>
+      <%= tag.span t("chaltron.logs.severity.#{log.severity}"),
+                   class: "badge bg-#{bootstrap_severity(log.severity)} me-2" %>
     </h5>
     <div class='flex-grow-1'>
       <h5>

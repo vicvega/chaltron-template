@@ -5,23 +5,23 @@
     <% if ldap_enabled? %>
       <ul class='nav nav-tabs card-header-tabs nav-fill' role='tablist'>
         <li class='nav-item' role='presentation'>
-          <%= button_tag 'LDAP', class: 'nav-link active fs-5', id: 'ldap-tab',
-                                aria: { controls: 'ldap', selected: true },
-                                data: {'bs-toggle' => 'tab', 'bs-target' => '#tab-ldap'} %>
+          <%= button_tag 'LDAP', class: 'nav-link active fs-5',
+                                 aria: { controls: 'ldap', selected: true },
+                                 data: {'bs-toggle' => 'tab', 'bs-target' => '#tab-ldap'} %>
         </li>
         <li class='nav-item' role='presentation'>
-          <%= button_tag 'Standard', class: 'nav-link fs-5', id: 'local-tab',
-                                aria: { controls: 'local', selected: false },
-                                data: {'bs-toggle' => 'tab', 'bs-target' => '#tab-local'} %>
+          <%= button_tag 'Standard', class: 'nav-link fs-5',
+                                     aria: { controls: 'local', selected: false },
+                                     data: {'bs-toggle' => 'tab', 'bs-target' => '#tab-local'} %>
         </li>
       </ul>
     </div>
     <div class='card-body'>
       <div class='tab-content'>
-        <div id='tab-ldap' class='tab-pane active' role='tabpanel' aria-labelledby='ldap-tab'>
+        <div id='tab-ldap' class='tab-pane active' role='tabpanel' aria-labelledby='tab-ldap'>
             <%= render partial: 'devise/sessions/new_ldap' %>
         </div>
-        <div id='tab-local' class='tab-pane' role='tabpanel' aria-labelledby='local-tab'>
+        <div id='tab-local' class='tab-pane' role='tabpanel' aria-labelledby='tab-local'>
             <%= render partial: 'devise/sessions/new_local' %>
         </div>
       </div>
