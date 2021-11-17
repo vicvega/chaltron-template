@@ -179,7 +179,7 @@ def add_javascript
   text = <<~JS
 
     import './chaltron';
-    import './channels/**/*_channel.js'
+    import './channels/**/*_channel.js';
     import '@fortawesome/fontawesome-free/js/all';
 
   JS
