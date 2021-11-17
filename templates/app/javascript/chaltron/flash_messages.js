@@ -1,8 +1,12 @@
-document.addEventListener("turbo:load", function() {
+document.addEventListener('turbo:load', () => {
+  const disappear = function f(e) {
+    const element = e;
+    element.style.opacity = '0';
+  };
   // flash messages
   const flash = document.querySelectorAll('.flash-container div.alert');
   if (flash.length > 0) {
-    flash.forEach(f => f.addEventListener('click', () => f.style.display = 'none'));
-    setTimeout(() => flash.forEach(f => f.style.display = 'none'), 5000);
+    flash.forEach((f) => f.addEventListener('click', () => disappear(f)));
+    setTimeout(() => flash.forEach((f) => disappear(f)), 5000);
   }
 });

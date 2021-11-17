@@ -1,5 +1,5 @@
 <% if signed_in? %>
-<% if can?(:read, Chaltron::User) || can?(:read, Chaltron::Log)  %>
+<% if can?(:read, Chaltron::User) || can?(:read, Chaltron::Log) %>
   <ul class='navbar-nav'>
     <%# Admin navbar %>
     <li class='nav-item dropdown'>

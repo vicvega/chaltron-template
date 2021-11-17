@@ -138,7 +138,7 @@ def add_assets
   copy_file 'app/assets/stylesheets/chaltron.scss'
 
   file = 'app/assets/stylesheets/application.bootstrap.scss'
-  inject_into_file file, "@import './chaltron';"
+  inject_into_file file, "@import './chaltron';\n"
 end
 
 def add_controllers

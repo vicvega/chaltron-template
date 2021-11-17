@@ -81,12 +81,12 @@
       <% end %>
     <% end %>
     <%= link_to @user, class: danger, method: :delete,
-                data: {
-                  'turbo-method': :delete,
-                  controller: 'chaltron--confirmation',
-                  'chaltron--confirmation-message-value': t('.destroy_confirm', user: @user.username),
-                  action: 'chaltron--confirmation#confirm'
-                } do %>
+                       data: {
+                         'turbo-method': :delete,
+                         controller: 'chaltron--confirmation',
+                         'chaltron--confirmation-message-value': t('.destroy_confirm', user: @user.username),
+                         action: 'chaltron--confirmation#confirm'
+                       } do %>
       <%= icon :fas, :trash, t('.destroy') %>
     <% end if can? :destroy, @user %>
   </div>
