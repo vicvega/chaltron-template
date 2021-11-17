@@ -302,10 +302,6 @@ def setup_pagy
   copy_file 'config/initializers/pagy.rb'
 end
 
-def setup_foreman
-  copy_file 'Procfile'
-end
-
 def setup_application
   application do
     <<~RUBY
@@ -435,7 +431,6 @@ after_bundle do
   setup_chaltron
   setup_simple_form
   setup_pagy
-  setup_foreman
   setup_application
 
   add_locales
