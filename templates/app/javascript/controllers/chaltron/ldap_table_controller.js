@@ -1,7 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-
   connect() {
     const toggleButton = function f() {
       const button = document.getElementById('ldap_create_button');
@@ -14,25 +13,26 @@ export default class extends Controller {
 
     // checkboxes
     const checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
-    checkboxes.forEach(f => f.addEventListener('click', () => {
+    checkboxes.forEach((f) => f.addEventListener('click', () => {
       toggleButton();
     }));
     // check all
     document.getElementById('entry-check-all').addEventListener('click', (e) => {
-      checkboxes.forEach(c => c.checked = e.target.checked);
+      checkboxes.forEach((c) => {
+        const box = c;
+        box.checked = e.target.checked;
+      });
       toggleButton();
     });
 
     document.querySelector('form#ldap_create').addEventListener('submit', (event) => {
       const selected = document.querySelectorAll('tbody input:checked');
-      const selectedEntry = Array.prototype.map.call(selected ,function (el) {
-        return el.getAttribute('data-entry');
-      });
+      const selectedEntry = Array.prototype.map.call(selected, (el) => el.getAttribute('data-entry'));
       if (selectedEntry.lenght === 0) {
         // should never be here!!
         event.preventDefault();
       } else {
-        selectedEntry.forEach(e => {
+        selectedEntry.forEach((e) => {
           const input = document.createElement('input');
           input.setAttribute('name', 'uids[]');
           input.setAttribute('type', 'hidden');
