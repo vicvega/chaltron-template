@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ['button', 'checkAll', 'box']
 
   toggleButton() {
-    if (Array.prototype.slice.call(this.boxTargets).some((x) => x.checked)) {
+    if (this.boxTargets.some((x) => x.checked)) {
       this.buttonTarget.removeAttribute('disabled');
     } else {
       this.buttonTarget.setAttribute('disabled', true);
@@ -19,9 +19,9 @@ export default class extends Controller {
   }
 
   submit(event) {
-    const selectedEntry = Array.prototype.filter
-      .call(this.boxTargets, (el) => el.checked)
+    const selectedEntry = this.boxTargets.filter((el) => el.checked)
       .map((el) => el.dataset.entry);
+
     if (selectedEntry.lenght === 0) {
       // should never be here!!
       event.preventDefault();
