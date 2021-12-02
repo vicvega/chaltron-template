@@ -23,7 +23,7 @@
     <%= tag.button t('.submit_text'), class: 'btn btn-primary', type: :submmit %>
   </div>
 <% end %>
-<%= turbo_frame_tag :results %>
+<div id='results'></div>
 <hr>
 <%= link_to chaltron_users_path, class: 'btn btn-primary' do %>
   <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>

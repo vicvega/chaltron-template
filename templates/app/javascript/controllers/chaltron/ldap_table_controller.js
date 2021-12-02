@@ -1,46 +1,39 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  connect() {
-    const toggleButton = function f() {
-      const button = document.getElementById('ldap_create_button');
-      if (document.querySelectorAll('tbody input:checked').length === 0) {
-        button.setAttribute('disabled', 'disabled');
-      } else {
-        button.removeAttribute('disabled');
-      }
-    };
+  static targets = ['button', 'checkAll', 'box']
 
-    // checkboxes
-    const checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
-    checkboxes.forEach((f) => f.addEventListener('click', () => {
-      toggleButton();
-    }));
-    // check all
-    document.getElementById('entry-check-all').addEventListener('click', (e) => {
-      checkboxes.forEach((c) => {
-        const box = c;
-        box.checked = e.target.checked;
+  toggleButton() {
+    if (Array.prototype.slice.call(this.boxTargets).some((x) => x.checked)) {
+      this.buttonTarget.removeAttribute('disabled');
+    } else {
+      this.buttonTarget.setAttribute('disabled', true);
+    }
+  }
+
+  toggleCheckBoxes() {
+    this.boxTargets.forEach((box) => {
+      box.checked = this.checkAllTarget.checked;
+    });
+    this.toggleButton();
+  }
+
+  submit(event) {
+    const selectedEntry = Array.prototype.filter
+      .call(this.boxTargets, (el) => el.checked)
+      .map((el) => el.dataset.entry);
+    if (selectedEntry.lenght === 0) {
+      // should never be here!!
+      event.preventDefault();
+    } else {
+      selectedEntry.forEach((e) => {
+        const input = document.createElement('input');
+        input.setAttribute('name', 'uids[]');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('multiple', 'multiple');
+        input.setAttribute('value', e);
+        document.querySelector('form#ldap_create').appendChild(input);
       });
-      toggleButton();
-    });
-
-    document.querySelector('form#ldap_create').addEventListener('submit', (event) => {
-      const selected = document.querySelectorAll('tbody input:checked');
-      const selectedEntry = Array.prototype.map.call(selected, (el) => el.getAttribute('data-entry'));
-      if (selectedEntry.lenght === 0) {
-        // should never be here!!
-        event.preventDefault();
-      } else {
-        selectedEntry.forEach((e) => {
-          const input = document.createElement('input');
-          input.setAttribute('name', 'uids[]');
-          input.setAttribute('type', 'hidden');
-          input.setAttribute('multiple', 'multiple');
-          input.setAttribute('value', e);
-          document.querySelector('form#ldap_create').appendChild(input);
-        });
-      }
-    });
+    }
   }
 }

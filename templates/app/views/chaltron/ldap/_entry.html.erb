@@ -1,6 +1,11 @@
 <tr>
   <td>
-    <%= custom_checkbox(id: "checkbox-#{entry.username}", data: { entry: entry.username }, class: 'entry') %>
+    <%= custom_checkbox(id: "checkbox-#{entry.username}", class: 'entry',
+                        data: {
+                          entry: entry.username,
+                          chaltron__ldap_table_target: 'box',
+                          action: 'chaltron--ldap-table#toggleButton'
+                        } ) %>
   </td>
   <td class='username'><%= entry.username %></td>
   <td class='fullname'><%= display_entry_name(entry) %></td>
