@@ -1,4 +1,4 @@
-<%= simple_form_for @user do |f| %>
+<%= simple_form_for @user, wrapper: :vertical_form do |f| %>
   <%= f.error_notification %>
 
   <% if context == :create %>
