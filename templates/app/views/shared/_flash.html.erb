@@ -1,0 +1,7 @@
+<turbo-frame id='flash'>
+  <div class='flash-container'>
+    <% %i[error alert notice success].each do |m| %>
+      <%= flash_message(flash[m], m) unless flash[m].nil? %>
+    <% end %>
+  </div>
+</turbo-frame>

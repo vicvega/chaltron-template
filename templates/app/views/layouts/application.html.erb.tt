@@ -11,13 +11,13 @@
   </head>
 
   <body>
-    <%%= render 'layouts/navbar' %>
-    <%%= render 'layouts/flash' %>
+    <%%= render 'shared/navbar' %>
+    <%%= render 'shared/flash' %>
     <div id='content' class='container-fluid p-3 mx-auto'>
       <%%= yield %>
     </div>
     <div class='pt-4'>
-      <%%= render 'layouts/footer' %>
+      <%%= render 'shared/footer' %>
     </div>
   </body>
 </html>
