@@ -1,7 +1,11 @@
 <turbo-frame id='flash'>
-  <div class='flash-container'>
+  <%= tag.div class: 'flash-container',
+              data: {
+                controller: 'chaltron--remove',
+                action: 'click->chaltron--remove#remove'
+              } do %>
     <% %i[error alert notice success].each do |m| %>
       <%= flash_message(flash[m], m) unless flash[m].nil? %>
     <% end %>
-  </div>
+  <% end %>
 </turbo-frame>

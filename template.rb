@@ -172,13 +172,11 @@ def add_locales
 end
 
 def add_javascript
-  directory 'app/javascript/chaltron'
   run 'yarn add @popperjs/core bootstrap @fortawesome/fontawesome-free esbuild-rails'
   copy_file 'esbuild.config.js'
 
   text = <<~JS
 
-    import './chaltron';
     import './channels/**/*_channel.js';
     import '@fortawesome/fontawesome-free/js/all';
 
