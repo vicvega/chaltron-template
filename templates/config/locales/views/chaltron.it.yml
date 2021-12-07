@@ -28,8 +28,8 @@ it:
       logs:
         search: Cerca
         sorted_by: Ordinamento per
-        category_filter: Filtra per categoria
-        severity_filter: Filtra per severità
+        category_filter: Filtro per categoria
+        severity_filter: Filtro per severità
         reset_filters: Resetta filtri
         sort_per_page: '%{count} log per pagina'
       show:
@@ -48,8 +48,8 @@ it:
         sorted_by: Ordinamento per
         sort_per_page: '%{count} utenti per pagina'
         reset_filters: Resetta filtri
-        provider_filter: Filtra per provider
-        inactivity_filter: Filtra per inattività
+        provider_filter: Filtro per provider
+        inactivity_filter: Filtro per inattività
         local: Locale
         ldap: Ldap
         no_login: Mai loggati
