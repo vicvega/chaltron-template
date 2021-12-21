@@ -7,26 +7,43 @@
     </button>
     <div class='collapse navbar-collapse' id='navbarSupportedContent'>
       <ul class='navbar-nav me-auto'>
+        <li class='nav-item'>
+          <%= link_to home_test1_path,
+                      class: class_names('nav-link', { active: current_page?(home_test1_path) }) do %>
+            <%= icon :fas, :bullhorn, 'Link1' %>
+          <% end %>
+        </li>
+        <li class='nav-item'>
+          <%= link_to home_test2_path,
+                      class: class_names('nav-link', { active: current_page?(home_test2_path) }) do %>
+            <%= icon :fas, 'chart-line', 'Link2' %>
+          <% end %>
+        </li>
         <li class='nav-item dropdown'>
-
           <%
-            urls = [greppa_requests_path, new_greppa_request_path]
+            urls = [home_test3_path, home_test4_path, home_test5_path]
             klass = class_names('nav-link', 'dropdown-toggle', { active: urls.any? { |url| current_page?(url) } })
           %>
           <%= link_to '#', id: 'navbarDropdown', class: klass, data: { 'bs-toggle' => 'dropdown' } do %>
-            <%= icon :fas, :search, 'Greppa' %>
+            <%= icon :fas, 'hand-point-down', 'Submenu' %>
           <% end %>
           <ul class='dropdown-menu dropdown-menu-dark' aria-labelledby='navbarDropdown'>
             <li>
-              <%= link_to new_greppa_request_path,
-                          class: class_names('dropdown-item', { active: current_page?(new_greppa_request_path) }) do %>
-                <%= icon :fas, 'search-plus', 'Nuova ricerca' %>
+              <%= link_to home_test3_path,
+                          class: class_names('dropdown-item', { active: current_page?(home_test3_path) }) do %>
+                <%= icon :fas, :book, 'Link3' %>
               <% end %>
             </li>
             <li>
-              <%= link_to greppa_requests_path,
-                          class: class_names('dropdown-item', { active: current_page?(greppa_requests_path) }) do %>
-                <%= icon :fas, :history, 'Ricerche effettuate' %>
+              <%= link_to home_test4_path,
+                          class: class_names('dropdown-item', { active: current_page?(home_test4_path) }) do %>
+                <%= icon :fas, :headphones, 'Link4' %>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to home_test5_path,
+                          class: class_names('dropdown-item', { active: current_page?(home_test5_path) }) do %>
+                <%= icon :fas, :futbol, 'Link5' %>
               <% end %>
             </li>
           </ul>

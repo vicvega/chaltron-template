@@ -156,11 +156,8 @@ def add_views
   directory 'app/views/chaltron'
   directory 'app/views/devise'
   directory 'app/views/home'
-
+  directory 'app/views/shared'
   template 'app/views/layouts/application.html.erb.tt', force: true
-  copy_file 'app/views/layouts/_flash.html.erb'
-  copy_file 'app/views/layouts/_footer.html.erb'
-  copy_file 'app/views/layouts/_navbar.html.erb'
 end
 
 def install_active_storage
