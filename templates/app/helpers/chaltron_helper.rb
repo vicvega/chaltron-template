@@ -12,7 +12,7 @@ module ChaltronHelper
     content_class << " #{html_options[:class]}" if html_options.key?(:class)
     html_options[:class] = content_class
 
-    html = tag.i(nil, html_options)
+    html = tag.i(nil, **html_options)
     html << ' ' << text.to_s if text.present?
     html
   end
