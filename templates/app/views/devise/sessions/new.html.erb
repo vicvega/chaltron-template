@@ -1,8 +1,8 @@
 <div class='container text-center' id='login-box'>
   <h2><%= t '.title' %></h2>
-   <div class='card'>
+  <div class='card'>
+  <% if ldap_enabled? %>
     <div class='card-header'>
-    <% if ldap_enabled? %>
       <ul class='nav nav-tabs card-header-tabs nav-fill' role='tablist'>
         <li class='nav-item' role='presentation'>
           <%= button_tag 'LDAP', class: 'nav-link active fs-5',
@@ -26,11 +26,11 @@
         </div>
       </div>
     </div>
-    <% else %>
-    </div>
-    <%# LDAP not enabled %>
-    <div class='card-body'>
-      <%= render partial: 'devise/sessions/new_local' %>
-    </div>
-    <% end %>
+  </div>
+  <% else %>
+  <%# LDAP not enabled %>
+  <div class='card-body'>
+    <%= render partial: 'devise/sessions/new_local' %>
+  </div>
+  <% end %>
 </div>
