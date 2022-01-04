@@ -17,7 +17,7 @@ module Chaltron
       image = 'user.png'
       if user.avatar.attached?
         image = begin
-          user.avatar.variant(resize: "#{size}x#{size}!")
+          user.avatar.variant(resize_to_fill: [size, size])
         rescue StandardError
           'user.png'
         end
