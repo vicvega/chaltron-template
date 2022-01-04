@@ -54,19 +54,29 @@ def check_options
     say set_color('Update rails and try again...', :red, :bold)
     exit
   end
-  unless options['skip_javascript']
+
+  if rails6? && !options['skip_javascript']
     message = 'You must specify --skip-javascript option to run chaltron'
     say set_color(message, :red, :bold)
     exit
   end
+
+  if rails7? && !options['javascript'] == 'esbuild' && !options['css'] == 'bootstrap'
+    message = 'You must specify --css=bootstrap and --javascript=esbuild options to run chaltron'
+    say set_color(message, :red, :bold)
+    exit
+  end
+
   exit unless yes?('Are you sure you want to continue? [yes/NO]')
 end
 
 def add_gems
-  gem 'cssbundling-rails'
-  gem 'jsbundling-rails'
-  gem 'turbo-rails'
-  gem 'stimulus-rails'
+  if rails6?
+    gem 'cssbundling-rails'
+    gem 'jsbundling-rails'
+    gem 'turbo-rails'
+    gem 'stimulus-rails'
+  end
   gem 'devise'
   gem 'omniauth'
   gem 'omniauth-rails_csrf_protection'
@@ -86,10 +96,7 @@ def add_gems
     gem 'faker'
   end
   gsub_file 'Gemfile', "# gem 'image_processing'", "gem 'image_processing'"
-end
-
-def stop_spring
-  run 'spring stop'
+  gsub_file 'Gemfile', '# gem "image_processing"', 'gem "image_processing"'
 end
 
 def setup_database
@@ -131,11 +138,11 @@ def setup_mysql
 end
 
 def install_jsbundling
-  rails_command 'javascript:install:esbuild'
+  rails_command 'javascript:install:esbuild' if rails6?
 end
 
 def install_bootstrap
-  rails_command 'css:install:bootstrap'
+  rails_command 'css:install:bootstrap' if rails6?
 
   file = 'app/assets/stylesheets/application.bootstrap.scss'
   inject_into_file file, "$font-size-base: .85rem;\n\n",
@@ -187,7 +194,9 @@ def add_locales
 end
 
 def add_javascript
-  run 'yarn add @popperjs/core bootstrap @fortawesome/fontawesome-free esbuild-rails'
+  run 'yarn add @popperjs/core bootstrap' if rails6?
+  run 'yarn add @fortawesome/fontawesome-free esbuild-rails'
+
   copy_file 'esbuild.config.js'
 
   text = <<~JS
@@ -420,6 +429,14 @@ def finalize
   say 'Enjoy! 🍺🍺'
 end
 
+def rails6?
+  Rails::VERSION::MAJOR == 6
+end
+
+def rails7?
+  Rails::VERSION::MAJOR == 7
+end
+
 def rails_old?
   Rails::VERSION::MAJOR < 6
 end
@@ -431,7 +448,6 @@ print_banner
 check_options
 add_gems
 after_bundle do
-  stop_spring
   setup_database
 
   install_jsbundling
