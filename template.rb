@@ -65,7 +65,8 @@ end
 def add_gems
   gem 'cssbundling-rails'
   gem 'jsbundling-rails'
-  gem 'hotwire-rails'
+  gem 'turbo-rails'
+  gem 'stimulus-rails'
   gem 'devise'
   gem 'omniauth'
   gem 'omniauth-rails_csrf_protection'
@@ -142,7 +143,7 @@ def install_bootstrap
 end
 
 def install_hotwire
-  rails_command 'hotwire:install'
+  rails_command 'turbo:install stimulus:install'
 end
 
 def add_stimulus_controller
