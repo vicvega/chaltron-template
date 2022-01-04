@@ -42,6 +42,23 @@ def print_banner
 
   TXT
   say message
+end
+
+def check_options
+  rails = "rails #{Rails::VERSION::STRING}"
+  say
+  say "You are running #{set_color(rails, :red)}"
+
+  if rails_old?
+    say set_color('Shame on you!', :red, :on_white, :bold)
+    say set_color('Update rails and try again...', :red, :bold)
+    exit
+  end
+  unless options['skip_javascript']
+    message = 'You must specify --skip-javascript option to run chaltron'
+    say set_color(message, :red, :bold)
+    exit
+  end
   exit unless yes?('Are you sure you want to continue? [yes/NO]')
 end
 
@@ -230,7 +247,6 @@ def setup_devise
 end
 
 def fix_devise
-  copy_file 'app/controllers/turbo_controller.rb'
   file = 'config/initializers/devise.rb'
   text = <<JS
 
@@ -251,10 +267,6 @@ def fix_devise
 JS
 
   inject_into_file file, text, after: '# frozen_string_literal: true'
-
-  gsub_file file,
-            "# config.parent_controller = 'DeviseController'",
-            "config.parent_controller = 'TurboController'"
 
   gsub_file file,
             "# config.navigational_formats = ['*/*', :html]",
@@ -407,10 +419,15 @@ def finalize
   say 'Enjoy! 🍺🍺'
 end
 
+def rails_old?
+  Rails::VERSION::MAJOR < 6
+end
+
 # Setup thor source paths and ruby load paths
 add_template_repository_to_source_path
 
 print_banner
+check_options
 add_gems
 after_bundle do
   stop_spring
