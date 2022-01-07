@@ -1,7 +1,7 @@
 <%= link_to user, class: 'list-group-item list-group-item-action d-flex gap-3 py-3',
                   data: { 'turbo-frame' => '_top' }, id: dom_id(user) do %>
   <div class='d-flex gap-2 w-100 justify-content-between'>
-    <%= display_user_avatar user, size: '60', class: 'rounded align-self-center' %>
+    <%= display_user_avatar user, size: 60, class: 'rounded align-self-center' %>
     <div class='flex-grow-1'>
       <h5 class='mb-0'>
         <%= user.display_name %>
