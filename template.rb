@@ -51,20 +51,15 @@ def check_options
 
   if rails_old?
     say set_color('Shame on you!', :red, :on_white, :bold)
-    say set_color('Update rails and try again...', :red, :bold)
-    exit
+    exit_with_message('Update rails and try again...')
   end
 
-  if rails6? && !options['skip_javascript']
-    message = 'You must specify --skip-javascript option to run chaltron'
-    say set_color(message, :red, :bold)
-    exit
-  end
-
-  if rails7? && !options['javascript'] == 'esbuild' && !options['css'] == 'bootstrap'
-    message = 'You must specify --css=bootstrap and --javascript=esbuild options to run chaltron'
-    say set_color(message, :red, :bold)
-    exit
+  if rails6?
+    exit_with_message('You must specify --skip-javascript option to run chaltron') unless options['skip_javascript']
+  elsif rails7?
+    unless options['javascript'] == 'esbuild' && options['css'] == 'bootstrap'
+      exit_with_message('You must specify --css=bootstrap and --javascript=esbuild options to run chaltron')
+    end
   end
 
   exit unless yes?('Are you sure you want to continue? [yes/NO]')
@@ -439,6 +434,11 @@ end
 
 def rails_old?
   Rails::VERSION::MAJOR < 6
+end
+
+def exit_with_message(message)
+  say set_color(message, :red, :bold)
+  exit
 end
 
 # Setup thor source paths and ruby load paths
