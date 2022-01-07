@@ -83,9 +83,7 @@
     <%= link_to @user, class: danger, method: :delete,
                        data: {
                          turbo_method: :delete,
-                         controller: 'chaltron--confirmation',
-                         chaltron__confirmation_message_value: t('.destroy_confirm', user: @user.username),
-                         action: 'chaltron--confirmation#confirm'
+                         turbo_confirm: t('.destroy_confirm', user: @user.username)
                        } do %>
       <%= icon :fas, :trash, t('.destroy') %>
     <% end if can? :destroy, @user %>
