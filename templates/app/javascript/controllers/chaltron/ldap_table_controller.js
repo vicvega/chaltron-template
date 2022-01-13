@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ['button', 'checkAll', 'box']
+  static targets = ['button', 'checkAll', 'box'];
 
   toggleButton() {
     if (this.boxTargets.some((x) => x.checked)) {

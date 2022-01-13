@@ -40,7 +40,7 @@ module Chaltron
     private
 
     def sort_column
-      permitted = self.class.instance_variable_get('@permitted_sort_columns')
+      permitted = self.class.instance_variable_get(:@permitted_sort_columns)
       if permitted.present?
         permitted.include?(params[:sort]) ? params[:sort] : self.class.sort_column
       else

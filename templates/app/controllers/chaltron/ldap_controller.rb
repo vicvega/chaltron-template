@@ -27,7 +27,7 @@ module Chaltron
       @created = []
       @error   = []
       (params[:uids] || []).each do |uid|
-        roles = Chaltron::Role.find(params[:chaltron_user][:role_ids].reject(&:empty?))
+        roles = Chaltron::Role.find(params[:chaltron_user][:role_ids].compact_blank)
         user = Chaltron::LDAP::Person.find_by_uid(uid).create_user(roles)
         if user.new_record?
           @error << user
