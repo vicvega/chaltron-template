@@ -14,7 +14,10 @@
     <div>
       <%= tag.p t('.time_ago', time: time_ago_in_words(log.created_at)),
                 class: 'opacity-50 text-nowrap', title: l(log.created_at),
-                data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+                data: {
+                  controller: 'chaltron--tooltip',
+                  'bs-toggle': 'tooltip', 'bs-placement': 'left'
+                } %>
     </div>
   </div>
 <% end %>

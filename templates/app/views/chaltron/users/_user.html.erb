@@ -19,7 +19,10 @@
     <div class='d-flex flex-column'>
       <%= tag.small t('.created_ago', time: time_ago_in_words(user.created_at)),
                     class: 'opacity-50 text-nowrap', title: l(user.created_at),
-                    data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+                    data: {
+                      controller: 'chaltron--tooltip',
+                      'bs-toggle': 'tooltip', 'bs-placement': 'left'
+                    } %>
       <small class='opacity-50 text-nowrap'>
         <span><%= Chaltron::User.human_attribute_name(:sign_in_count) %>: </span>
         <strong><%= user.sign_in_count %></strong>
