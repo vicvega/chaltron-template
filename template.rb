@@ -98,13 +98,15 @@ def setup_database
   case options['database']
   when 'mysql'
     setup_mysql
+  when 'postgresql'
+    setup_postgresql
   end
 end
 
-def ask_for_credential
+def ask_for_credential(default_user = 'root')
   say
   say 'Database credentials'
-  @db_user = ask_with_default('Enter db username:', :blue, 'root')
+  @db_user = ask_with_default('Enter db username:', :blue, default_user)
   @db_password = ask_with_default('Enter db password:', :blue, '')
 end
 
@@ -130,6 +132,16 @@ def setup_mysql
   AFT
 
   gsub_file 'config/database.yml', before, after
+end
+
+def setup_postgresql
+  ask_for_credential(`whoami`.strip)
+
+  text = <<-TXT
+  username: #{@db_user}
+  password: #{@db_password}
+  TXT
+  insert_into_file 'config/database.yml', text, after: "#password:\n"
 end
 
 def install_jsbundling
@@ -407,10 +419,10 @@ def finalize
   rails_command 'db:migrate'
   rails_command 'db:seed'
 
-  if @db_password
+  if @db_user
     say
     say 'Be warned!', :red
-    say 'You have a password stored in clear text in ' \
+    say 'You have credentials stored in clear text in ' \
       "config/database.yml file. ⛔️\nRemember this before " \
       'sharing the project!!'
   end
