@@ -1,5 +1,6 @@
 <h3><%= t('.title') %></h3>
-<%= form_tag chaltron_ldap_multi_new_path, class: 'row g-3 align-items-center' do |f| %>
+<%= form_tag chaltron_ldap_multi_new_path, class: 'row g-3 align-items-center',
+                                           data: { 'turbo-frame': :results } do |f| %>
   <div class='w-auto flex-grow-1'>
     <%= tag.input id: :userid, type: :text, name: :userid, class: 'form-control',
                   placeholder: t('.name_label') %>
@@ -23,7 +24,7 @@
     <%= tag.button t('.submit_text'), class: 'btn btn-primary', type: :submmit %>
   </div>
 <% end %>
-<div id='results'></div>
+<%= turbo_frame_tag :results %>
 <hr>
 <%= link_to chaltron_users_path, class: 'btn btn-primary' do %>
   <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>
