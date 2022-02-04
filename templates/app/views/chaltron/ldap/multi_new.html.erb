@@ -35,8 +35,8 @@
     <% end %>
 
     <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
-                            collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] },
-                            label_class: 'col-sm-2 col-form-label' %>
+                           collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] },
+                           label_class: 'col-sm-2 col-form-label' %>
 
     <%= f.submit t('.submit_text'), id: 'ldap_create_button',
                                     class: 'btn btn-primary',
