@@ -34,7 +34,7 @@ module Chaltron
           user.department = entry.department
           if Chaltron.ldap_role_mappings.present?
             user.roles = entry.ldap_groups.filter_map do |e|
-              Chaltron.ldap_role_mappings[e.dn]
+              Chaltron::Role.find_by(name: Chaltron.ldap_role_mappings[e.dn])
             end
           end
           user.save
