@@ -20,7 +20,7 @@ module Chaltron
           entry = Chaltron::LDAP::Person.find_by_uid(username)
           if user.nil? && create
             # create user with default roles
-            user = entry.create_user(Chaltron.default_roles)
+            user = entry.create_user(Chaltron::Role.where(name: Chaltron.default_roles))
           end
           # update email, department and roles from ldap
           update_ldap_attributes(user, entry) unless user.nil?
