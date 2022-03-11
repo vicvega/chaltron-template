@@ -24,7 +24,7 @@ module Chaltron
       @count_users_local = @users.where(provider: nil).count
       @count_users_inactive = @users.where(sign_in_count: 0).count
 
-      @pagy, @users = pagy @users.order("#{sort_column} #{sort_direction}"), items: sort_per_page
+      @pagy, @users = pagy @users.order("#{sort_column} #{sort_direction}"), items: per_page
     end
 
     def show; end

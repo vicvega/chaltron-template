@@ -17,7 +17,7 @@ module Chaltron
       @logs_group_category = @logs.group(:category).count
       @logs_group_severity = @logs.group(:severity).count
 
-      @pagy, @logs = pagy @logs.order("#{sort_column} #{sort_direction}"), items: sort_per_page
+      @pagy, @logs = pagy @logs.order("#{sort_column} #{sort_direction}"), items: per_page
     end
 
     def show; end

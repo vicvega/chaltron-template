@@ -4,32 +4,32 @@ module Chaltron
 
     included do
       include Pagy::Backend
-      helper_method :sort_column, :sort_direction, :sort_per_page
+      helper_method :sort_column, :sort_direction, :per_page
     end
 
     module ClassMethods
       def sort_column
-        defined?(@sort_column) ? @sort_column : 'created_at'
+        defined?(@default_sort_column) ? @default_sort_column : 'created_at'
       end
 
       def sort_direction
-        defined?(@sort_direction) ? @sort_direction : 'desc'
+        defined?(@default_sort_direction) ? @default_sort_direction : 'desc'
       end
 
       def per_page
-        defined?(@per_page) ? @per_page : Pagy::DEFAULT[:items]
+        defined?(@default_per_page) ? @default_per_page : Pagy::DEFAULT[:items]
       end
 
       def default_sort_direction(dir)
-        @sort_direction = dir.to_s
+        @default_sort_direction = dir.to_s
       end
 
       def default_sort_column(col)
-        @sort_column = col.to_s
+        @default_sort_column = col.to_s
       end
 
       def default_per_page(count)
-        @per_page = count
+        @default_per_page = count
       end
 
       def permitted_sort_columns(col)
@@ -39,20 +39,34 @@ module Chaltron
 
     private
 
-    def sort_column
-      permitted = self.class.instance_variable_get(:@permitted_sort_columns)
-      if permitted.present?
-        permitted.include?(params[:sort]) ? params[:sort] : self.class.sort_column
-      else
-        params[:sort].nil? ? self.class.sort_column : params[:sort]
+    %w[sort_direction sort_column per_page].each do |name|
+      # simple memoization methods
+      define_method(name) do
+        var_name = "@#{name}".to_sym
+        return instance_variable_get(var_name) if instance_variable_get(var_name).present?
+
+        instance_variable_set(var_name, send("perform_#{name}"))
+      end
+
+      define_method("perform_#{name}") do
+        send("validate_#{name}")
       end
     end
 
-    def sort_direction
-      %w[asc desc].include?(params[:direction]) ? params[:direction] : self.class.sort_direction
+    def validate_sort_direction
+      %w[asc desc].include?(params[:sort_direction]) ? params[:sort_direction] : self.class.sort_direction
     end
 
-    def sort_per_page
+    def validate_sort_column
+      permitted = self.class.instance_variable_get(:@permitted_sort_columns)
+      if permitted.present?
+        permitted.include?(params[:sort_column]) ? params[:sort_column] : self.class.sort_column
+      else
+        params[:sort].nil? ? self.class.sort_column : params[:sort_column]
+      end
+    end
+
+    def validate_per_page
       ret = params[:per_page]&.to_i
       ret&.positive? ? ret : self.class.per_page
     end

@@ -35,8 +35,8 @@
         <%# Search form %>
         <div class='flex-grow-1'>
           <%= form_tag chaltron_logs_path, method: 'get' do %>
-            <%= hidden_field_tag :direction, params[:direction] %>
-            <%= hidden_field_tag :sort, params[:sort] %>
+            <%= hidden_field_tag :sort_direction, sort_direction %>
+            <%= hidden_field_tag :sort_column, sort_column %>
             <div class='input-group mb-3'>
               <%= text_field_tag :search, params[:search],
                                  class: 'form-control', placeholder: t('.search'), size: 50 %>
@@ -47,15 +47,15 @@
         <%# Logs per page %>
         <div class='ms-3'>
           <div id='sort-per-page' class='dropdown text-nowrap mb-3 float-end'>
-            <%= link_to t('.sort_per_page', count: sort_per_page), '#',
+            <%= link_to t('.per_page', count: per_page), '#',
                         data: { 'bs-toggle': 'dropdown' }, aria: { expanded: false },
                         class: 'btn btn-primary dropdown-toggle' %>
             <ul class='dropdown-menu' aria-labelledby='per-page'>
               <% [10, 20, 50, 100].each do |count| %>
                 <li>
-                <%= link_to t('.sort_per_page', count: count),
+                <%= link_to t('.per_page', count: count),
                             request.params.merge(per_page: count, page: nil),
-                            class: class_names('dropdown-item', { active: sort_per_page == count }) %>
+                            class: class_names('dropdown-item', { active: per_page == count }) %>
                 </li>
               <% end %>
             </ul>
@@ -71,7 +71,7 @@
               <ul class='dropdown-menu' aria-labelledby='sort-column'>
                 <% %w[created_at message].each do |field| %>
                 <li>
-                  <%= link_to request.params.merge(sort: field, page: nil),
+                  <%= link_to request.params.merge(sort_column: field, page: nil),
                               class: class_names('dropdown-item', { active: sort_column == field }) do %>
                       <%= t('.sorted_by') %> <%= Chaltron::Log.human_attribute_name(field).downcase %>
                   <% end %>
@@ -79,7 +79,7 @@
                 <% end %>
               </ul>
             </div>
-            <%= link_to(request.params.merge(direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: nil),
+            <%= link_to(request.params.merge(sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: nil),
                         class: 'btn btn-outline-primary') do %>
               <%= icon :fas, sort_direction == 'desc' ? 'sort-alpha-up' : 'sort-alpha-down' %>
             <% end %>

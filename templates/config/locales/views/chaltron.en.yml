@@ -31,7 +31,7 @@ en:
         category_filter: Category filter
         severity_filter: Severity filter
         reset_filters: Reset filters
-        sort_per_page: '%{count} log per page'
+        per_page: '%{count} log per page'
       show:
         headers:
           details: Details
@@ -46,7 +46,7 @@ en:
       users:
         search: Search
         sorted_by: Sorted by
-        sort_per_page: '%{count} users per page'
+        per_page: '%{count} users per page'
         reset_filters: Reset filters
         provider_filter: Provider filter
         inactivity_filter: Inactivity filter
