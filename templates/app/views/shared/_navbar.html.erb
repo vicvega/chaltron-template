@@ -20,10 +20,8 @@
           <% end %>
         </li>
         <li class='nav-item dropdown'>
-          <%
-            urls = [home_test3_path, home_test4_path, home_test5_path]
-            klass = class_names('nav-link', 'dropdown-toggle', { active: urls.any? { |url| current_page?(url) } })
-          %>
+          <% urls = [home_test3_path, home_test4_path, home_test5_path]
+             klass = class_names('nav-link', 'dropdown-toggle', { active: urls.any? { |url| current_page?(url) } }) %>
           <%= link_to '#', id: 'navbarDropdown', class: klass, data: { 'bs-toggle' => 'dropdown' } do %>
             <%= icon :fas, 'hand-point-down', 'Submenu' %>
           <% end %>
