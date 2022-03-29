@@ -21,9 +21,12 @@ module ChaltronHelper
     id = options.delete(:id)
     klass = options.delete(:class)
     name = options.delete(:name) || id
+    value = options.delete(:value) || 1
+    checked = options.delete(:checked) || false
+    div_class = options.delete(:div_class)
     label = options.delete(:label) || ''
-    tag.div(class: 'form-check') do
-      check_box_tag(name, nil, nil, options.merge(id: id, class: "form-check-input #{klass}")) +
+    tag.div(class: "form-check #{div_class}") do
+      check_box_tag(name, value, checked, options.merge(id: id, class: "form-check-input #{klass}")) +
         label_tag(id, label, class: 'form-check-label', for: id)
     end
   end
