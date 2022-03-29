@@ -20,8 +20,9 @@ module ChaltronHelper
   def custom_checkbox(options)
     id = options.delete(:id)
     klass = options.delete(:class)
+    name = options.delete(:name) || id
     tag.div(class: 'form-check') do
-      check_box_tag('checkbox', nil, nil, options.merge(id: id, class: "form-check-input #{klass}")) +
+      check_box_tag(name, nil, nil, options.merge(id: id, class: "form-check-input #{klass}")) +
         label_tag(id, '', class: 'form-check-label', for: id)
     end
   end
