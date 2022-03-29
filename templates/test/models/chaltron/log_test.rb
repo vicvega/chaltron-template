@@ -16,7 +16,7 @@ class LogTest < ActiveSupport::TestCase
   test 'message should be truncated' do
     too_long_message = 'x' * 1500
     record = build(:chaltron_log, message: too_long_message)
-    assert record.valid?
+    assert_predicate record, :valid?
     assert_equal 1000, record.message.length
   end
 
@@ -34,7 +34,7 @@ class LogTest < ActiveSupport::TestCase
 
   test 'severity should be standarized' do
     record = build(:chaltron_log, severity: 'error')
-    assert record.valid?
+    assert_predicate record, :valid?
     assert_equal 'err', record.severity
   end
 end
