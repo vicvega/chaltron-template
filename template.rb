@@ -161,7 +161,8 @@ def install_hotwire
 end
 
 def add_stimulus_controller
-  directory 'app/javascript/controllers/', force: true
+  directory 'app/javascript/controllers/'
+  rails_command 'stimulus:manifest:update'
 end
 
 def add_assets
@@ -202,27 +203,14 @@ end
 
 def add_javascript
   run 'yarn add @popperjs/core bootstrap' if rails6?
-  run 'yarn add @fortawesome/fontawesome-free esbuild-rails'
-
-  copy_file 'esbuild.config.js'
+  run 'yarn add @fortawesome/fontawesome-free'
 
   text = <<~JS
 
-    import './channels/**/*_channel.js';
     import '@fortawesome/fontawesome-free/js/all';
 
   JS
   inject_into_file 'app/javascript/application.js', text
-end
-
-def add_esbuild_script
-  build_script = 'node esbuild.config.js'
-
-  if (`npx -v`.to_f < 7.1 rescue 'Missing')
-    say %(Add "scripts": { "build": "#{build_script}" } to your package.json), :green
-  else
-    run %(npm set-script build "#{build_script}")
-  end
 end
 
 def add_users
@@ -471,7 +459,6 @@ after_bundle do
   add_helpers
   add_views
   add_javascript
-  add_esbuild_script
   install_active_storage
 
   add_users
