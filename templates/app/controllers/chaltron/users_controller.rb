@@ -88,9 +88,5 @@ module Chaltron
     def update_params
       params.require(:chaltron_user).permit(role_ids: [])
     end
-
-    def filter_params
-      params.fetch(:filters, {}).permit(:provider, :activity)
-    end
   end
 end
