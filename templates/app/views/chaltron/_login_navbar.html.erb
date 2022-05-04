@@ -16,7 +16,7 @@
           <% end %>
         </li>
         <li>
-          <%= button_to destroy_user_session_path, class: 'dropdown-item', method: :delete do %>
+          <%= button_to destroy_local_session_path, class: 'dropdown-item', method: :delete do %>
             <%= icon :fas, 'sign-out-alt', 'Logout' %>
           <% end %>
         </li>
@@ -24,8 +24,8 @@
     </li>
   <% else %>
   <li>
-    <%= link_to new_user_session_path,
-                class: class_names('nav-link', { active: current_page?(new_user_session_path) }) do %>
+    <%= link_to new_local_session_path,
+                class: class_names('nav-link', { active: current_page?(new_local_session_path) }) do %>
       <%= icon :fas, 'sign-in-alt', 'Login' %>
     <% end %>
   </li>

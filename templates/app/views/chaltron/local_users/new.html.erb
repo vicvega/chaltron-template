@@ -1,0 +1,16 @@
+<h3><%= t '.title' %></h3>
+<%= simple_form_for @local_user, wrapper: :vertical_form do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :username %>
+  <%= f.input :fullname %>
+  <%= f.input :email, required: true %>
+  <%= f.input :password, required: true %>
+  <%= f.input :password_confirmation, required: true %>
+  <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
+                         collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] } %>
+  <%= f.submit t('.submit_text'), class: 'btn btn-primary' %>
+<% end %>
+<hr>
+<%= link_to chaltron_users_path, class: 'btn btn-ligth' do %>
+  <%= icon :fas, :times, t('chaltron.common.back') %>
+<% end %>
