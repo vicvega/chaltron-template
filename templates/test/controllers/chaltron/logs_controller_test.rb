@@ -4,7 +4,7 @@ class LogsControllerTest < ActionDispatch::IntegrationTest
   def setup
     admin_role = create(:chaltron_role, name: :admin)
     @log = create(:chaltron_log)
-    @admin = create(:chaltron_user, roles: [admin_role])
+    @admin = create(:chaltron_local_user, roles: [admin_role])
   end
 
   test 'should not get index if not authenticated' do
@@ -14,7 +14,7 @@ class LogsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should not get index if not authorized' do
     get chaltron_logs_url
-    sign_in create(:chaltron_user)
+    sign_in create(:chaltron_local_user)
     assert_response :redirect
   end
 

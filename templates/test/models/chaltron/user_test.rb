@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
     Chaltron::Role.create(name: 'admin')
     Chaltron::Role.create(name: 'user_admin')
     assert_difference 'Chaltron::User.count' do
-      u = create(:chaltron_user, roles: Chaltron::Role.all)
+      u = create(:chaltron_local_user, roles: Chaltron::Role.all)
       assert u.role?(:admin)
       assert u.role?(:user_admin)
       assert u.role?('admin')
@@ -14,24 +14,24 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'username should be present' do
-    record = build(:chaltron_user, username: '')
+    record = build(:chaltron_local_user, username: '')
     assert_not record.valid?
     assert_not_empty record.errors[:username]
   end
 
   test 'username should be unique' do
-    user = create(:chaltron_user)
-    record = build(:chaltron_user, username: user.username)
+    user = create(:chaltron_local_user)
+    record = build(:chaltron_local_user, username: user.username)
     assert_not record.valid?
     assert_not_empty record.errors[:username]
 
-    record = build(:chaltron_user, username: user.username.upcase)
+    record = build(:chaltron_local_user, username: user.username.upcase)
     assert_not record.valid?
     assert_not_empty record.errors[:username]
   end
 
   test 'username should not contain special characters' do
-    record = build(:chaltron_user, username: 'user,name')
+    record = build(:chaltron_local_user, username: 'user,name')
     assert_not record.valid?
     assert_not_empty record.errors[:username]
   end

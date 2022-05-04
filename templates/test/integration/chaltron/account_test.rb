@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AccountTest < ActionDispatch::IntegrationTest
   setup do
-    @user = create(:chaltron_user)
+    @user = create(:chaltron_local_user)
     sign_in @user
   end
 
