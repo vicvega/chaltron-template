@@ -68,7 +68,11 @@
     <% danger = %w[btn btn-danger]
        danger << 'disabled' if user == current_user %>
     <% if can? :edit, user %>
-      <% url = user.is_a?(Chaltron::LocalUser) ? edit_chaltron_local_user_path(user) : edit_chaltron_omni_user_path(user) %>
+      <% url = if user.is_a?(Chaltron::LocalUser)
+                 edit_chaltron_local_user_path(user)
+               else
+                 edit_chaltron_omni_user_path(user)
+               end %>
       <%= link_to url, class: 'btn btn-primary' do %>
         <%= icon :fas, :edit, t('.edit') %>
       <% end %>
@@ -83,10 +87,10 @@
       <% end %>
     <% end %>
     <%= link_to user, class: danger, method: :delete,
-                       data: {
-                         turbo_method: :delete,
-                         turbo_confirm: t('.destroy_confirm', user: user.username)
-                       } do %>
+                      data: {
+                        turbo_method: :delete,
+                        turbo_confirm: t('.destroy_confirm', user: user.username)
+                      } do %>
       <%= icon :fas, :trash, t('.destroy') %>
     <% end if can? :destroy, user %>
   </div>
