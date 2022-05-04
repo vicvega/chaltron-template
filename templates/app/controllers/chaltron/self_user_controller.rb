@@ -7,7 +7,7 @@ module Chaltron
     def edit; end
 
     def change_password
-      redirect_to root_path unless current_user.provider.nil?
+      redirect_to root_path unless current_user.is_a?(Chaltron::LocalUser)
     end
 
     def update
@@ -27,8 +27,8 @@ module Chaltron
     private
 
     def update_params
-      allowed = %i[fullname password password_confirmation avatar]
-      allowed << :email if current_user.provider.nil?
+      allowed = %i[fullname avatar]
+      allowed.concat %i[email password password_confirmation] if current_user.is_a?(Chaltron::LocalUser)
       params.require(:chaltron_user).permit(allowed)
     end
   end

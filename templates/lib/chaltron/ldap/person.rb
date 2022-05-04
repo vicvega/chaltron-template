@@ -31,15 +31,12 @@ module Chaltron
       end
 
       def create_user(roles = [])
-        password = Devise.friendly_token[0, 8].downcase
-        user = Chaltron::User.new(
+        user = Chaltron::OmniUser.new(
           extern_uid: dn,
           provider: provider,
           fullname: name,
           username: username,
           email: email,
-          password: password,
-          password_confirmation: password,
           department: department
         )
         user.roles = roles

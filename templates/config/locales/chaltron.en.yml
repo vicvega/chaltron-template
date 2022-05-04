@@ -46,12 +46,13 @@ en:
       back: Back
       cancel: Cancel
       clear_filter: Clear filters
-    users:
+    local_users:
       created: User was successfully created.
+    users:
       updated: User was successfully updated.
+      deleted: User was successfully deleted.
       enabled: User was successfully enabled.
       disabled: User was successfully disabled.
-      deleted: User was successfully deleted.
       self_updated: Account data successfully updated.
       cannot_self_destroy: You cannot destroy your own account.
       it_s_you: It's you!

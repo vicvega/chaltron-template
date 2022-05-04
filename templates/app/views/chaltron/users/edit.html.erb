@@ -1,7 +1,19 @@
-<% title = t('.title', user: @user.username) %>
+<% title = t('.title', user: user.username) %>
 <div class='container-fluid'>
   <h3><%= title %></h3>
-  <%= render partial: 'form', locals: { submit_text: title, context: :update } %>
+  <%= simple_form_for user, wrapper: :vertical_form do |f| %>
+    <%= f.error_notification %>
+
+      <% if current_user == user %>
+        <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
+                              collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] },
+                              disabled: Chaltron::Role.where(name: 'user_admin').map(&:id) %>
+      <% else %>
+        <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
+                              collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] } %>
+      <% end %>
+    <%= f.submit title, class: 'btn btn-primary' %>
+  <% end %>
 </div>
 <hr>
 <%= link_to :back, class: 'btn btn-ligth' do %>

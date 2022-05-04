@@ -27,27 +27,6 @@ module Chaltron
       @pagy, @users = pagy @users.order("#{sort_column} #{sort_direction}"), items: per_page
     end
 
-    def show; end
-
-    def new; end
-
-    def edit; end
-
-    def create
-      if @user.save
-        flash[:notice] = I18n.t('chaltron.users.created')
-        info I18n.t('chaltron.logs.users.created', current: current_user.display_name, user: @user.display_name)
-        redirect_to chaltron_users_path
-      else
-        render :new, status: :unprocessable_entity
-      end
-    end
-
-    def update
-      flash[:notice] = I18n.t('chaltron.users.updated') if @user.update(update_params)
-      redirect_to @user
-    end
-
     def enable
       @user.enable!
       redirect_to(@user, notice: I18n.t('chaltron.users.enabled'))
@@ -58,18 +37,6 @@ module Chaltron
       redirect_to(@user, notice: I18n.t('chaltron.users.disabled'))
     end
 
-    def destroy
-      options = { status: :see_other }
-      if current_user == @user
-        options[:alert] = I18n.t('chaltron.users.cannot_self_destroy')
-      else
-        info I18n.t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
-        options[:notice] = I18n.t('chaltron.users.deleted')
-        @user.destroy
-      end
-      redirect_to({ action: :index }, options)
-    end
-
     private
 
     def filter_activity
@@ -78,15 +45,6 @@ module Chaltron
 
     def filter_provider
       %w[local ldap].include?(params[:provider]) ? params[:provider] : nil
-    end
-
-    def create_params
-      params.require(:chaltron_user).permit(:username, :email, :fullname, :password, :password_confirmation,
-                                            role_ids: [])
-    end
-
-    def update_params
-      params.require(:chaltron_user).permit(role_ids: [])
     end
   end
 end

@@ -16,13 +16,13 @@
 #login-box {
   max-width: 300px;
 
-  input#username, input#user_login {
+  input#username, input#local_login {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     margin-bottom: -1px;
   }
 
-  input#password, input#user_password {
+  input#password, input#local_password {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }

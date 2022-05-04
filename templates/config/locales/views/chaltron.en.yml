@@ -55,19 +55,6 @@ en:
         no_login: Never logged in
       user:
         created_ago: Created %{time} ago
-      new:
-        title: New local user
-        submit_text: Create local user
-      edit:
-        title: Edit %{user}
-      self_edit:
-        title: Edit account data
-        submit: Submit
-      change_password:
-        title: Change password
-        submit: Submit
-      form:
-        cancel_text: Cancel
       show:
         headers:
           activity: Activity
@@ -77,13 +64,26 @@ en:
         disable: Disable
         destroy: Destroy
         destroy_confirm: Are you sure you want to destroy %{user}?
-      self_show:
-        title: Account data
+      edit:
+        title: Edit %{user}
+    local_users:
+      new:
+        title: New local user
+        submit_text: Create local user
+    self_user:
+      show:
+        title: Personal data
         headers:
           activity: Activity
           details: Details
-        edit: Edit account data
+        edit: Update personal data
         change_password: Change password
+      edit:
+        title: Update personal data
+        submit: Submit
+      change_password:
+        title: Change password
+        submit: Submit
     ldap:
       search:
         title: Search for LDAP sers

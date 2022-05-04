@@ -177,6 +177,8 @@ def add_controllers
   directory 'app/controllers/chaltron'
   directory 'app/controllers/concerns/chaltron'
   copy_file 'app/controllers/home_controller.rb'
+
+  inject_into_file 'app/controllers/application_controller.rb', "  devise_group :user, contains: %i[local omni]\n", before: 'end'
   inject_into_file 'app/controllers/application_controller.rb', "  include Chaltron::Logging\n", before: 'end'
 end
 
@@ -234,6 +236,8 @@ def add_users
   gsub_file Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) },
             'add_column :chaltron_users, :enabled, :boolean',
             'add_column :chaltron_users, :enabled, :boolean, default: true'
+
+  generate :migration, 'add_type_to_chaltron_users type remember_token'
 end
 
 def add_roles
@@ -343,17 +347,20 @@ def add_routes
 
   routes = <<-ROUTES
 
-  devise_for :users, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }, class_name: 'Chaltron::User'
+  devise_for :local, class_name: 'Chaltron::LocalUser'
+  devise_for :omni, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }, class_name: 'Chaltron::OmniUser'
 
   namespace :chaltron do
     resources :logs, only: %i[index show]
 
-    resources :users do
+    resources :users, only: %i[index] do
       member do
         get 'enable'
         get 'disable'
       end
     end
+    resources :local_users, except: %i[index]
+    resources :omni_users, except: %i[index new create]
 
     get   'self_user/show'
     get   'self_user/edit'
@@ -390,7 +397,7 @@ def add_seeds
       Chaltron::Role.create(name: :admin)
       Chaltron::Role.create(name: :user_admin)
 
-      Chaltron::User.create do |u|
+      Chaltron::LocalUser.create do |u|
         u.username              = 'bella'
         u.fullname              = 'Bellatrix Lestrange'
         u.email                 = 'bellatrix.lestrange@azkaban.co.uk'
