@@ -10,9 +10,7 @@
                                disabled: Chaltron::Role.where(name: 'user_admin').map(&:id) %>
       <% else %>
         <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
-                               collection: Chaltron::Role.all.map do |r|
-                                 [I18n.t("chaltron/roles.#{r.name}"), r.id]
-                               end %>
+                               collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] } %>
       <% end %>
     <%= f.submit title, class: 'btn btn-primary' %>
   <% end %>
