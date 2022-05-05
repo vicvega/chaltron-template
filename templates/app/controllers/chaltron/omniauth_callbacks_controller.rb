@@ -20,12 +20,12 @@ module Chaltron
 
     private
 
-    def after_omniauth_failure_path_for(_scope)
-      new_local_session_path
-    end
-
     def oauth
       @oauth ||= request.env['omniauth.auth']
+    end
+
+    def after_omniauth_failure_path_for(_scope)
+      new_local_session_path
     end
   end
 end

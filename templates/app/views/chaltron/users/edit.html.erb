@@ -1,10 +1,10 @@
-<% title = t('.title', user: user.username) %>
+<% title = t('.title', user: @user.username) %>
 <div class='container-fluid'>
   <h3><%= title %></h3>
-  <%= simple_form_for user, wrapper: :vertical_form do |f| %>
+  <%= simple_form_for @user, wrapper: :vertical_form do |f| %>
     <%= f.error_notification %>
 
-      <% if current_user == user %>
+      <% if current_user == @user %>
         <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
                                collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] },
                                disabled: Chaltron::Role.where(name: 'user_admin').map(&:id) %>
