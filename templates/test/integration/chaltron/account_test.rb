@@ -18,7 +18,7 @@ class AccountTest < ActionDispatch::IntegrationTest
 
     get chaltron_self_user_edit_path
     assert_select "form#edit_chaltron_user[action='#{chaltron_self_user_update_path}']" do
-      assert_select "input[name='chaltron_user[fullname]'][value='#{@user.fullname}']"
+      assert_select "input[name='chaltron_user[fullname]'][value=\"#{@user.fullname}\"]"
       assert_select "input[name='chaltron_user[email]'][value='#{@user.email}']"
     end
 
