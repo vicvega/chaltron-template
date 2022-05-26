@@ -109,6 +109,3 @@ en:
         error:
           one: A user has not been crated
           other: "%{count} users have not been created"
-  unauthorized:
-    manage:
-      all: You have no access to this resource

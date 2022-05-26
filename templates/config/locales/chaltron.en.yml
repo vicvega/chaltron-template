@@ -82,3 +82,6 @@ en:
         ldap_created:
           one: "%{current} created user %{user} from LDAP"
           other: "%{current} created %{count} users from LDAP (%{user})"
+  unauthorized:
+    manage:
+      all: You have no access to this resource

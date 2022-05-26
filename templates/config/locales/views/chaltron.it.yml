@@ -109,6 +109,3 @@ it:
         error:
           one: Un utente non è stato creato
           other: "%{count} utenti non sono stati creati"
-  unauthorized:
-    manage:
-      all: Non sei autorizzato a vedere questa pagina

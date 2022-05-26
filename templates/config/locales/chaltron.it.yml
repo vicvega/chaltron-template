@@ -82,3 +82,6 @@ it:
         ldap_created:
           one: "%{current} ha creato l'utente %{user} da LDAP"
           other: "%{current} ha creato %{count} utenti da LDAP (%{user})"
+  unauthorized:
+    manage:
+      all: Non sei autorizzato a vedere questa pagina
