@@ -178,8 +178,16 @@ def add_controllers
   directory 'app/controllers/concerns/chaltron'
   copy_file 'app/controllers/home_controller.rb'
 
-  inject_into_file 'app/controllers/application_controller.rb', "  devise_group :user, contains: %i[local omni]\n", before: 'end'
-  inject_into_file 'app/controllers/application_controller.rb', "  include Chaltron::Logging\n", before: 'end'
+  text = <<-TXT
+  devise_group :user, contains: %i[local omni]
+  include Chaltron::Logging
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, alert: exception.message
+  end
+  TXT
+
+  inject_into_file 'app/controllers/application_controller.rb', text, before: 'end'
 end
 
 def add_helpers
