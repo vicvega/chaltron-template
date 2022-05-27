@@ -1,6 +1,6 @@
 module Chaltron
   class UsersController < ApplicationController
-    include SortAndPaginate
+    include SearchSortAndPaginate
     helper_method :filter_provider, :filter_activity
     before_action :authenticate_user!
     load_and_authorize_resource
@@ -14,7 +14,7 @@ module Chaltron
     permitted_sort_columns %w[created_at username email]
 
     def index
-      @users = @users.search(params[:search])
+      @users = @users.search(filter_search)
 
       @users = @users.where(provider: nil) if filter_provider == 'local'
       @users = @users.where(provider: :ldap) if filter_provider == 'ldap'

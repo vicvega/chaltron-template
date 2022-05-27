@@ -1,6 +1,6 @@
 module Chaltron
   class LogsController < ApplicationController
-    include SortAndPaginate
+    include SearchSortAndPaginate
     helper_method :filter_category, :filter_severity
     before_action :authenticate_user!
     load_and_authorize_resource
@@ -10,7 +10,7 @@ module Chaltron
     permitted_sort_columns Log.column_names
 
     def index
-      @logs = @logs.search(params[:search])
+      @logs = @logs.search(filter_search)
       @logs = @logs.where(category: filter_category) if filter_category
       @logs = @logs.where(severity: filter_severity) if filter_severity
 

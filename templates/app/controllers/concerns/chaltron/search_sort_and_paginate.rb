@@ -1,10 +1,10 @@
 module Chaltron
-  module SortAndPaginate
+  module SearchSortAndPaginate
     extend ActiveSupport::Concern
 
     included do
       include Pagy::Backend
-      helper_method :sort_column, :sort_direction, :per_page
+      helper_method :sort_column, :sort_direction, :per_page, :filter_search
     end
 
     module ClassMethods
@@ -39,7 +39,7 @@ module Chaltron
 
     private
 
-    %w[sort_direction sort_column per_page].each do |name|
+    %w[sort_direction sort_column per_page filter_search].each do |name|
       # simple memoization methods
       define_method(name) do
         var_name = "@#{name}".to_sym
@@ -69,6 +69,10 @@ module Chaltron
     def validate_per_page
       ret = params[:per_page]&.to_i
       ret&.positive? ? ret : self.class.per_page
+    end
+
+    def validate_filter_search
+      params[:search]
     end
   end
 end

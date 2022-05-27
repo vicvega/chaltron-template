@@ -9,7 +9,7 @@
       <h5>
         <%= t "chaltron.logs.category.#{log.category}" %>
       </h5>
-      <p class='mb-0 opacity-75'><%= sanitize(highlight(log.message, params[:search]), tags: %w[mark]) %></p>
+      <p class='mb-0 opacity-75'><%= sanitize(highlight(log.message, filter_search), tags: %w[mark]) %></p>
     </div>
     <div>
       <%= tag.p t('.time_ago', time: time_ago_in_words(log.created_at)),

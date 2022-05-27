@@ -4,17 +4,17 @@
     <%= display_user_avatar user, size: 60, class: 'rounded align-self-center' %>
     <div class='flex-grow-1'>
       <h5 class='mb-0'>
-        <%= highlight(user.display_name, params[:search]) %>
+        <%= highlight(user.display_name, filter_search) %>
         <%= safe_join(user.roles.map do |x|
                         tag.span(t("chaltron/roles.#{x.name}"), class: 'badge bg-primary me-2')
                       end) %>
       </h5>
       <p class='mb-0 opacity-75'>
-        <%= highlight(user.username, params[:search]) %>
+        <%= highlight(user.username, filter_search) %>
         <%= tag.span(I18n.t('chaltron.users.it_s_you'), class: 'badge bg-success me-2') if user == current_user %>
         <%= tag.span(t('chaltron.users.user_disabled'), class: 'badge bg-danger me-2') if user.disabled? %>
        </p>
-      <p class='mb-0 opacity-75'><%= highlight(user.email, params[:search]) %></p>
+      <p class='mb-0 opacity-75'><%= highlight(user.email, filter_search) %></p>
     </div>
     <div class='d-flex flex-column'>
       <%= tag.small t('.created_ago', time: time_ago_in_words(user.created_at)),
