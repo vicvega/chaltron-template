@@ -68,7 +68,7 @@
                 <%= t('.sorted_by') %> <%= Chaltron::User.human_attribute_name(sort_column).downcase %>
               </button>
               <ul class='dropdown-menu' aria-labelledby='sort-column'>
-                <% %w[username email created_at].each do |field| %>
+                <% %w[username email created_at sign_in_count].each do |field| %>
                 <li>
                   <%= link_to request.params.merge(sort_column: field, page: nil),
                               class: class_names('dropdown-item', { active: sort_column == field }) do %>

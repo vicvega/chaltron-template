@@ -11,7 +11,7 @@ module Chaltron
     # default_sort_column :created_at
     # default_sort_direction :desc
     default_per_page 10
-    permitted_sort_columns %w[created_at username email]
+    permitted_sort_columns %w[created_at username email sign_in_count]
 
     def index
       @users = @users.search(filter_search)
