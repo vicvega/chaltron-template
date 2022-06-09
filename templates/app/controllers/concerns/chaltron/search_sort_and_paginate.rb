@@ -40,12 +40,8 @@ module Chaltron
     private
 
     %w[sort_direction sort_column per_page filter_search].each do |name|
-      # simple memoization methods
       define_method(name) do
-        var_name = "@#{name}".to_sym
-        return instance_variable_get(var_name) if instance_variable_get(var_name).present?
-
-        instance_variable_set(var_name, send("perform_#{name}"))
+        memoize(name)
       end
 
       define_method("perform_#{name}") do
@@ -73,6 +69,14 @@ module Chaltron
 
     def validate_filter_search
       params[:search]
+    end
+
+    # simple memoization method
+    def memoize(name)
+      var_name = "@#{name}".to_sym
+      return instance_variable_get(var_name) if instance_variable_get(var_name).present?
+
+      instance_variable_set(var_name, send("perform_#{name}"))
     end
   end
 end
