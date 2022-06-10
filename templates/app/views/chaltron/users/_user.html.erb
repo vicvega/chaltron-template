@@ -25,7 +25,7 @@
                     } %>
       <small class='opacity-50 text-nowrap'>
         <span><%= Chaltron::User.human_attribute_name(:sign_in_count) %>: </span>
-        <strong><%= user.sign_in_count %></strong>
+        <strong><%= number_with_delimiter(user.sign_in_count) %></strong>
       </small>
     </div>
   </div>
