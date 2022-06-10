@@ -21,7 +21,7 @@
                     class: 'opacity-50 text-nowrap', title: l(user.created_at),
                     data: {
                       controller: 'chaltron--tooltip',
-                      'bs-toggle': 'tooltip', 'bs-placement': 'left'
+                      bs_toggle: 'tooltip', 'bs-placement': 'left'
                     } %>
       <small class='opacity-50 text-nowrap'>
         <span><%= Chaltron::User.human_attribute_name(:sign_in_count) %>: </span>
