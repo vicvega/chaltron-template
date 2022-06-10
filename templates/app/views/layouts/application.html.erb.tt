@@ -12,7 +12,9 @@
 
   <body>
     <%%= render 'shared/navbar' %>
-    <%%= render 'shared/flash' %>
+    <div id='flash' class='flash-container'>
+      <%%= render 'shared/flash' %>
+    </div>
     <div id='content' class='container-fluid p-3 mx-auto'>
       <%%= yield %>
     </div>

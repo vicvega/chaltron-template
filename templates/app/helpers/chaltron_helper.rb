@@ -36,19 +36,11 @@ module ChaltronHelper
   #
   def bootstrap_class_for(flash_type)
     {
-      success: 'alert-success',
-      error: 'alert-danger',
-      alert: 'alert-warning',
-      notice: 'alert-info'
+      'success' => 'alert-success',
+      'error' => 'alert-danger',
+      'alert' => 'alert-warning',
+      'notice' => 'alert-info'
     }[flash_type] || flash_type.to_s
-  end
-
-  def flash_message(message, type)
-    tag.div(message, class: "alert #{bootstrap_class_for(type)} rounded-0") do
-      concat tag.strong I18n.t("chaltron.flash.#{type}")
-      concat tag.strong ': '
-      concat tag.span message
-    end
   end
 
   #
