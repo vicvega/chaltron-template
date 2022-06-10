@@ -1,11 +1,11 @@
 <% flash.each do |type, message| %>
-    <%= tag.div message, class: "alert #{bootstrap_class_for(type)} rounded-0",
-                         data: {
-                           controller: 'chaltron--remove',
-                           action: 'click->chaltron--remove#remove'
-                         } do %>
-      <%= tag.strong I18n.t("chaltron.flash.#{type}") %>
-      <%= tag.strong ': ' %>
-      <%= tag.span message %>
-    <% end %>
+  <%= tag.div message, class: "alert #{bootstrap_class_for(type)} rounded-0",
+                       data: {
+                         controller: 'chaltron--remove',
+                         action: 'click->chaltron--remove#remove'
+                       } do %>
+    <%= tag.strong I18n.t("chaltron.flash.#{type}") %>
+    <%= tag.strong ': ' %>
+    <%= tag.span message %>
+  <% end %>
 <% end %>
