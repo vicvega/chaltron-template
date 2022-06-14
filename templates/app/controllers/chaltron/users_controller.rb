@@ -99,17 +99,19 @@ module Chaltron
     end
 
     def search_filter_paginate(users)
+      # search
       users = users.includes(avatar_attachment: :blob).search(filter_search)
-
-      users = users.where(provider: nil) if filter_provider == 'local'
-      users = users.where(provider: :ldap) if filter_provider == 'ldap'
-      users = users.where(sign_in_count: 0) if filter_activity == 'no_login'
-
-      pagy, users = pagy(users.order("#{sort_column} #{sort_direction}"), items: per_page)
       count = {}
+      # count filters
       count[:ldap] = users.where(provider: :ldap).count
       count[:local] = users.where(provider: nil).count
       count[:inactive] = users.where(sign_in_count: 0).count
+      # filter
+      users = users.where(provider: nil) if filter_provider == 'local'
+      users = users.where(provider: :ldap) if filter_provider == 'ldap'
+      users = users.where(sign_in_count: 0) if filter_activity == 'no_login'
+      # paginate
+      pagy, users = pagy(users.order("#{sort_column} #{sort_direction}"), items: per_page)
       [pagy, users, count]
     end
   end
