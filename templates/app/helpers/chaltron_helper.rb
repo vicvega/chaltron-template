@@ -40,7 +40,8 @@ module ChaltronHelper
       only_path: !absolute,
       # always go to :index action
       action: 'index'
-    )
+      # keep also parameters not coming from a GET
+    ).merge(request.request_parameters.except('_method', 'authenticity_token'))
     html_escaped ? url_for(params).gsub('&', '&amp;') : url_for(params)
   end
 
