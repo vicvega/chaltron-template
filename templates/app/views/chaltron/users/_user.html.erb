@@ -39,11 +39,11 @@
           <% end %>
           <% if user != current_user %>
             <%= button_to disable_chaltron_user_path(user),
-                        class: 'btn btn-sm btn-danger ms-1' do %>
+                          class: 'btn btn-sm btn-danger ms-1' do %>
               <%= icon :fas, 'user-slash' %>
             <% end if user.enabled? %>
             <%= button_to enable_chaltron_user_path(user),
-                        class: 'btn btn-sm btn-primary ms-1' do %>
+                          class: 'btn btn-sm btn-primary ms-1' do %>
               <%= icon :fas, :user %>
             <% end if user.disabled? %>
           <% end %>

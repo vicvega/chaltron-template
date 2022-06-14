@@ -30,15 +30,15 @@ module Chaltron
     end
 
     def disable
-      if current_user != @user
+      if current_user == @user
+        message = I18n.t('chaltron.users.cannot_self_disable')
+        flash.now[:alert] = message
+        options = { alert: message }
+      else
         @user.disable!
         message = I18n.t('chaltron.users.disabled')
         flash.now[:notice] = message
         options = { notice: message }
-      else
-        message = I18n.t('chaltron.users.cannot_self_disable')
-        flash.now[:alert] = message
-        options = { alert: message }
       end
       respond_to do |format|
         format.html { redirect_to(chaltron_users_path, **options) }
@@ -64,7 +64,11 @@ module Chaltron
     end
 
     def destroy
-      if current_user != @user
+      if current_user == @user
+        message = I18n.t('chaltron.users.cannot_self_destroy')
+        flash.now[:alert] = message
+        options = { alert: message }
+      else
         @user.destroy
         # re-order whole users list
         @pagy, @users, @count_filters = search_filter_paginate(Chaltron::User.accessible_by(current_ability))
@@ -73,10 +77,6 @@ module Chaltron
         message = I18n.t('chaltron.users.deleted')
         flash.now[:notice] = message
         options = { notice: message }
-      else
-        message = I18n.t('chaltron.users.cannot_self_destroy')
-        flash.now[:alert] = message
-        options = { alert: message }
       end
       respond_to do |format|
         format.html { redirect_to(chaltron_users_path, **options) }

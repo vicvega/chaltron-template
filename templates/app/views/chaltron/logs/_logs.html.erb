@@ -7,8 +7,8 @@
       </div>
       <div class='list-group list-group-flush'>
         <% @logs_group_severity.each do |k, v| %>
-          <%= display_side_filter_link(chaltron_logs_path(logs_ssfp_params.merge(severity: k, page: nil)), filter_severity == k,
-                                        t("chaltron.logs.severity.#{k}"), v, :severity) %>
+          <%= display_side_filter_link(chaltron_logs_path(logs_ssfp_params.merge(severity: k, page: nil)),
+                                       filter_severity == k, t("chaltron.logs.severity.#{k}"), v, :severity) %>
         <% end %>
       </div>
     </div>
@@ -19,8 +19,8 @@
       </div>
       <div class='list-group list-group-flush'>
         <% @logs_group_category.each do |k, v| %>
-          <%= display_side_filter_link(chaltron_logs_path(logs_ssfp_params.merge(category: k, page: nil)), filter_category == k,
-                                        t("chaltron.logs.category.#{k}"), v, :category) %>
+          <%= display_side_filter_link(chaltron_logs_path(logs_ssfp_params.merge(category: k, page: nil)),
+                                       filter_category == k, t("chaltron.logs.category.#{k}"), v, :category) %>
         <% end %>
       </div>
     </div>
@@ -38,7 +38,7 @@
           <%= hidden_field_tag :sort_column, sort_column %>
           <div class='input-group mb-3'>
             <%= text_field_tag :search, filter_search,
-                                class: 'form-control', placeholder: t('.search'), size: 50 %>
+                               class: 'form-control', placeholder: t('.search'), size: 50 %>
             <button class='btn btn-primary' type='submit'>Cerca</button>
           </div>
         <% end %>
@@ -78,8 +78,9 @@
               <% end %>
             </ul>
           </div>
-          <%= link_to(chaltron_logs_path(logs_ssfp_params.merge(sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: nil)),
-                      class: 'btn btn-outline-primary') do %>
+          <%= link_to(chaltron_logs_path(logs_ssfp_params.merge(
+                                           sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: nil
+                                         )), class: 'btn btn-outline-primary') do %>
             <%= icon :fas, sort_direction == 'desc' ? 'sort-alpha-up' : 'sort-alpha-down' %>
           <% end %>
         </div>

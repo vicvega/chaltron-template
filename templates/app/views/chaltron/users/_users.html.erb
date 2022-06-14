@@ -11,8 +11,8 @@
           <%= hidden_field_tag :sort_column, sort_column %>
             <div class='input-group mb-3'>
             <%= text_field_tag :search, filter_search,
-                                class: 'form-control', size: 50,
-                                placeholder: t('.search_placeholder') %>
+                               class: 'form-control', size: 50,
+                               placeholder: t('.search_placeholder') %>
             <span class='input-group-text'>
               <%= link_to icon(:fas, 'trash-alt'), chaltron_users_path(users_ssfp_params.merge(search: '', page: 1)),
                           title: t('.reset_search'),
@@ -61,8 +61,9 @@
               <% end %>
             </ul>
           </div>
-          <%= link_to(chaltron_users_path(users_ssfp_params.merge(sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: nil)),
-                      class: 'btn btn-outline-primary') do %>
+          <%= link_to(chaltron_users_path(users_ssfp_params.merge(
+                                            sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: nil
+                                          )), class: 'btn btn-outline-primary') do %>
             <%= icon :fas, sort_direction == 'desc' ? 'sort-alpha-up' : 'sort-alpha-down' %>
           <% end %>
         </div>
