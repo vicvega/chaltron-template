@@ -47,6 +47,9 @@ en:
         search: Search
         sorted_by: Sorted by
         per_page: '%{count} users per page'
+        search_placeholder: Search by name, email or department
+        reset_search: Reset search
+      filters:
         reset_filters: Reset filters
         provider_filter: Provider filter
         inactivity_filter: Inactivity filter
@@ -55,15 +58,6 @@ en:
         no_login: Never logged in
       user:
         created_ago: Created %{time} ago
-      show:
-        headers:
-          activity: Activity
-          details: Details
-        edit: Edit
-        enable: Enable
-        disable: Disable
-        destroy: Destroy
-        destroy_confirm: Are you sure you want to destroy %{user}?
       edit:
         title: Edit %{user}
     local_users:

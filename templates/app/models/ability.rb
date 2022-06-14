@@ -32,6 +32,7 @@ class Ability
 
     if user.role?(:user_admin)
       can :manage, Chaltron::User
+      cannot :destroy, Chaltron::User, { id: user.id }
       if Chaltron.ldap_allow_all
         cannot :edit, Chaltron::User, { provider: 'ldap' }
         cannot :destroy, Chaltron::User, { provider: 'ldap' }

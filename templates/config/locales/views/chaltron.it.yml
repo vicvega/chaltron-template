@@ -47,6 +47,9 @@ it:
         search: Cerca
         sorted_by: Ordinamento per
         per_page: '%{count} utenti per pagina'
+        search_placeholder: Cerca per nome, email o dipartimento
+        reset_search: Resetta ricerca
+      filters:
         reset_filters: Resetta filtri
         provider_filter: Filtro per provider
         inactivity_filter: Filtro per inattività
@@ -55,15 +58,6 @@ it:
         no_login: Mai loggati
       user:
         created_ago: Creato %{time} fa
-      show:
-        headers:
-          activity: Attività
-          details: Dettagli
-        edit: Modifica
-        enable: Abilita
-        disable: Disabilita
-        destroy: Cancella
-        destroy_confirm: Sei sicuro di voler cancellare %{user}?
       edit:
         title: Modifica %{user}
     local_users:

@@ -1,0 +1,28 @@
+<%# Provider filters %>
+<% if ldap_enabled? %>
+<div class='card mb-3'>
+  <div class='card-header'>
+    <%= t('.provider_filter') %>
+  </div>
+  <div class='list-group list-group-flush'>
+    <%= display_side_filter_link(chaltron_users_path(users_ssfp_params.merge(provider: 'ldap', page: nil)),
+                                 filter_provider == 'ldap', t('.ldap'), count_filters[:ldap], :ldap) %>
+    <%= display_side_filter_link(chaltron_users_path(users_ssfp_params.merge(provider: 'local', page: nil)),
+                                 filter_provider == 'local', t('.local'), count_filters[:local], :local) %>
+  </div>
+</div>
+<% end %>
+<%# Inactivity filter %>
+<div class='card mb-3'>
+  <div class='card-header'>
+    <%= t('.inactivity_filter') %>
+  </div>
+  <div class='list-group list-group-flush'>
+    <%= display_side_filter_link(chaltron_users_path(users_ssfp_params.merge(activity: 'no_login', page: nil)),
+                                 filter_activity == 'no_login', t('.no_login'), count_filters[:inactive],
+                                 :inactive) %>
+  </div>
+</div>
+<%# Reset filters %>
+<%= link_to t('.reset_filters'), chaltron_users_path(users_ssfp_params.merge(provider: nil, activity: nil)),
+            class: 'btn btn-primary w-100 mb-3' %>

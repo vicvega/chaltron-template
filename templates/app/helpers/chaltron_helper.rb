@@ -32,6 +32,19 @@ module ChaltronHelper
   end
 
   #
+  # Pagy
+  #
+  def pagy_url_for(pagy, page, absolute: false, html_escaped: false)
+    params = request.query_parameters.merge(
+      pagy.vars[:page_param] => page,
+      only_path: !absolute,
+      # always go to :index action
+      action: 'index'
+    )
+    html_escaped ? url_for(params).gsub('&', '&amp;') : url_for(params)
+  end
+
+  #
   # Flash messages
   #
   def bootstrap_class_for(flash_type)
@@ -41,6 +54,10 @@ module ChaltronHelper
       'alert' => 'alert-warning',
       'notice' => 'alert-info'
     }[flash_type] || flash_type.to_s
+  end
+
+  def render_turbo_stream_flash_messages
+    turbo_stream.prepend 'flash', partial: 'shared/flash'
   end
 
   #
@@ -54,7 +71,7 @@ module ChaltronHelper
     v.presence
   end
 
-  def display_side_filter_link(url, active, text, count)
+  def display_side_filter_link(url, active, text, count, id)
     return unless count.positive?
 
     klass = 'list-group-item list-group-item-action'
@@ -67,8 +84,8 @@ module ChaltronHelper
                      ' bg-primary'
                    end
 
-    link_to url, class: klass, remote: true do
-      tag.span(number_with_delimiter(count), class: badge_klass) + text
+    link_to url, class: klass, id: "filter_#{id}_link" do
+      tag.span(number_with_delimiter(count), class: badge_klass, id: "filter_#{id}_count") + text
     end
   end
 

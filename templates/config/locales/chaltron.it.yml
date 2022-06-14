@@ -55,6 +55,7 @@ it:
       disabled: Utente disabilitato con successo.
       self_updated: Dati personali aggiornati con successo.
       cannot_self_destroy: Non puoi cancellare il tuo stesso account.
+      cannot_self_disable: Non puoi disabilitare il tuo stesso account.
       it_s_you: Sei tu!
       user_disabled: Disabilitato
       missing_field: Manca!

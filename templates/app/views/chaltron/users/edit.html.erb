@@ -1,21 +1,22 @@
-<% title = t('.title', user: @user.username) %>
 <div class='container-fluid'>
-  <h3><%= title %></h3>
-  <%= simple_form_for @user, wrapper: :vertical_form do |f| %>
-    <%= f.error_notification %>
-
+  <h3><%= t('.title', user: @user.display_name) %></h3>
+  <%= turbo_frame_tag dom_id(@user) do %>
+    <%= simple_form_for @user, as: :chaltron_user, url: chaltron_user_path(@user), method: :patch,
+                               namespace: @user.id, wrapper: :vertical_form do |f| %>
+      <%= f.error_notification %>
       <% if current_user == @user %>
-        <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
+        <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline, required: false,
                                collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] },
                                disabled: Chaltron::Role.where(name: 'user_admin').map(&:id) %>
       <% else %>
-        <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
+        <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline, required: false,
                                collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] } %>
       <% end %>
-    <%= f.submit title, class: 'btn btn-primary' %>
+
+      <%= f.submit t('.title', user: @user.display_name), class: 'btn btn-primary' %>
+      <%= link_to :back, class: 'btn btn-ligth' do %>
+        <%= icon :fas, :times, t('chaltron.common.cancel') %>
+      <% end %>
+    <% end %>
   <% end %>
 </div>
-<hr>
-<%= link_to :back, class: 'btn btn-ligth' do %>
-  <%= icon :fas, :times, t('chaltron.common.cancel') %>
-<% end %>

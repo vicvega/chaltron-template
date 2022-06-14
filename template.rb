@@ -371,14 +371,13 @@ def add_routes
   namespace :chaltron do
     resources :logs, only: %i[index show]
 
-    resources :users, only: %i[index] do
+    resources :users, except: %i[new create] do
       member do
-        get 'enable'
-        get 'disable'
+        post 'enable'
+        post 'disable'
       end
     end
-    resources :local_users, except: %i[index]
-    resources :omni_users, except: %i[index new create]
+    resources :local_users, only: %i[new create]
 
     get   'self_user/show'
     get   'self_user/edit'

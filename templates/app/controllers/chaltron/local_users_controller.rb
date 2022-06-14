@@ -1,8 +1,6 @@
 module Chaltron
   class LocalUsersController < UsersController
-    def show
-      super(@local_user)
-    end
+    default_log_category :user_admin
 
     def new; end
 
@@ -16,27 +14,11 @@ module Chaltron
       end
     end
 
-    def edit
-      super(@local_user)
-    end
-
-    def update
-      super(@local_user)
-    end
-
-    def destroy
-      super(@local_user)
-    end
-
     private
 
     def create_params
       params.require(:chaltron_local_user).permit(:username, :email, :fullname, :password, :password_confirmation,
                                                   role_ids: [])
-    end
-
-    def update_params
-      params.require(:chaltron_local_user).permit(role_ids: [])
     end
   end
 end

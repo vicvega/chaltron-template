@@ -24,5 +24,10 @@ module Chaltron
       end
       image_tag image, class: options[:class], size: size
     end
+
+    def users_ssfp_params
+      # search, sort, filter and paginate params
+      request.params.slice(:page, :per_page, :sort_column, :sort_direction, :provider, :activity, :search)
+    end
   end
 end

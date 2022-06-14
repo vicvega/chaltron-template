@@ -1,7 +1,7 @@
-<%= link_to user, class: 'list-group-item list-group-item-action d-flex gap-3 py-3',
-                  data: { 'turbo-frame' => '_top' }, id: dom_id(user) do %>
+<%= turbo_frame_tag dom_id(user),
+                    class: 'list-group-item list-group-item-action d-flex gap-3 py-3' do %>
   <div class='d-flex gap-2 w-100 justify-content-between'>
-    <%= display_user_avatar user, size: 60, class: 'rounded align-self-center' %>
+    <%= display_user_avatar user, size: 70, class: 'rounded align-self-center mx-2' %>
     <div class='flex-grow-1'>
       <h5 class='mb-0'>
         <%= highlight(user.display_name, filter_search) %>
@@ -13,20 +13,49 @@
         <%= highlight(user.username, filter_search) %>
         <%= tag.span(I18n.t('chaltron.users.it_s_you'), class: 'badge bg-success me-2') if user == current_user %>
         <%= tag.span(t('chaltron.users.user_disabled'), class: 'badge bg-danger me-2') if user.disabled? %>
-       </p>
+      </p>
       <p class='mb-0 opacity-75'><%= highlight(user.email, filter_search) %></p>
+      <%= tag.p class: 'mb-0 opacity-75' do %>
+        <%= highlight(user.department, filter_search) %>
+      <% end if user.department.present? %>
     </div>
-    <div class='d-flex flex-column'>
-      <%= tag.small t('.created_ago', time: time_ago_in_words(user.created_at)),
-                    class: 'opacity-50 text-nowrap', title: l(user.created_at),
-                    data: {
-                      controller: 'chaltron--tooltip',
-                      bs_toggle: 'tooltip', 'bs-placement': 'left'
-                    } %>
-      <small class='opacity-50 text-nowrap'>
-        <span><%= Chaltron::User.human_attribute_name(:sign_in_count) %>: </span>
-        <strong><%= number_with_delimiter(user.sign_in_count) %></strong>
-      </small>
+    <div class='d-flex flex-column justify-content-between'>
+      <div class='d-flex flex-column'>
+        <%= tag.small t('.created_ago', time: time_ago_in_words(user.created_at)),
+                      class: 'opacity-50 text-nowrap', title: l(user.created_at),
+                      data: {
+                        controller: 'chaltron--tooltip',
+                        bs_toggle: 'tooltip', 'bs-placement': 'left'
+                      } %>
+        <small class='opacity-50 text-nowrap'>
+          <span><%= Chaltron::User.human_attribute_name(:sign_in_count) %>: </span>
+          <strong><%= number_with_delimiter(user.sign_in_count) %></strong>
+        </small>
+      </div>
+      <div class='mt-2 d-flex justify-content-end'>
+        <% if can? :edit, user %>
+          <%= link_to edit_chaltron_user_path(user), class: 'btn btn-sm btn-primary' do %>
+            <%= icon :fas, 'pen-to-square' %>
+          <% end %>
+          <% if user != current_user %>
+            <%= button_to disable_chaltron_user_path(user),
+                        class: 'btn btn-sm btn-danger ms-1' do %>
+              <%= icon :fas, 'user-slash' %>
+            <% end if user.enabled? %>
+            <%= button_to enable_chaltron_user_path(user),
+                        class: 'btn btn-sm btn-primary ms-1' do %>
+              <%= icon :fas, :user %>
+            <% end if user.disabled? %>
+          <% end %>
+        <% end %>
+        <%= button_to chaltron_user_path(user),
+                      params: users_ssfp_params,
+                      method: :delete,
+                      class: 'btn btn-sm btn-danger ms-1',
+                      form: { data: { turbo_confirm: 'Sicuro?' } } do %>
+          <%= icon :fas, :trash %>
+        <% end if can?(:destroy, user) %>
+      </div>
     </div>
   </div>
 <% end %>
