@@ -70,8 +70,9 @@
       </div>
     </div>
 
-    <%= render partial: 'user', collection: users %>
-
+    <div class='list-group'>
+      <%= render partial: 'user', collection: users %>
+    </div>
     <div class='mt-3'>
       <%== pagy_info(pagy) %>
       <div class='float-end'>
