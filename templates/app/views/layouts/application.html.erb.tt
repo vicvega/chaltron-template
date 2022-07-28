@@ -12,7 +12,7 @@
 
   <body>
     <%%= render 'shared/navbar' %>
-    <div id='flash' class='flash-container'>
+    <div id='flash' class='flash-container w-100 m-0 position-fixed top-0 text-center opacity-75'>
       <%%= render 'shared/flash' %>
     </div>
     <div id='content' class='container-fluid p-3 mx-auto'>

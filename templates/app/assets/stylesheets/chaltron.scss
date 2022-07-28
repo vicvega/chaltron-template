@@ -1,15 +1,8 @@
 .flash-container {
-  margin: 0;
-  opacity: .8;
-  position: fixed;
-  text-align: center;
-  top: 2.5em;
-  width: 100%;
   z-index: 100;
 
   .alert {
     cursor: pointer;
-    margin: 0;
   }
 }
 
@@ -25,14 +18,5 @@
   input#password, input#local_password {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-  }
-}
-
-#navbar-top {
-  padding-bottom: 0;
-  padding-top: 0;
-
-  .dropdown-menu {
-    margin-top: 0;
   }
 }
