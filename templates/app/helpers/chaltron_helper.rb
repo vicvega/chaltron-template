@@ -32,20 +32,6 @@ module ChaltronHelper
   end
 
   #
-  # Pagy
-  #
-  def pagy_url_for(pagy, page, absolute: false, html_escaped: false)
-    params = request.query_parameters.merge(
-      pagy.vars[:page_param] => page,
-      only_path: !absolute,
-      # always go to :index action
-      action: 'index'
-      # keep also parameters not coming from a GET
-    ).merge(request.request_parameters.except('_method', 'authenticity_token'))
-    html_escaped ? url_for(params).gsub('&', '&amp;') : url_for(params)
-  end
-
-  #
   # Flash messages
   #
   def bootstrap_class_for(flash_type)

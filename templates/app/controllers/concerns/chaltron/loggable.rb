@@ -1,5 +1,5 @@
 module Chaltron
-  module Logging
+  module Loggable
     extend ActiveSupport::Concern
 
     module ClassMethods

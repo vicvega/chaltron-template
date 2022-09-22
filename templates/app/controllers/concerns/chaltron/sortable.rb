@@ -1,10 +1,10 @@
 module Chaltron
-  module SearchSortAndPaginate
+  module Sortable
     extend ActiveSupport::Concern
+    include Memoizable
 
     included do
-      include Pagy::Backend
-      helper_method :sort_column, :sort_direction, :per_page, :filter_search
+      helper_method :sort_column, :sort_direction
     end
 
     module ClassMethods
@@ -16,10 +16,6 @@ module Chaltron
         defined?(@default_sort_direction) ? @default_sort_direction : 'desc'
       end
 
-      def per_page
-        defined?(@default_per_page) ? @default_per_page : Pagy::DEFAULT[:items]
-      end
-
       def default_sort_direction(dir)
         @default_sort_direction = dir.to_s
       end
@@ -28,25 +24,37 @@ module Chaltron
         @default_sort_column = col.to_s
       end
 
-      def default_per_page(count)
-        @default_per_page = count
-      end
-
       def permitted_sort_columns(col)
         @permitted_sort_columns = col
       end
+
+      def store_prefix(prefix)
+        @store_prefix = prefix
+      end
+    end
+
+    def sort_direction
+      memoize('sort_direction') { perform_sort_direction }
+    end
+
+    def sort_column
+      memoize('sort_column')  { perform_sort_column }
     end
 
     private
 
-    %w[sort_direction sort_column per_page filter_search].each do |name|
-      define_method(name) do
-        memoize(name)
-      end
-
+    %w[sort_column sort_direction].each do |name|
       define_method("perform_#{name}") do
+        default = self.class.respond_to?(name) ? self.class.send(name) : nil
+        return default if params[name.to_sym].nil?
+
         send("validate_#{name}")
       end
+    end
+
+    def session_key(name)
+      prefix = self.class.controller_name
+      "#{prefix}_#{name}".to_sym
     end
 
     def validate_sort_direction
@@ -58,25 +66,8 @@ module Chaltron
       if permitted.present?
         permitted.include?(params[:sort_column]) ? params[:sort_column] : self.class.sort_column
       else
-        params[:sort].nil? ? self.class.sort_column : params[:sort_column]
+        params[:sort_column].nil? ? self.class.sort_column : params[:sort_column]
       end
-    end
-
-    def validate_per_page
-      ret = params[:per_page]&.to_i
-      ret&.positive? ? ret : self.class.per_page
-    end
-
-    def validate_filter_search
-      params[:search]
-    end
-
-    # simple memoization method
-    def memoize(name)
-      var_name = "@#{name}".to_sym
-      return instance_variable_get(var_name) if instance_variable_get(var_name).present?
-
-      instance_variable_set(var_name, send("perform_#{name}"))
     end
   end
 end

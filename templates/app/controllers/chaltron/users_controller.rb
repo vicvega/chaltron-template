@@ -1,7 +1,9 @@
 module Chaltron
   class UsersController < ApplicationController
-    include SearchSortAndPaginate
-    helper_method :filter_provider, :filter_activity
+    include Sortable
+    include Paginatable
+
+    helper_method :filter_provider, :filter_activity, :filter_search
     before_action :authenticate_user!
     load_and_authorize_resource
 
@@ -14,7 +16,16 @@ module Chaltron
     permitted_sort_columns %w[created_at username email sign_in_count]
 
     def index
-      @pagy, @users, @count_filters = search_filter_paginate(@users)
+      # search
+      @users = @users.includes(avatar_attachment: :blob).search(filter_search)
+      # count filters
+      @count_filters = count_filters(@users)
+      # filter
+      @users = @users.where(provider: nil) if filter_provider == 'local'
+      @users = @users.where(provider: :ldap) if filter_provider == 'ldap'
+      @users = @users.where(sign_in_count: 0) if filter_activity == 'no_login'
+      # paginate
+      @pagy, @users = pagy(@users.order("#{sort_column} #{sort_direction}"), items: per_page)
     end
 
     def enable
@@ -70,8 +81,8 @@ module Chaltron
         options = { alert: message }
       else
         @user.destroy
-        # re-order whole users list
-        @pagy, @users, @count_filters = search_filter_paginate(Chaltron::User.accessible_by(current_ability))
+        # re-calculate filters count
+        @count_filters = count_filters(Chaltron::User.accessible_by(current_ability))
 
         info I18n.t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
         message = I18n.t('chaltron.users.deleted')
@@ -98,21 +109,17 @@ module Chaltron
       %w[local ldap].include?(params[:provider]) ? params[:provider] : nil
     end
 
-    def search_filter_paginate(users)
-      # search
-      users = users.includes(avatar_attachment: :blob).search(filter_search)
+    def filter_search
+      params[:search]
+    end
+
+    def count_filters(users)
       count = {}
       # count filters
       count[:ldap] = users.where(provider: :ldap).count
       count[:local] = users.where(provider: nil).count
       count[:inactive] = users.where(sign_in_count: 0).count
-      # filter
-      users = users.where(provider: nil) if filter_provider == 'local'
-      users = users.where(provider: :ldap) if filter_provider == 'ldap'
-      users = users.where(sign_in_count: 0) if filter_activity == 'no_login'
-      # paginate
-      pagy, users = pagy(users.order("#{sort_column} #{sort_direction}"), items: per_page)
-      [pagy, users, count]
+      count
     end
   end
 end
