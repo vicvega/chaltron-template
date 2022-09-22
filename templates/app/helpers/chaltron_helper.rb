@@ -75,27 +75,4 @@ module ChaltronHelper
       tag.span(number_with_delimiter(count), class: badge_klass, id: "filter_#{id}_count") + text
     end
   end
-
-  def sortable(column, options = {})
-    title = options.fetch(:label, column.to_s.titleize)
-    remote = options.fetch(:remote, false)
-    data = options.fetch(:data, {})
-    direction = column.to_s == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
-
-    params = request.params.merge(sort: column, direction: direction, page: nil)
-
-    if column.to_s == sort_column
-      link_to(params, class: 'current', remote: remote, data: data) do
-        tag.span class: 'text-body' do
-          icon :fas, sort_direction == 'asc' ? 'sort-up' : 'sort-down', title
-        end
-      end
-    else
-      link_to(params, remote: remote, data: data) do
-        tag.span class: 'text-secondary' do
-          icon :fas, 'sort', title
-        end
-      end
-    end
-  end
 end
