@@ -32,6 +32,7 @@ it:
         severity_filter: Filtro per severità
         reset_filters: Resetta filtri
         per_page: '%{count} log per pagina'
+        reset_search: Resetta ricerca
       show:
         headers:
           details: Dettagli

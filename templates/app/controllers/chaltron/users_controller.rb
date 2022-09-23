@@ -2,8 +2,9 @@ module Chaltron
   class UsersController < ApplicationController
     include Sortable
     include Paginatable
+    include Filterable
 
-    helper_method :filter_provider, :filter_activity, :filter_search
+    helper_method :filter_provider, :filter_activity
     before_action :authenticate_user!
     load_and_authorize_resource
 
@@ -107,10 +108,6 @@ module Chaltron
 
     def filter_provider
       %w[local ldap].include?(params[:provider]) ? params[:provider] : nil
-    end
-
-    def filter_search
-      params[:search]
     end
 
     def count_filters(users)

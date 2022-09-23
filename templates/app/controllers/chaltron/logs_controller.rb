@@ -2,8 +2,9 @@ module Chaltron
   class LogsController < ApplicationController
     include Sortable
     include Paginatable
+    include Filterable
 
-    helper_method :filter_category, :filter_severity, :filter_search
+    helper_method :filter_category, :filter_severity
     before_action :authenticate_user!
     load_and_authorize_resource
 
@@ -25,10 +26,6 @@ module Chaltron
     def show; end
 
     private
-
-    def filter_search
-      params[:search]
-    end
 
     def filter_category
       params[:category]
