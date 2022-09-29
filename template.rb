@@ -213,14 +213,18 @@ end
 
 def add_javascript
   run 'yarn add @popperjs/core bootstrap' if rails6?
+  # add fontawesome
   run 'yarn add @fortawesome/fontawesome-free'
-
   text = <<~JS
 
     import '@fortawesome/fontawesome-free/js/all';
 
   JS
   inject_into_file 'app/javascript/application.js', text
+  # remove bootstrap-icons
+  run 'yarn remove bootstrap-icons'
+  gsub_file 'app/assets/stylesheets/application.bootstrap.scss',
+            "@import 'bootstrap-icons/font/bootstrap-icons';", ''
 end
 
 def add_users
