@@ -1,30 +1,15 @@
 # require 'syslog'
 module Chaltron
   class Log < ApplicationRecord
-    SEVERITIES = %w[emerg alert crit err warning notice info debug].freeze
+    enum :severity, %i[emerg alert crit err warning notice info debug]
 
-    validates :severity, :message, presence: true
-    validates :severity, inclusion: SEVERITIES
+    validates :severity, :category, :message, presence: true
 
-    before_validation :standardize_severity, :truncate_message
+    before_validation :truncate_message
 
     # after_create :to_syslog
 
-    def self.search(search)
-      if search
-        where('message LIKE :query', { query: "%#{search}%" })
-      else
-        all
-      end
-    end
-
     private
-
-    def standardize_severity
-      self.severity = :emerg   if severity && severity.to_sym == :panic
-      self.severity = :err     if severity && severity.to_sym == :error
-      self.severity = :warning if severity && severity.to_sym == :warn
-    end
 
     def truncate_message
       self.message = message&.truncate(1000)
@@ -35,5 +20,24 @@ module Chaltron
     #     s.send(self.severity.to_sym, self.category.upcase + ' - ' + self.message)
     #   end
     # end
+
+    class Filter
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+
+      attribute :search
+      attribute :categories, array: true, default: -> { [] }
+      attribute :severities, array: true, default: -> { [] }
+
+      def apply(ret)
+        # otherwise a filter with no categories/severities should filter everything
+        categories&.compact_blank!
+        severities&.compact_blank!
+        ret = ret.where(category: categories) if categories.present?
+        ret = ret.where(severity: severities) if severities.present?
+        ret = ret.where('message LIKE :query', { query: "%#{search}%" }) if search.present?
+        ret
+      end
+    end
   end
 end

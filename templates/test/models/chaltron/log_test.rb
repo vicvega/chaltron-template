@@ -26,15 +26,9 @@ class LogTest < ActiveSupport::TestCase
     assert_not_empty record.errors[:severity]
   end
 
-  test 'severity should be included in syslog standard severities' do
-    record = build(:chaltron_log, severity: 'something')
+  test 'category should be present' do
+    record = build(:chaltron_log, category: nil)
     assert_not record.valid?
-    assert_not_empty record.errors[:severity]
-  end
-
-  test 'severity should be standarized' do
-    record = build(:chaltron_log, severity: 'error')
-    assert_predicate record, :valid?
-    assert_equal 'err', record.severity
+    assert_not_empty record.errors[:category]
   end
 end

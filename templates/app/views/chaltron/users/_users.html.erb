@@ -1,20 +1,28 @@
 <div class='row'>
   <div class='col-md-3' id='filters'>
-    <%= render 'filters', count_filters: count_filters %>
+    <%= render 'filters', filter: @filter, providers: @providers %>
   </div>
   <div class='col-md-9'>
     <div class='d-flex'>
       <%# Search form %>
       <div class='flex-grow-1'>
         <%= form_tag chaltron_users_path, method: 'get', class: 'mb-3' do %>
-          <%= hidden_field_tag :sort_direction, sort_direction %>
-          <%= hidden_field_tag :sort_column, sort_column %>
-            <div class='input-group mb-3'>
-            <%= text_field_tag :search, filter_search,
-                               class: 'form-control', size: 50,
-                               placeholder: t('.search_placeholder') %>
+          <%= hidden_field_tag 'sort_direction', sort_direction %>
+          <%= hidden_field_tag 'sort_column', sort_column %>
+          <%= hidden_field_tag 'per_page', per_page %>
+          <%= hidden_field_tag('filter[never_logged_in]', '1') if @filter.never_logged_in %>
+          <% @filter.providers&.each do |i| %>
+            <%= hidden_field_tag('filter[providers][]', i, multiple: true) %>
+          <% end %>
+
+          <div class='input-group mb-3'>
+            <%= text_field_tag 'filter[search]', @filter.search,
+                               class: 'form-control', placeholder: t('.search_placeholder'), size: 50 %>
             <span class='input-group-text'>
-              <%= link_to icon(:fas, 'trash-alt'), chaltron_users_path(users_ssfp_params.merge(search: '', page: 1)),
+              <%= link_to icon(:fas, 'trash-alt'),
+                          chaltron_users_path(
+                            request.params.deep_merge(filter: { search: '' }, page: nil)
+                          ),
                           title: t('.reset_search'),
                           data: {
                             controller: 'chaltron--tooltip',
@@ -22,11 +30,11 @@
                             bs_trigger: 'hover'
                           } %>
             </span>
-            <button class='btn btn-primary' type='submit'>Cerca</button>
+            <button class='btn btn-primary' type='submit'><%= t('.search') %></button>
           </div>
         <% end %>
       </div>
-      <%# Users per page %>
+      <%# Per page %>
       <div class='ms-3'>
         <div id='sort-per-page' class='dropdown text-nowrap mb-3'>
           <%= link_to t('.per_page', count: per_page), '#',
@@ -36,7 +44,9 @@
             <% [10, 20, 50, 100].each do |count| %>
               <li>
               <%= link_to t('.per_page', count: count),
-                          chaltron_users_path(users_ssfp_params.merge(per_page: count, page: nil)),
+                          chaltron_users_path(
+                            request.params.merge(per_page: count , page: nil)
+                          ),
                           class: class_names('dropdown-item', { active: per_page == count }) %>
               </li>
             <% end %>
@@ -51,9 +61,11 @@
               <%= t('.sorted_by') %> <%= Chaltron::User.human_attribute_name(sort_column).downcase %>
             </button>
             <ul class='dropdown-menu' aria-labelledby='sort-column'>
-              <% %w[username email created_at sign_in_count].each do |field| %>
+              <% %w[created_at username email sign_in_count].each do |field| %>
               <li>
-                <%= link_to chaltron_users_path(users_ssfp_params.merge(sort_column: field, page: nil)),
+                <%= link_to chaltron_users_path(
+                              request.params.merge(sort_column: field, page: nil)
+                            ),
                             class: class_names('dropdown-item', { active: sort_column == field }) do %>
                     <%= t('.sorted_by') %> <%= Chaltron::User.human_attribute_name(field).downcase %>
                 <% end %>
@@ -61,9 +73,9 @@
               <% end %>
             </ul>
           </div>
-          <%= link_to(chaltron_users_path(users_ssfp_params.merge(
-                                            sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: nil
-                                          )), class: 'btn btn-outline-primary') do %>
+          <%= link_to(chaltron_users_path(
+                        request.params.merge(sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'),
+                                             page: nil)), class: 'btn btn-outline-primary') do %>
             <%= icon :fas, sort_direction == 'desc' ? 'sort-alpha-up' : 'sort-alpha-down' %>
           <% end %>
         </div>
@@ -71,12 +83,12 @@
     </div>
 
     <div class='list-group'>
-      <%= render partial: 'user', collection: users %>
+      <%= render partial: 'user', collection: @users, locals: { filter: @filter } %>
     </div>
     <div class='mt-3'>
-      <%== pagy_info(pagy) %>
+      <%== pagy_info(@pagy) %>
       <div class='float-end'>
-        <%== pagy_bootstrap_nav(pagy) %>
+        <%== pagy_bootstrap_nav(@pagy) %>
       </div>
     </div>
   </div>

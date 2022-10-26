@@ -1,28 +1,22 @@
-<%# Provider filters %>
-<% if ldap_enabled? %>
-<div class='card mb-3'>
-  <div class='card-header'>
-    <%= t('.provider_filter') %>
-  </div>
-  <div class='list-group list-group-flush'>
-    <%= display_side_filter_link(chaltron_users_path(users_ssfp_params.merge(provider: 'ldap', page: nil)),
-                                 filter_provider == 'ldap', t('.ldap'), count_filters[:ldap], :ldap) %>
-    <%= display_side_filter_link(chaltron_users_path(users_ssfp_params.merge(provider: 'local', page: nil)),
-                                 filter_provider == 'local', t('.local'), count_filters[:local], :local) %>
-  </div>
-</div>
+<h4><%= t('.filters')%></h4>
+<%= simple_form_for filter, as: :filter, url: chaltron_users_path, method: 'get' do |f| %>
+  <%= hidden_field_tag 'sort_direction', sort_direction %>
+  <%= hidden_field_tag 'sort_column', sort_column %>
+  <%= hidden_field_tag 'per_page', per_page %>
+  <%= f.hidden_field(:search) %>
+  <% labels = providers.to_a.map do |x|
+       "#{t("chaltron.users.provider.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
+     end %>
+  <%= f.input :providers, collection: labels.zip(providers.keys).to_a,
+                            as: :check_boxes, wrapper: :vertical_collection_inline, include_hidden: false %>
+  <%= f.input :never_logged_in, wrapper: :custom_boolean_switch, as: :boolean %>
+  <%= f.submit t('.submit_filters'), class: 'btn btn-primary w-100' %>
 <% end %>
-<%# Inactivity filter %>
-<div class='card mb-3'>
-  <div class='card-header'>
-    <%= t('.inactivity_filter') %>
-  </div>
-  <div class='list-group list-group-flush'>
-    <%= display_side_filter_link(chaltron_users_path(users_ssfp_params.merge(activity: 'no_login', page: nil)),
-                                 filter_activity == 'no_login', t('.no_login'), count_filters[:inactive],
-                                 :inactive) %>
-  </div>
-</div>
+
+<hr>
 <%# Reset filters %>
-<%= link_to t('.reset_filters'), chaltron_users_path(users_ssfp_params.merge(provider: nil, activity: nil)),
+<%= link_to t('.reset_filters'),
+            chaltron_users_path(request.params.deep_merge(
+              filter: { providers: [], never_logged_in: false }, page: nil)
+            ),
             class: 'btn btn-primary w-100 mb-3' %>

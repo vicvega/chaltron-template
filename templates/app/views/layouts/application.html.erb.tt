@@ -11,15 +11,15 @@
   </head>
 
   <body>
-    <%%= render 'shared/navbar' %>
+    <%%= render 'shared/chaltron/navbar' %>
     <div id='flash' class='flash-container w-100 m-0 position-fixed top-0 text-center opacity-75'>
-      <%%= render 'shared/flash' %>
+      <%%= render 'shared/chaltron/flash' %>
     </div>
     <div id='content' class='container-fluid p-3 mx-auto'>
       <%%= yield %>
     </div>
     <div class='pt-4'>
-      <%%= render 'shared/footer' %>
+      <%%= render 'shared/chaltron/footer' %>
     </div>
   </body>
 </html>

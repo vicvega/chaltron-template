@@ -24,7 +24,7 @@ module Chaltron
     end
 
     def error(message, category = nil)
-      create_log_message(message, category, :error)
+      create_log_message(message, category, :err)
     end
 
     private

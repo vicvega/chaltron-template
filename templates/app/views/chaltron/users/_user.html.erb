@@ -4,19 +4,19 @@
     <%= display_user_avatar user, size: 70, class: 'rounded align-self-center mx-2' %>
     <div class='flex-grow-1'>
       <h5 class='mb-0'>
-        <%= highlight(user.display_name, filter_search) %>
+        <%= highlight(user.display_name, filter.search) %>
         <%= safe_join(user.roles.map do |x|
                         tag.span(t("chaltron/roles.#{x.name}"), class: 'badge bg-primary me-2')
                       end) %>
       </h5>
       <p class='mb-0 opacity-75'>
-        <%= highlight(user.username, filter_search) %>
+        <%= highlight(user.username, filter.search) %>
         <%= tag.span(I18n.t('chaltron.users.it_s_you'), class: 'badge bg-success me-2') if user == current_user %>
         <%= tag.span(t('chaltron.users.user_disabled'), class: 'badge bg-danger me-2') if user.disabled? %>
       </p>
-      <p class='mb-0 opacity-75'><%= highlight(user.email, filter_search) %></p>
+      <p class='mb-0 opacity-75'><%= highlight(user.email, filter.search) %></p>
       <%= tag.p class: 'mb-0 opacity-75' do %>
-        <%= highlight(user.department, filter_search) %>
+        <%= highlight(user.department, filter.search) %>
       <% end if user.department.present? %>
     </div>
     <div class='d-flex flex-column justify-content-between'>
@@ -39,17 +39,19 @@
           <% end %>
           <% if user != current_user %>
             <%= button_to disable_chaltron_user_path(user),
+                          params: request.params.slice(:filter),
                           class: 'btn btn-sm btn-danger ms-1' do %>
               <%= icon :fas, 'user-slash' %>
             <% end if user.enabled? %>
             <%= button_to enable_chaltron_user_path(user),
+                          params: request.params.slice(:filter),
                           class: 'btn btn-sm btn-primary ms-1' do %>
               <%= icon :fas, :user %>
             <% end if user.disabled? %>
           <% end %>
         <% end %>
         <%= button_to chaltron_user_path(user),
-                      params: users_ssfp_params,
+                      params: request.params.slice(:filter),
                       method: :delete,
                       class: 'btn btn-sm btn-danger ms-1',
                       form: { data: { turbo_confirm: 'Sicuro?' } } do %>
