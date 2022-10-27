@@ -6,80 +6,28 @@
     <div class='d-flex'>
       <%# Search form %>
       <div class='flex-grow-1'>
-        <%= form_tag chaltron_users_path, method: 'get', class: 'mb-3' do %>
-          <%= hidden_field_tag 'sort_direction', sort_direction %>
-          <%= hidden_field_tag 'sort_column', sort_column %>
-          <%= hidden_field_tag 'per_page', per_page %>
-          <%= hidden_field_tag('filter[never_logged_in]', '1') if @filter.never_logged_in %>
-          <% @filter.providers&.each do |i| %>
-            <%= hidden_field_tag('filter[providers][]', i, multiple: true) %>
-          <% end %>
-
-          <div class='input-group mb-3'>
-            <%= text_field_tag 'filter[search]', @filter.search,
-                               class: 'form-control', placeholder: t('.search_placeholder'), size: 50 %>
-            <span class='input-group-text'>
-              <%= link_to icon(:fas, 'trash-alt'),
-                          chaltron_users_path(
-                            request.params.deep_merge(filter: { search: '' }, page: nil)
-                          ),
-                          title: t('.reset_search'),
-                          data: {
-                            controller: 'chaltron--tooltip',
-                            bs_toggle: 'tooltip',
-                            bs_trigger: 'hover'
-                          } %>
-            </span>
-            <button class='btn btn-primary' type='submit'><%= t('.search') %></button>
-          </div>
-        <% end %>
+        <%
+          hidden_field_args = @filter.providers.map { |x| ['filter[providers][]', x, multiple: true] }
+          hidden_field_args << ['filter[never_logged_in]', '1'] if @filter.never_logged_in
+        %>
+        <%= render('shared/chaltron/search',
+                   url: { controller: 'chaltron/users', action: 'index' },
+                   hidden_field_args: hidden_field_args,
+                   value: @filter.search,
+                   placeholder: t('.search_placeholder'),
+                   reset_label: t('.reset_search'),
+                   submit_label: t('.search')) %>
       </div>
       <%# Per page %>
-      <div class='ms-3'>
-        <div id='sort-per-page' class='dropdown text-nowrap mb-3'>
-          <%= link_to t('.per_page', count: per_page), '#',
-                      data: { 'bs-toggle': 'dropdown' }, aria: { expanded: false },
-                      class: 'btn btn-primary dropdown-toggle' %>
-          <ul class='dropdown-menu' aria-labelledby='per-page'>
-            <% [10, 20, 50, 100].each do |count| %>
-              <li>
-              <%= link_to t('.per_page', count: count),
-                          chaltron_users_path(
-                            request.params.merge(per_page: count , page: nil)
-                          ),
-                          class: class_names('dropdown-item', { active: per_page == count }) %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
+      <%= render 'shared/chaltron/per_page',
+                 url: { controller: 'chaltron/users', action: 'index' },
+                 links: [10, 20, 50, 100].map { |x| [x, t('.per_page', count: x)] }.to_h %>
       <%# Sort columns %>
-      <div class='ms-3'>
-        <div id='sort' class='btn-group mb-3 float-end' role='group'>
-          <div class='btn-group' role='group'>
-            <button id='sort-column' type='button' class='btn btn-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
-              <%= t('.sorted_by') %> <%= Chaltron::User.human_attribute_name(sort_column).downcase %>
-            </button>
-            <ul class='dropdown-menu' aria-labelledby='sort-column'>
-              <% %w[created_at username email sign_in_count].each do |field| %>
-              <li>
-                <%= link_to chaltron_users_path(
-                              request.params.merge(sort_column: field, page: nil)
-                            ),
-                            class: class_names('dropdown-item', { active: sort_column == field }) do %>
-                    <%= t('.sorted_by') %> <%= Chaltron::User.human_attribute_name(field).downcase %>
-                <% end %>
-              </li>
-              <% end %>
-            </ul>
-          </div>
-          <%= link_to(chaltron_users_path(
-                        request.params.merge(sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'),
-                                             page: nil)), class: 'btn btn-outline-primary') do %>
-            <%= icon :fas, sort_direction == 'desc' ? 'sort-alpha-up' : 'sort-alpha-down' %>
-          <% end %>
-        </div>
-      </div>
+      <%= render('shared/chaltron/sort',
+                  url: { controller: 'chaltron/users', action: 'index' },
+                  links: %w[created_at username email sign_in_count].map do |x|
+                    [x, "#{t('.sorted_by')} #{Chaltron::User.human_attribute_name(x).downcase}"]
+                  end.to_h) %>
     </div>
 
     <div class='list-group'>

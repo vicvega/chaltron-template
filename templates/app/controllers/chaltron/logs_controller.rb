@@ -9,11 +9,10 @@ module Chaltron
 
     def index
       @filter = Log::Filter.new(filter_params)
-      @logs = @filter.apply(@logs).order("#{sort_column} #{sort_direction}")
-
+      @logs = @filter.apply(@logs)
       @severities = @logs.group(:severity).count.sort_by { |_k, v| v }.reverse.to_h
       @categories = @logs.group(:category).count.sort_by { |_k, v| v }.reverse.to_h
-      @pagy, @logs = pagy(@logs, items: per_page, page: page)
+      @pagy, @logs = pagy(@logs.order("#{sort_column} #{sort_direction}"), items: per_page, page: page)
     end
 
     def show; end

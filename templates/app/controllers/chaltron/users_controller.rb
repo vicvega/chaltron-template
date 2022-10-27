@@ -13,9 +13,11 @@ module Chaltron
 
     def index
       @users = @filter.apply(@users)
-                      .includes(:roles, avatar_attachment: :blob)
-                      .order("#{sort_column} #{sort_direction}")
       @providers = count_providers(@users)
+
+      @users = @users.includes(:roles, avatar_attachment: :blob)
+                     .order("#{sort_column} #{sort_direction}")
+
       @pagy, @users = pagy(@users, items: per_page, page: page)
     end
 

@@ -1,0 +1,23 @@
+<div class='ms-3'>
+  <div id='sort' class='btn-group mb-3 float-end' role='group'>
+    <div class='btn-group' role='group'>
+      <button id='sort-column' type='button' class='btn btn-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
+        <%= links[sort_column] %>
+      </button>
+      <ul class='dropdown-menu' aria-labelledby='sort-column'>
+        <% links.each do |sort, label| %>
+        <li>
+          <%= link_to label,
+                      url.merge(request.params.merge(sort_column: sort, page: nil)),
+                      class: class_names('dropdown-item', { active: sort_column == sort }) %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+    <%= link_to(url.merge(
+                  request.params.merge(sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'),
+                                        page: nil)), class: 'btn btn-outline-primary') do %>
+      <%= icon :fas, sort_direction == 'desc' ? 'sort-alpha-up' : 'sort-alpha-down' %>
+    <% end %>
+  </div>
+</div>
