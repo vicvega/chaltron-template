@@ -1,38 +1,29 @@
 module Chaltron
   class LogsController < ApplicationController
-    include Sortable
     include Paginatable
-    include Filterable
-
-    helper_method :filter_category, :filter_severity
+    include Sortable
     before_action :authenticate_user!
     load_and_authorize_resource
 
-    # default_sort_column :created_at
-    # default_sort_direction :desc
-    permitted_sort_columns Log.column_names
+    permitted_sort_columns %w[created_at message]
 
     def index
-      @logs = @logs.search(filter_search)
-      @logs = @logs.where(category: filter_category) if filter_category
-      @logs = @logs.where(severity: filter_severity) if filter_severity
+      @filter = Log::Filter.new(filter_params)
+      @logs = @filter.apply(@logs).order("#{sort_column} #{sort_direction}")
 
-      @logs_group_category = @logs.group(:category).count
-      @logs_group_severity = @logs.group(:severity).count
-
-      @pagy, @logs = pagy @logs.order("#{sort_column} #{sort_direction}"), items: per_page
+      @severities = @logs.group(:severity).count.sort_by { |_k, v| v }.reverse.to_h
+      @categories = @logs.group(:category).count.sort_by { |_k, v| v }.reverse.to_h
+      @pagy, @logs = pagy(@logs, items: per_page, page: page)
     end
 
     def show; end
 
     private
 
-    def filter_category
-      params[:category]
-    end
+    def filter_params
+      return {} if params[:filter].blank?
 
-    def filter_severity
-      Log::SEVERITIES.include?(params[:severity]) ? params[:severity] : nil
+      params[:filter].permit(:search, categories: [], severities: [])
     end
   end
 end

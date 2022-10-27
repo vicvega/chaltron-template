@@ -1,5 +1,6 @@
 require 'shellwords'
 require 'fileutils'
+require 'tmpdir'
 
 # Copied from: https://github.com/mattbrictson/rails-template
 # Add this template directory to source_paths so that Thor actions like
@@ -10,7 +11,6 @@ require 'fileutils'
 # Add this template directory to ruby load path too, to require custom lib
 def add_template_repository_to_source_path
   if __FILE__ =~ %r{\Ahttps?://}
-    require 'tmpdir'
     tempdir = Dir.mktmpdir('chaltron-')
     source_paths.unshift(File.join(tempdir, 'templates'))
     $LOAD_PATH.unshift(tempdir)
@@ -243,7 +243,7 @@ def add_users
   gsub_file devise_migration, '# t.string   :last_sign_in_ip',    't.string   :last_sign_in_ip'
 
   generate :migration, 'add_fields_to_chaltron_users username:string:uniq ' \
-    'fullname department enabled:boolean provider extern_uid'
+    'fullname department enabled:boolean extern_uid provider:string:index'
 
   gsub_file Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) },
             'add_column :chaltron_users, :enabled, :boolean',
@@ -258,7 +258,7 @@ def add_roles
 end
 
 def add_logs
-  generate :model, 'Chaltron::Log message:string{1000} severity category'
+  generate :model, 'Chaltron::Log message:string{1000} severity:integer:index category:string:index'
 end
 
 def setup_devise
@@ -326,25 +326,15 @@ def setup_simple_form
   generate 'simple_form:install --bootstrap'
   file = 'config/initializers/simple_form_bootstrap.rb'
 
-  gsub_file file,
-            "config.wrappers :horizontal_form, tag: 'div', class: 'form-group row'",
-            "config.wrappers :horizontal_form, tag: 'div', class: 'form-group row mb-3'"
+  tempdir = Dir.mktmpdir('simple_form_bootstrap-')
+  git clone: [
+    '--quiet',
+    'https://github.com/heartcombo/simple_form-bootstrap.git',
+    tempdir
+  ].map(&:shellescape).join(' ')
+  at_exit { FileUtils.remove_entry(tempdir) }
 
-  gsub_file file,
-            "config.wrappers :vertical_form, tag: 'div', class: 'form-group'",
-            "config.wrappers :vertical_form, tag: 'div', class: 'form-group mb-3'"
-
-  gsub_file file,
-            "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group'",
-            "config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'fieldset', class: 'form-group mb-3'"
-
-  gsub_file file,
-            "config.wrappers :vertical_file, tag: 'div', class: 'form-group', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|",
-            "config.wrappers :vertical_file, tag: 'div', class: 'form-group mb-3', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|"
-
-  gsub_file file,
-            "b.use :input, class: 'form-control-file', error_class: 'is-invalid', valid_class: 'is-valid'",
-            "b.use :input, class: 'form-control', error_class: 'is-invalid', valid_class: 'is-valid'"
+  FileUtils.mv File.join(tempdir, *%w[config initializers simple_form_bootstrap.rb]), file, force: true
 end
 
 def setup_pagy

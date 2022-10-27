@@ -25,11 +25,12 @@ en:
     logs:
       index:
         title: Log list
-        sorted_by: Sorted by
       logs:
         search: Search
-        category_filter: Category filter
-        severity_filter: Severity filter
+        search_placeholder: Search in message
+        sorted_by: Sorted by
+        filters: Filters
+        submit_filters: Apply filters
         reset_filters: Reset filters
         per_page: '%{count} log per page'
         reset_search: Reset search
@@ -51,12 +52,9 @@ en:
         search_placeholder: Search by name, email or department
         reset_search: Reset search
       filters:
+        filters: Filters
+        submit_filters: Apply filters
         reset_filters: Reset filters
-        provider_filter: Provider filter
-        inactivity_filter: Inactivity filter
-        local: Local
-        ldap: Ldap
-        no_login: Never logged in
       user:
         created_ago: Created %{time} ago
       edit:

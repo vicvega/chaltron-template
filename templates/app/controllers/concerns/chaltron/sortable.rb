@@ -1,7 +1,6 @@
 module Chaltron
   module Sortable
     extend ActiveSupport::Concern
-    include Memoizable
 
     included do
       helper_method :sort_column, :sort_direction
@@ -34,11 +33,11 @@ module Chaltron
     end
 
     def sort_direction
-      memoize('sort_direction') { perform_sort_direction }
+      @sort_direction ||= perform_sort_direction
     end
 
     def sort_column
-      memoize('sort_column')  { perform_sort_column }
+      @sort_column ||= perform_sort_column
     end
 
     private
@@ -50,11 +49,6 @@ module Chaltron
 
         send("validate_#{name}")
       end
-    end
-
-    def session_key(name)
-      prefix = self.class.controller_name
-      "#{prefix}_#{name}".to_sym
     end
 
     def validate_sort_direction

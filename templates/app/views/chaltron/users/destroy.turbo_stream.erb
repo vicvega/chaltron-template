@@ -1,7 +1,7 @@
 <% if current_user != @user %>
   <%= turbo_stream.remove dom_id(@user) %>
-  <%= turbo_stream.update 'filters' do %>
-    <%= render 'filters', count_filters: @count_filters %>
-  <% end %>
+<% end %>
+<%= turbo_stream.update 'filters' do %>
+  <%= render 'filters', filter: @filter, providers: @providers %>
 <% end %>
 <%= render_turbo_stream_flash_messages %>

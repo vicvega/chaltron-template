@@ -27,9 +27,10 @@ it:
         title: Elenco dei log
       logs:
         search: Cerca
+        search_placeholder: Cerca nel messaggio
         sorted_by: Ordinamento per
-        category_filter: Filtro per categoria
-        severity_filter: Filtro per severità
+        filters: Filtri
+        submit_filters: Applica filtri
         reset_filters: Resetta filtri
         per_page: '%{count} log per pagina'
         reset_search: Resetta ricerca
@@ -51,12 +52,9 @@ it:
         search_placeholder: Cerca per nome, email o dipartimento
         reset_search: Resetta ricerca
       filters:
+        filters: Filtri
+        submit_filters: Applica filtri
         reset_filters: Resetta filtri
-        provider_filter: Filtro per provider
-        inactivity_filter: Filtro per inattività
-        local: Locale
-        ldap: Ldap
-        no_login: Mai loggati
       user:
         created_ago: Creato %{time} fa
       edit:

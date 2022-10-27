@@ -1,4 +1,12 @@
 en:
+  activemodel:
+    attributes:
+      chaltron/log/list:
+        categories: Category
+        severities: Severity
+      chaltron/user/list:
+        providers: Provider
+        never_logged_in: Never logged in
   activerecord:
     errors:
       models:
@@ -61,6 +69,9 @@ en:
       missing_field: Missing!
       already_present: Already present!
       inactive_message: Your account has been disabled.
+      provider:
+        ldap: ldap
+        local: local
     logs:
       severity:
         emerg: Emergency

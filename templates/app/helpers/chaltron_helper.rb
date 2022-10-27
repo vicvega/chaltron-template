@@ -44,7 +44,7 @@ module ChaltronHelper
   end
 
   def render_turbo_stream_flash_messages
-    turbo_stream.prepend 'flash', partial: 'shared/flash'
+    turbo_stream.prepend 'flash', partial: 'shared/chaltron/flash'
   end
 
   #
@@ -56,23 +56,5 @@ module ChaltronHelper
 
     v = File.read(version_file).strip
     v.presence
-  end
-
-  def display_side_filter_link(url, active, text, count, id)
-    return unless count.positive?
-
-    klass = 'list-group-item list-group-item-action'
-    klass += ' active' if active
-
-    badge_klass = 'badge rounded-pill float-end'
-    badge_klass += if active
-                     ' bg-light text-dark'
-                   else
-                     ' bg-primary'
-                   end
-
-    link_to url, class: klass, id: "filter_#{id}_link" do
-      tag.span(number_with_delimiter(count), class: badge_klass, id: "filter_#{id}_count") + text
-    end
   end
 end

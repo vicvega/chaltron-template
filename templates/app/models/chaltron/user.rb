@@ -10,15 +10,6 @@ module Chaltron
 
     has_one_attached :avatar
 
-    def self.search(search)
-      if search
-        where('username LIKE :query or fullname LIKE :query or email LIKE :query or department LIKE :query',
-              { query: "%#{search}%" })
-      else
-        all
-      end
-    end
-
     def display_name
       fullname.presence || username
     end
@@ -28,6 +19,29 @@ module Chaltron
       return if avatar.variable?
 
       errors.add(:avatar, :unvariable)
+    end
+
+    class Filter
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+
+      attribute :search
+      attribute :providers, array: true, default: -> { [] }
+      attribute :never_logged_in, :boolean, default: -> { false }
+
+      def apply(ret)
+        # otherwise a filter with no providers should filter everything
+        providers&.compact_blank!
+
+        ret = ret.where(provider: providers.map { |k| k == 'local' ? nil : k }) if providers.present?
+        ret = ret.where(sign_in_count: 0) if never_logged_in
+        if search.present?
+          ret = ret.where('username LIKE :query or fullname LIKE :query ' \
+                          'or email LIKE :query or department LIKE :query',
+                          { query: "%#{search}%" })
+        end
+        ret
+      end
     end
   end
 end

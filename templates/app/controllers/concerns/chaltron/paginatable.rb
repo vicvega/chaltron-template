@@ -1,7 +1,6 @@
 module Chaltron
   module Paginatable
     extend ActiveSupport::Concern
-    include Memoizable
 
     included do
       include Pagy::Backend
@@ -19,11 +18,11 @@ module Chaltron
     end
 
     def per_page
-      memoize('per_page') { perform_per_page }
+      @per_page ||= perform_per_page
     end
 
     def page
-      memoize('page') { perform_page }
+      @page ||= perform_page
     end
 
     private
@@ -35,11 +34,6 @@ module Chaltron
 
         send("validate_#{name}")
       end
-    end
-
-    def session_key(name)
-      prefix = self.class.controller_name
-      "#{prefix}_#{name}".to_sym
     end
 
     def validate_per_page
