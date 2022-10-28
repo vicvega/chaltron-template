@@ -6,28 +6,24 @@
     <div class='d-flex'>
       <%# Search form %>
       <div class='flex-grow-1'>
-        <%
-          hidden_field_args = @filter.providers.map { |x| ['filter[providers][]', x, multiple: true] }
-          hidden_field_args << ['filter[never_logged_in]', '1'] if @filter.never_logged_in
-        %>
+        <% hidden_field_args = @filter.providers.map { |x| ['filter[providers][]', x, { multiple: true }] }
+           hidden_field_args << ['filter[never_logged_in]', '1'] if @filter.never_logged_in %>
         <%= render('shared/chaltron/search',
                    url: { controller: 'chaltron/users', action: 'index' },
                    hidden_field_args: hidden_field_args,
                    value: @filter.search,
-                   placeholder: t('.search_placeholder'),
-                   reset_label: t('.reset_search'),
-                   submit_label: t('.search')) %>
+                   placeholder: t('.search_placeholder')) %>
       </div>
       <%# Per page %>
       <%= render 'shared/chaltron/per_page',
                  url: { controller: 'chaltron/users', action: 'index' },
-                 links: [10, 20, 50, 100].map { |x| [x, t('.per_page', count: x)] }.to_h %>
+                 links: [10, 20, 50, 100].index_with { |x| t('.per_page', count: x) } %>
       <%# Sort columns %>
       <%= render('shared/chaltron/sort',
-                  url: { controller: 'chaltron/users', action: 'index' },
-                  links: %w[created_at username email sign_in_count].map do |x|
-                    [x, "#{t('.sorted_by')} #{Chaltron::User.human_attribute_name(x).downcase}"]
-                  end.to_h) %>
+                 url: { controller: 'chaltron/users', action: 'index' },
+                 links: %w[created_at username email sign_in_count].index_with do |x|
+                   "#{t('.sorted_by')} #{Chaltron::User.human_attribute_name(x).downcase}"
+                 end) %>
     </div>
 
     <div class='list-group'>

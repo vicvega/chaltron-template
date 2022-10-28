@@ -89,9 +89,9 @@ module Chaltron
     private
 
     def count_providers(users)
-      users.group(:provider).count.transform_keys do |k|
-        k.nil? ? 'local' : k
-      end.sort_by { |_k, v| v }.reverse.to_h
+      users.group(:provider).count
+           .transform_keys { |k| k.nil? ? 'local' : k }
+           .sort_by { |_k, v| v }.reverse.to_h
     end
 
     def set_filter

@@ -1,4 +1,4 @@
-<h4><%= t('.filters')%></h4>
+<h4><%= t('.filters') %></h4>
 <%= simple_form_for filter, as: :filter, url: chaltron_users_path, method: 'get' do |f| %>
   <%= hidden_field_tag 'sort_direction', sort_direction %>
   <%= hidden_field_tag 'sort_column', sort_column %>
@@ -8,7 +8,7 @@
        "#{t("chaltron.users.provider.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
      end %>
   <%= f.input :providers, collection: labels.zip(providers.keys).to_a,
-                            as: :check_boxes, wrapper: :vertical_collection_inline, include_hidden: false %>
+                          as: :check_boxes, wrapper: :vertical_collection_inline, include_hidden: false %>
   <%= f.input :never_logged_in, wrapper: :custom_boolean_switch, as: :boolean %>
   <%= f.submit t('.submit_filters'), class: 'btn btn-primary w-100' %>
 <% end %>
@@ -16,7 +16,7 @@
 <hr>
 <%# Reset filters %>
 <%= link_to t('.reset_filters'),
-            chaltron_users_path(request.params.deep_merge(
-              filter: { providers: [], never_logged_in: false }, page: nil)
+            chaltron_users_path(
+              request.params.deep_merge(filter: { providers: [], never_logged_in: false }, page: nil)
             ),
             class: 'btn btn-primary w-100 mb-3' %>

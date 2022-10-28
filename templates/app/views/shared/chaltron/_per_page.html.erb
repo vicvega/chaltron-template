@@ -1,3 +1,4 @@
+<% links ||= [10, 20, 50, 100].index_with { |x| t('.per_page', count: x) } %>
 <div class='ms-3'>
   <div id='sort-per-page' class='dropdown text-nowrap mb-3 float-end'>
     <%= link_to links[per_page], '#',

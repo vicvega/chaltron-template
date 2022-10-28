@@ -1,19 +1,19 @@
 <div class='row'>
   <div class='col-md-3'>
-    <h4><%= t('.filters')%></h4>
+    <h4><%= t('.filters') %></h4>
     <%= simple_form_for @filter, as: :filter, url: chaltron_logs_path, method: 'get' do |f| %>
       <%= f.hidden_field(:search) %>
       <%= hidden_field_tag 'sort_direction', sort_direction %>
       <%= hidden_field_tag 'sort_column', sort_column %>
       <%= hidden_field_tag 'per_page', per_page %>
       <% labels = @severities.to_a.map do |x|
-        "#{t("chaltron.logs.severity.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
-        end %>
+           "#{t("chaltron.logs.severity.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
+         end %>
       <%= f.input :severities, collection: labels.zip(@severities.keys).to_a,
                                as: :check_boxes, wrapper: :vertical_collection_inline, include_hidden: false %>
       <% labels = @categories.to_a.map do |x|
-        "#{t("chaltron.logs.category.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
-        end %>
+           "#{t("chaltron.logs.category.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
+         end %>
       <%= f.input :categories, collection: labels.zip(@categories.keys).to_a,
                                as: :check_boxes, wrapper: :vertical_collection_inline, include_hidden: false %>
       <%= f.submit t('.submit_filters'), class: 'btn btn-primary w-100' %>
@@ -32,28 +32,24 @@
     <div class='d-flex'>
       <%# Search form %>
       <div class='flex-grow-1'>
-        <%
-          categories = @filter.categories.map { |x| ['filter[categories][]', x, multiple: true] }
-          severities = @filter.severities.map { |x| ['filter[severities][]', x, multiple: true] }
-        %>
+        <% categories = @filter.categories.map { |x| ['filter[categories][]', x, { multiple: true }] }
+           severities = @filter.severities.map { |x| ['filter[severities][]', x, { multiple: true }] } %>
         <%= render('shared/chaltron/search',
                    url: { controller: 'chaltron/logs', action: 'index' },
                    hidden_field_args: categories + severities,
                    value: @filter.search,
-                   placeholder: t('.search_placeholder'),
-                   reset_label: t('.reset_search'),
-                   submit_label: t('.search')) %>
+                   placeholder: t('.search_placeholder')) %>
       </div>
       <%# Per page %>
       <%= render 'shared/chaltron/per_page',
                  url: { controller: 'chaltron/logs', action: 'index' },
-                 links: [10, 20, 50, 100].map { |x| [x, t('.per_page', count: x)] }.to_h %>
+                 links: [10, 20, 50, 100].index_with { |x| t('.per_page', count: x) } %>
       <%# Sort columns %>
       <%= render('shared/chaltron/sort',
-                  url: { controller: 'chaltron/logs', action: 'index' },
-                  links: %w[created_at message].map do |x|
-                    [x, "#{t('.sorted_by')} #{Chaltron::Log.human_attribute_name(x).downcase}"]
-                  end.to_h) %>
+                 url: { controller: 'chaltron/logs', action: 'index' },
+                 links: %w[created_at message].index_with do |x|
+                   "#{t('.sorted_by')} #{Chaltron::Log.human_attribute_name(x).downcase}"
+                 end) %>
     </div>
     <div class='list-group'>
       <%= render partial: 'log', collection: @logs, locals: { filter: @filter } %>

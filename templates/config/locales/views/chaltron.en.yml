@@ -21,19 +21,24 @@ en:
       new_ldap:
         remember_me: Remember me
         submit_text: LDAP login
+  shared:
+    chaltron:
+      per_page:
+        per_page: '%{count} per page'
+      search:
+        submit: Search
+        reset: Reset search
   chaltron:
     logs:
       index:
         title: Log list
       logs:
-        search: Search
         search_placeholder: Search in message
         sorted_by: Sorted by
         filters: Filters
         submit_filters: Apply filters
         reset_filters: Reset filters
         per_page: '%{count} log per page'
-        reset_search: Reset search
       show:
         headers:
           details: Details
@@ -46,11 +51,9 @@ en:
         new_local_user: New local user
         new_ldap_user: New LDAP user
       users:
-        search: Search
         sorted_by: Sorted by
         per_page: '%{count} users per page'
         search_placeholder: Search by name, email or department
-        reset_search: Reset search
       filters:
         filters: Filters
         submit_filters: Apply filters

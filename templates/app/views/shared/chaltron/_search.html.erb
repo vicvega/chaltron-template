@@ -1,8 +1,11 @@
+<% reset_label ||= t('.reset')
+   submit_label ||= t('.submit')
+   hidden_field_args ||= [] %>
 <%= form_tag url, method: 'get' do %>
   <%= hidden_field_tag 'sort_direction', sort_direction %>
   <%= hidden_field_tag 'sort_column', sort_column %>
   <%= hidden_field_tag 'per_page', per_page %>
-  <% hidden_field_args.each do |args|  %>
+  <% hidden_field_args.each do |args| %>
     <%= hidden_field_tag(*args) %>
   <% end %>
   <div class='input-group mb-3'>
