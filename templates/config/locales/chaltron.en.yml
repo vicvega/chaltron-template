@@ -1,10 +1,10 @@
 en:
   activemodel:
     attributes:
-      chaltron/log/list:
+      chaltron/log/filter:
         categories: Category
         severities: Severity
-      chaltron/user/list:
+      chaltron/user/filter:
         providers: Provider
         never_logged_in: Never logged in
   activerecord:
