@@ -34,7 +34,8 @@
       </div>
       <div class='mt-2 d-flex justify-content-end'>
         <% if can? :edit, user %>
-          <%= link_to edit_chaltron_user_path(user), class: 'btn btn-sm btn-primary' do %>
+          <%= link_to edit_chaltron_user_path(user, params: request.params.slice(:filter)),
+                      class: 'btn btn-sm btn-primary' do %>
             <%= icon :fas, 'pen-to-square' %>
           <% end %>
           <% if user != current_user %>
