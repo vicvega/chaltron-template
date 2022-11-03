@@ -2,6 +2,10 @@ module Chaltron
   class LogsController < ApplicationController
     include Paginatable
     include Sortable
+
+    preserve :filter, only: :index
+    # preserve :filter, :per_page, :sort_direction, :sort_column, only: :index
+
     before_action :authenticate_user!
     load_and_authorize_resource
 

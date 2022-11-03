@@ -2,18 +2,15 @@
    submit_label ||= t('.submit')
    hidden_field_args ||= [] %>
 <%= form_tag url, method: 'get' do %>
-  <%= hidden_field_tag 'sort_direction', sort_direction %>
-  <%= hidden_field_tag 'sort_column', sort_column %>
-  <%= hidden_field_tag 'per_page', per_page %>
   <% hidden_field_args.each do |args| %>
     <%= hidden_field_tag(*args) %>
   <% end %>
   <div class='input-group mb-3'>
-    <%= text_field_tag 'filter[search]', value,
+    <%= text_field_tag 'filter[search]', filter.search,
                        class: 'form-control', placeholder: placeholder, size: 50 %>
     <span class='input-group-text'>
       <%= link_to icon(:fas, 'trash-alt'),
-                  url.merge(request.params.deep_merge(filter: { search: '' }, page: nil)),
+                  url.merge(filter: filter.attributes.merge('search' => '') , page: nil),
                   title: reset_label,
                   data: {
                     controller: 'chaltron--tooltip',

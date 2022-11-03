@@ -81,6 +81,7 @@ def add_gems
   gem 'simple_form'
   gem 'rails-i18n'
   gem 'pagy'
+  gem 'preserve'
 
   gem_group :development do
     gem 'foreman'

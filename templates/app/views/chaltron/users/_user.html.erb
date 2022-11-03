@@ -40,19 +40,16 @@
           <% end %>
           <% if user != current_user %>
             <%= button_to disable_chaltron_user_path(user),
-                          params: request.params.slice(:filter),
                           class: 'btn btn-sm btn-danger ms-1' do %>
               <%= icon :fas, 'user-slash' %>
             <% end if user.enabled? %>
             <%= button_to enable_chaltron_user_path(user),
-                          params: request.params.slice(:filter),
                           class: 'btn btn-sm btn-primary ms-1' do %>
               <%= icon :fas, :user %>
             <% end if user.disabled? %>
           <% end %>
         <% end %>
         <%= button_to chaltron_user_path(user),
-                      params: request.params.slice(:filter),
                       method: :delete,
                       class: 'btn btn-sm btn-danger ms-1',
                       form: { data: { turbo_confirm: 'Sicuro?' } } do %>

@@ -3,9 +3,6 @@
     <h4><%= t('.filters') %></h4>
     <%= simple_form_for @filter, as: :filter, url: chaltron_logs_path, method: 'get' do |f| %>
       <%= f.hidden_field(:search) %>
-      <%= hidden_field_tag 'sort_direction', sort_direction %>
-      <%= hidden_field_tag 'sort_column', sort_column %>
-      <%= hidden_field_tag 'per_page', per_page %>
       <% labels = @severities.to_a.map do |x|
            "#{t("chaltron.logs.severity.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
          end %>
@@ -21,11 +18,8 @@
     <hr>
     <%# Reset filters %>
     <%= link_to t('.reset_filters'),
-                chaltron_logs_path(
-                  request.params.deep_merge(
-                    filter: { severities: [], categories: [] }, page: nil
-                  )
-                ),
+                { controller: 'chaltron/logs', action: 'index',
+                  filter: @filter.attributes.merge('severities' => [], 'categories' => []), page: nil  },
                 class: 'btn btn-primary w-100 mb-3' %>
   </div>
   <div class='col-md-9'>
@@ -37,7 +31,7 @@
         <%= render('shared/chaltron/search',
                    url: { controller: 'chaltron/logs', action: 'index' },
                    hidden_field_args: categories + severities,
-                   value: @filter.search,
+                   filter: @filter,
                    placeholder: t('.search_placeholder')) %>
       </div>
       <%# Per page %>

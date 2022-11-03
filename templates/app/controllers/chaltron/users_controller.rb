@@ -2,6 +2,10 @@ module Chaltron
   class UsersController < ApplicationController
     include Paginatable
     include Sortable
+
+    preserve :filter
+    # preserve :filter, :per_page, :sort_direction, :sort_column
+
     before_action :authenticate_user!
     before_action :set_filter
 

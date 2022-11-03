@@ -11,7 +11,7 @@
         <%= render('shared/chaltron/search',
                    url: { controller: 'chaltron/users', action: 'index' },
                    hidden_field_args: hidden_field_args,
-                   value: @filter.search,
+                   filter: @filter,
                    placeholder: t('.search_placeholder')) %>
       </div>
       <%# Per page %>
