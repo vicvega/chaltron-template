@@ -18,23 +18,14 @@ module Chaltron
     end
 
     def per_page
-      @per_page ||= perform_per_page
+      @per_page ||= validate_per_page
     end
 
     def page
-      @page ||= perform_page
+      @page ||= validate_page
     end
 
     private
-
-    %w[per_page page].each do |name|
-      define_method("perform_#{name}") do
-        default = self.class.respond_to?(name) ? self.class.send(name) : nil
-        return default if params[name.to_sym].nil?
-
-        send("validate_#{name}")
-      end
-    end
 
     def validate_per_page
       ret = params[:per_page]&.to_i

@@ -6,12 +6,8 @@
     <div class='d-flex'>
       <%# Search form %>
       <div class='flex-grow-1'>
-        <% hidden_field_args = @filter.providers.map { |x| ['filter[providers][]', x, { multiple: true }] }
-           hidden_field_args << ['filter[never_logged_in]', '1'] if @filter.never_logged_in %>
         <%= render('shared/chaltron/search',
                    url: { controller: 'chaltron/users', action: 'index' },
-                   hidden_field_args: hidden_field_args,
-                   filter: @filter,
                    placeholder: t('.search_placeholder')) %>
       </div>
       <%# Per page %>
@@ -27,7 +23,7 @@
     </div>
 
     <div class='list-group'>
-      <%= render partial: 'user', collection: @users, locals: { filter: @filter } %>
+      <%= render partial: 'user', collection: @users %>
     </div>
     <div class='mt-3'>
       <%== pagy_info(@pagy) %>

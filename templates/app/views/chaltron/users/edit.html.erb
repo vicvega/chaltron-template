@@ -4,7 +4,6 @@
     <%= simple_form_for @user, as: :chaltron_user, url: chaltron_user_path(@user), method: :patch,
                                namespace: @user.id, wrapper: :vertical_form do |f| %>
       <%= f.error_notification %>
-      <%= hidden_field_tag 'filter[search]', @filter.search %>
       <% if current_user == @user %>
         <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline, required: false,
                                collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] },

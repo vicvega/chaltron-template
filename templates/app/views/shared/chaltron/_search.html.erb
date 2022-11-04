@@ -1,16 +1,12 @@
 <% reset_label ||= t('.reset')
-   submit_label ||= t('.submit')
-   hidden_field_args ||= [] %>
+   submit_label ||= t('.submit') %>
 <%= form_tag url, method: 'get' do %>
-  <% hidden_field_args.each do |args| %>
-    <%= hidden_field_tag(*args) %>
-  <% end %>
   <div class='input-group mb-3'>
-    <%= text_field_tag 'filter[search]', filter.search,
+    <%= text_field_tag 'search', search,
                        class: 'form-control', placeholder: placeholder, size: 50 %>
     <span class='input-group-text'>
       <%= link_to icon(:fas, 'trash-alt'),
-                  url.merge(filter: filter.attributes.merge('search' => '') , page: nil),
+                  url.merge(search: '', page: 1),
                   title: reset_label,
                   data: {
                     controller: 'chaltron--tooltip',

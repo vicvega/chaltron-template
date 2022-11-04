@@ -2,7 +2,9 @@
   <div class='col-md-3'>
     <h4><%= t('.filters') %></h4>
     <%= simple_form_for @filter, as: :filter, url: chaltron_logs_path, method: 'get' do |f| %>
-      <%= f.hidden_field(:search) %>
+      <%= hidden_field_tag :page, 1 %>
+      <%= hidden_field_tag 'filter[severities][]', '' %>
+      <%= hidden_field_tag 'filter[categories][]', '' %>
       <% labels = @severities.to_a.map do |x|
            "#{t("chaltron.logs.severity.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
          end %>
@@ -19,19 +21,15 @@
     <%# Reset filters %>
     <%= link_to t('.reset_filters'),
                 { controller: 'chaltron/logs', action: 'index',
-                  filter: @filter.attributes.merge('severities' => [], 'categories' => []), page: nil  },
+                  filter: { severities: [''], categories: [''] }, page: 1 },
                 class: 'btn btn-primary w-100 mb-3' %>
   </div>
   <div class='col-md-9'>
     <div class='d-flex'>
       <%# Search form %>
       <div class='flex-grow-1'>
-        <% categories = @filter.categories.map { |x| ['filter[categories][]', x, { multiple: true }] }
-           severities = @filter.severities.map { |x| ['filter[severities][]', x, { multiple: true }] } %>
         <%= render('shared/chaltron/search',
                    url: { controller: 'chaltron/logs', action: 'index' },
-                   hidden_field_args: categories + severities,
-                   filter: @filter,
                    placeholder: t('.search_placeholder')) %>
       </div>
       <%# Per page %>
@@ -46,7 +44,7 @@
                  end) %>
     </div>
     <div class='list-group'>
-      <%= render partial: 'log', collection: @logs, locals: { filter: @filter } %>
+      <%= render partial: 'log', collection: @logs %>
     </div>
     <div class='mt-3'>
       <%== pagy_info(@pagy) %>

@@ -4,19 +4,19 @@
     <%= display_user_avatar user, size: 70, class: 'rounded align-self-center mx-2' %>
     <div class='flex-grow-1'>
       <h5 class='mb-0'>
-        <%= highlight(user.display_name, filter.search) %>
+        <%= highlight(user.display_name, search) %>
         <%= safe_join(user.roles.map do |x|
                         tag.span(t("chaltron/roles.#{x.name}"), class: 'badge bg-primary me-2')
                       end) %>
       </h5>
       <p class='mb-0 opacity-75'>
-        <%= highlight(user.username, filter.search) %>
+        <%= highlight(user.username, search) %>
         <%= tag.span(I18n.t('chaltron.users.it_s_you'), class: 'badge bg-success me-2') if user == current_user %>
         <%= tag.span(t('chaltron.users.user_disabled'), class: 'badge bg-danger me-2') if user.disabled? %>
       </p>
-      <p class='mb-0 opacity-75'><%= highlight(user.email, filter.search) %></p>
+      <p class='mb-0 opacity-75'><%= highlight(user.email, search) %></p>
       <%= tag.p class: 'mb-0 opacity-75' do %>
-        <%= highlight(user.department, filter.search) %>
+        <%= highlight(user.department, search) %>
       <% end if user.department.present? %>
     </div>
     <div class='d-flex flex-column justify-content-between'>
@@ -34,7 +34,7 @@
       </div>
       <div class='mt-2 d-flex justify-content-end'>
         <% if can? :edit, user %>
-          <%= link_to edit_chaltron_user_path(user, params: request.params.slice(:filter)),
+          <%= link_to edit_chaltron_user_path(user),
                       class: 'btn btn-sm btn-primary' do %>
             <%= icon :fas, 'pen-to-square' %>
           <% end %>

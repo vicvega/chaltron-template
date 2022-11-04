@@ -2,9 +2,11 @@ module Chaltron
   class UsersController < ApplicationController
     include Paginatable
     include Sortable
+    include Searchable
 
     preserve :filter
-    # preserve :filter, :per_page, :sort_direction, :sort_column
+    # preserve :filter, :page, :per_page, :sort_direction, :sort_column
+    preserve :search, allow_blank: true
 
     before_action :authenticate_user!
     before_action :set_filter
@@ -16,12 +18,10 @@ module Chaltron
     permitted_sort_columns %w[created_at username email sign_in_count]
 
     def index
-      @users = @filter.apply(@users)
+      @users = @users.filtrate(@filter).search(search)
       @providers = count_providers(@users)
-
       @users = @users.includes(:roles, avatar_attachment: :blob)
                      .order("#{sort_column} #{sort_direction}")
-
       @pagy, @users = pagy(@users, items: per_page, page: page)
     end
 
@@ -105,7 +105,7 @@ module Chaltron
     def filter_params
       return {} if params[:filter].blank?
 
-      params[:filter].permit(:search, :never_logged_in, providers: [])
+      params[:filter].permit(:never_logged_in, providers: [])
     end
 
     def update_params

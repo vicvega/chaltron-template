@@ -1,6 +1,7 @@
 <h4><%= t('.filters') %></h4>
 <%= simple_form_for filter, as: :filter, url: chaltron_users_path, method: 'get' do |f| %>
-  <%= f.hidden_field(:search) %>
+  <%= hidden_field_tag :page, 1 %>
+  <%= hidden_field_tag 'filter[providers][]', '' %>
   <% labels = providers.to_a.map do |x|
        "#{t("chaltron.users.provider.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
      end %>
@@ -14,5 +15,5 @@
 <%# Reset filters %>
 <%= link_to t('.reset_filters'),
             { controller: 'chaltron/users', action: 'index',
-              filter: @filter.attributes.merge('providers' => [], 'never_logged_in' => false), page: nil  },
+              filter: { providers: [''], never_logged_in: false }, page: 1 },
             class: 'btn btn-primary w-100 mb-3' %>

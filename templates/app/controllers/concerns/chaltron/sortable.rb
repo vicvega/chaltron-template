@@ -33,23 +33,14 @@ module Chaltron
     end
 
     def sort_direction
-      @sort_direction ||= perform_sort_direction
+      @sort_direction ||= validate_sort_direction
     end
 
     def sort_column
-      @sort_column ||= perform_sort_column
+      @sort_column ||= validate_sort_column
     end
 
     private
-
-    %w[sort_column sort_direction].each do |name|
-      define_method("perform_#{name}") do
-        default = self.class.respond_to?(name) ? self.class.send(name) : nil
-        return default if params[name.to_sym].nil?
-
-        send("validate_#{name}")
-      end
-    end
 
     def validate_sort_direction
       %w[asc desc].include?(params[:sort_direction]) ? params[:sort_direction] : self.class.sort_direction
