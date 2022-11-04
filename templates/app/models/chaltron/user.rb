@@ -21,11 +21,23 @@ module Chaltron
       errors.add(:avatar, :unvariable)
     end
 
+    def self.search(search)
+      if search
+        where('username LIKE :query or fullname LIKE :query or email LIKE :query or department LIKE :query',
+              { query: "%#{search}%" })
+      else
+        all
+      end
+    end
+
+    def self.filtrate(filter)
+      filter.apply(self)
+    end
+
     class Filter
       include ActiveModel::Model
       include ActiveModel::Attributes
 
-      attribute :search
       attribute :providers, array: true, default: -> { [] }
       attribute :never_logged_in, :boolean, default: -> { false }
 
@@ -35,11 +47,6 @@ module Chaltron
 
         ret = ret.where(provider: providers.map { |k| k == 'local' ? nil : k }) if providers.present?
         ret = ret.where(sign_in_count: 0) if never_logged_in
-        if search.present?
-          ret = ret.where('username LIKE :query or fullname LIKE :query ' \
-                          'or email LIKE :query or department LIKE :query',
-                          { query: "%#{search}%" })
-        end
         ret
       end
     end

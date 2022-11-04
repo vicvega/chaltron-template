@@ -9,6 +9,18 @@ module Chaltron
 
     # after_create :to_syslog
 
+    def self.search(search)
+      if search
+        where('message LIKE :query', { query: "%#{search}%" })
+      else
+        all
+      end
+    end
+
+    def self.filtrate(filter)
+      filter.apply(self)
+    end
+
     private
 
     def truncate_message
@@ -25,7 +37,6 @@ module Chaltron
       include ActiveModel::Model
       include ActiveModel::Attributes
 
-      attribute :search
       attribute :categories, array: true, default: -> { [] }
       attribute :severities, array: true, default: -> { [] }
 
@@ -35,7 +46,6 @@ module Chaltron
         severities&.compact_blank!
         ret = ret.where(category: categories) if categories.present?
         ret = ret.where(severity: severities) if severities.present?
-        ret = ret.where('message LIKE :query', { query: "%#{search}%" }) if search.present?
         ret
       end
     end
