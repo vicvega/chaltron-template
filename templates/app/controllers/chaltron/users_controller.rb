@@ -19,7 +19,7 @@ module Chaltron
 
     def index
       @users = @users.filtrate(@filter).search(search)
-      @providers = count_providers(@users)
+      @count_filters = count_filters(@users)
       @users = @users.includes(:roles, avatar_attachment: :blob)
                      .order("#{sort_column} #{sort_direction}")
       @pagy, @users = pagy(@users, items: per_page, page: page)
@@ -78,7 +78,7 @@ module Chaltron
         options = { alert: message }
       else
         @user.destroy
-        @providers = count_providers(@filter.apply(Chaltron::User.accessible_by(current_ability)))
+        @count_filters = count_filters(@filter.apply(Chaltron::User.accessible_by(current_ability)))
         info I18n.t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
         message = I18n.t('chaltron.users.deleted')
         flash.now[:notice] = message
@@ -92,10 +92,13 @@ module Chaltron
 
     private
 
-    def count_providers(users)
-      users.group(:provider).count
-           .transform_keys { |k| k.nil? ? 'local' : k }
-           .sort_by { |_k, v| v }.reverse.to_h
+    def count_filters(users)
+      {
+        providers: users.group(:provider).count
+                        .transform_keys { |k| k.nil? ? 'local' : k }
+                        .sort_by { |_k, v| v }.reverse.to_h,
+        never_logged_in: users.where(sign_in_count: 0).count
+      }
     end
 
     def set_filter
