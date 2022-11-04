@@ -3,18 +3,16 @@
     <h4><%= t('.filters') %></h4>
     <%= simple_form_for @filter, as: :filter, url: chaltron_logs_path, method: 'get' do |f| %>
       <%= hidden_field_tag :page, 1 %>
-      <%= hidden_field_tag 'filter[severities][]', '' %>
-      <%= hidden_field_tag 'filter[categories][]', '' %>
       <% labels = @severities.to_a.map do |x|
            "#{t("chaltron.logs.severity.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
          end %>
       <%= f.input :severities, collection: labels.zip(@severities.keys).to_a,
-                               as: :check_boxes, wrapper: :vertical_collection_inline, include_hidden: false %>
+                               as: :check_boxes, wrapper: :vertical_collection_inline %>
       <% labels = @categories.to_a.map do |x|
            "#{t("chaltron.logs.category.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
          end %>
       <%= f.input :categories, collection: labels.zip(@categories.keys).to_a,
-                               as: :check_boxes, wrapper: :vertical_collection_inline, include_hidden: false %>
+                               as: :check_boxes, wrapper: :vertical_collection_inline %>
       <%= f.submit t('.submit_filters'), class: 'btn btn-primary w-100' %>
     <% end %>
     <hr>
