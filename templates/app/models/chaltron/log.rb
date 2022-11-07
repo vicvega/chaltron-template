@@ -18,7 +18,7 @@ module Chaltron
     end
 
     def self.filtrate(filter)
-      filter.apply(self)
+      filter.apply(all)
     end
 
     private
