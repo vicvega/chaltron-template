@@ -78,7 +78,7 @@ module Chaltron
         options = { alert: message }
       else
         @user.destroy
-        @count_filters = count_filters(@filter.apply(Chaltron::User.accessible_by(current_ability)))
+        @count_filters = count_filters(Chaltron::User.accessible_by(current_ability).filtrate(@filter).search(search))
         info I18n.t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
         message = I18n.t('chaltron.users.deleted')
         flash.now[:notice] = message
