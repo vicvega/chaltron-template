@@ -8,7 +8,7 @@
       <% links.each do |count, label| %>
         <li>
         <%= link_to label,
-                    url.merge(request.params.merge(per_page: count, page: nil)),
+                    url.merge(per_page: count, page: 1),
                     class: class_names('dropdown-item', { active: per_page == count }) %>
         </li>
       <% end %>

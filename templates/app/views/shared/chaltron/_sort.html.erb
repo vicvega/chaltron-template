@@ -8,7 +8,7 @@
         <% links.each do |sort, label| %>
         <li>
           <%= link_to label,
-                      url.merge(request.params.merge(sort_column: sort, page: nil)),
+                      url.merge(sort_column: sort, page: 1),
                       class: class_names('dropdown-item', { active: sort_column == sort }) %>
         </li>
         <% end %>
