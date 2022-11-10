@@ -1,12 +1,12 @@
 <% reset_label ||= t('.reset')
    submit_label ||= t('.submit') %>
-<%= form_tag url, method: 'get' do %>
+<%= form_tag nil, method: 'get' do %>
   <div class='input-group mb-3'>
     <%= text_field_tag 'search', search,
                        class: 'form-control', placeholder: placeholder, size: 50 %>
     <span class='input-group-text'>
       <%= link_to icon(:fas, 'trash-alt'),
-                  url.merge(search: '', page: 1),
+                  { search: '', page: 1 },
                   title: reset_label,
                   data: {
                     controller: 'chaltron--tooltip',

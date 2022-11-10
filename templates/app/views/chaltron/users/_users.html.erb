@@ -6,17 +6,13 @@
     <div class='d-flex'>
       <%# Search form %>
       <div class='flex-grow-1'>
-        <%= render('shared/chaltron/search',
-                   url: { controller: 'chaltron/users', action: 'index' },
-                   placeholder: t('.search_placeholder')) %>
+        <%= render('shared/chaltron/search', placeholder: t('.search_placeholder')) %>
       </div>
       <%# Per page %>
       <%= render 'shared/chaltron/per_page',
-                 url: { controller: 'chaltron/users', action: 'index' },
                  links: [10, 20, 50, 100].index_with { |x| t('.per_page', count: x) } %>
       <%# Sort columns %>
       <%= render('shared/chaltron/sort',
-                 url: { controller: 'chaltron/users', action: 'index' },
                  links: %w[created_at username email sign_in_count].index_with do |x|
                    "#{t('.sorted_by')} #{Chaltron::User.human_attribute_name(x).downcase}"
                  end) %>

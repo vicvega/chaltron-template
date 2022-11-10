@@ -7,17 +7,15 @@
       <ul class='dropdown-menu' aria-labelledby='sort-column'>
         <% links.each do |sort, label| %>
         <li>
-          <%= link_to label,
-                      url.merge(sort_column: sort, page: 1),
+          <%= link_to label, request.params.merge(sort_column: sort, page: 1),
                       class: class_names('dropdown-item', { active: sort_column == sort }) %>
         </li>
         <% end %>
       </ul>
     </div>
     <%= link_to(
-          url.merge(
-            request.params.merge(sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: nil)
-          ), class: 'btn btn-outline-primary'
+          request.params.merge(sort_direction: (sort_direction == 'asc' ? 'desc' : 'asc'), page: 1),
+          class: 'btn btn-outline-primary'
         ) do %>
       <%= icon :fas, sort_direction == 'desc' ? 'sort-alpha-up' : 'sort-alpha-down' %>
     <% end %>
