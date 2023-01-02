@@ -1,5 +1,5 @@
 # Chaltron-template
-At the beginning [`chaltron`](https://github.com/vicvega/chaltron) was a `rails` engine.
+Once upon a time [`chaltron`](https://github.com/vicvega/chaltron) was a `rails` engine.
 
 Now `chaltron` is a `rails` template including `bootstrap` and `esbuild`, working with `rails6` and `rails7`.
 
