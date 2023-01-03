@@ -28,7 +28,7 @@ module Chaltron
 
     def update_params
       allowed = %i[fullname avatar]
-      allowed.concat %i[email password password_confirmation] if current_user.is_a?(Chaltron::LocalUser)
+      allowed.push(:email, :password, :password_confirmation) if current_user.is_a?(Chaltron::LocalUser)
       params.require(:chaltron_user).permit(allowed)
     end
   end
