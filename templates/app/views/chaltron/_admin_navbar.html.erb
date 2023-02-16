@@ -9,19 +9,19 @@
        klass = class_names('nav-link', 'dropdown-toggle', { active: logs || users }) %>
       <%= link_to '#', id: 'navbarDropdownAdmin', class: klass,
                        data: { 'bs-toggle' => 'dropdown' } do %>
-        <%= icon :fas, :cogs, I18n.t('chaltron.menu.admin') %>
+        <%= icon :fas, :cogs, t('chaltron.menu.admin') %>
       <% end %>
       <ul class='dropdown-menu dropdown-menu-dark dropdown-menu-end' aria-labelledby='navbarDropdownAdmin'>
         <%= tag.li do %>
           <%= link_to chaltron_users_path,
                       class: class_names('dropdown-item', { active: users }) do %>
-            <%= icon :fas, :user, I18n.t('chaltron.menu.users') %>
+            <%= icon :fas, :user, t('chaltron.menu.users') %>
           <% end %>
         <% end if can?(:read, Chaltron::User) %>
         <%= tag.li do %>
           <%= link_to chaltron_logs_path,
                       class: class_names('dropdown-item', { active: logs }) do %>
-            <%= icon :fas, :book, I18n.t('chaltron.menu.logs') %>
+            <%= icon :fas, :book, t('chaltron.menu.logs') %>
           <% end %>
         <% end if can?(:read, Chaltron::Log) %>
       </ul>

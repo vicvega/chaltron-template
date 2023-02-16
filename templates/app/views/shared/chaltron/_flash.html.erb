@@ -4,7 +4,7 @@
                 controller: 'chaltron--remove',
                 action: 'click->chaltron--remove#remove'
               } do %>
-    <% label = I18n.t("chaltron.flash.#{type}") %>
+    <% label = t("chaltron.flash.#{type}") %>
     <%= tag.strong "#{label}: " %><%= tag.span message %>
   <% end %>
 <% end %>

@@ -15,7 +15,7 @@ module Chaltron
       if current_user.update(update_params)
         # to mantain session after password change
         bypass_sign_in(current_user) if change_pwd
-        flash[:notice] = I18n.t('chaltron.users.self_updated')
+        flash[:notice] = t('chaltron.users.self_updated')
         redirect_to action: :show
       else
         back = :edit

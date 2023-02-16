@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class AccountTest < ActionDispatch::IntegrationTest
+  include AbstractController::Translation
+
   setup do
     @user = create(:chaltron_local_user)
     sign_in @user
@@ -8,13 +10,14 @@ class AccountTest < ActionDispatch::IntegrationTest
 
   test 'user should edit account data' do
     get root_url
-    assert_select "a[href='#{chaltron_self_user_show_path}']", I18n.t('chaltron.menu.self_show')
+
+    assert_select "a[href='#{chaltron_self_user_show_path}']", t('chaltron.menu.self_show')
 
     get chaltron_self_user_show_path
     assert_select 'li.list-group-item' do
       assert_select 'strong', @user.email
     end
-    assert_select "a[href='#{chaltron_self_user_edit_path}']", I18n.t('chaltron.self_user.show.edit')
+    assert_select "a[href='#{chaltron_self_user_edit_path}']", t('chaltron.self_user.show.edit')
 
     get chaltron_self_user_edit_path
     assert_select "form#edit_chaltron_user[action='#{chaltron_self_user_update_path}']" do
@@ -30,7 +33,7 @@ class AccountTest < ActionDispatch::IntegrationTest
     }
     follow_redirect!
 
-    assert_select '.alert.alert-info', "#{I18n.t('chaltron.flash.notice')}: #{I18n.t('chaltron.users.self_updated')}"
+    assert_select '.alert.alert-info', "#{t('chaltron.flash.notice')}: #{t('chaltron.users.self_updated')}"
     assert_select 'li.list-group-item' do
       assert_select 'strong', new_email
     end
@@ -39,13 +42,14 @@ class AccountTest < ActionDispatch::IntegrationTest
 
   test 'user should change password' do
     get root_url
-    assert_select "a[href='#{chaltron_self_user_show_path}']", I18n.t('chaltron.menu.self_show')
+
+    assert_select "a[href='#{chaltron_self_user_show_path}']", t('chaltron.menu.self_show')
 
     get chaltron_self_user_show_path
     assert_select 'li.list-group-item' do
       assert_select 'strong', @user.email
     end
-    assert_select "a[href='#{chaltron_self_user_edit_path}']", I18n.t('chaltron.self_user.show.edit')
+    assert_select "a[href='#{chaltron_self_user_edit_path}']", t('chaltron.self_user.show.edit')
 
     get chaltron_self_user_change_password_path
     assert_select "form#edit_chaltron_user[action='#{chaltron_self_user_update_path}']" do
@@ -61,6 +65,6 @@ class AccountTest < ActionDispatch::IntegrationTest
     }
     follow_redirect!
 
-    assert_select '.alert.alert-info', "#{I18n.t('chaltron.flash.notice')}: #{I18n.t('chaltron.users.self_updated')}"
+    assert_select '.alert.alert-info', "#{t('chaltron.flash.notice')}: #{t('chaltron.users.self_updated')}"
   end
 end

@@ -27,7 +27,7 @@ module Chaltron
 
     def enable
       @user.enable!
-      message = I18n.t('chaltron.users.enabled')
+      message = t('chaltron.users.enabled')
       respond_to do |format|
         format.html { redirect_to(chaltron_users_path, notice: message) }
         format.turbo_stream do
@@ -39,12 +39,12 @@ module Chaltron
 
     def disable
       if current_user == @user
-        message = I18n.t('chaltron.users.cannot_self_disable')
+        message = t('chaltron.users.cannot_self_disable')
         flash.now[:alert] = message
         options = { alert: message }
       else
         @user.disable!
-        message = I18n.t('chaltron.users.disabled')
+        message = t('chaltron.users.disabled')
         flash.now[:notice] = message
         options = { notice: message }
       end
@@ -58,7 +58,7 @@ module Chaltron
 
     def update
       if @user.update(update_params)
-        message = I18n.t('chaltron.users.updated')
+        message = t('chaltron.users.updated')
         respond_to do |format|
           format.html { redirect_to(chaltron_users_path, notice: message) }
           format.turbo_stream do
@@ -73,14 +73,14 @@ module Chaltron
 
     def destroy
       if current_user == @user
-        message = I18n.t('chaltron.users.cannot_self_destroy')
+        message = t('chaltron.users.cannot_self_destroy')
         flash.now[:alert] = message
         options = { alert: message }
       else
         @user.destroy
         @count_filters = count_filters(Chaltron::User.accessible_by(current_ability).filtrate(@filter).search(search))
-        info I18n.t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
-        message = I18n.t('chaltron.users.deleted')
+        info t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
+        message = t('chaltron.users.deleted')
         flash.now[:notice] = message
         options = { notice: message }
       end

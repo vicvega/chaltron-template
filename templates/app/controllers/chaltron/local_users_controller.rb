@@ -6,8 +6,8 @@ module Chaltron
 
     def create
       if @local_user.save
-        flash[:notice] = I18n.t('chaltron.local_users.created')
-        info I18n.t('chaltron.logs.users.created', current: current_user.display_name, user: @local_user.display_name)
+        flash[:notice] = t('chaltron.local_users.created')
+        info t('chaltron.logs.users.created', current: current_user.display_name, user: @local_user.display_name)
         redirect_to chaltron_users_path
       else
         render :new, status: :unprocessable_entity

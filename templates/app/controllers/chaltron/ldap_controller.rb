@@ -37,7 +37,7 @@ module Chaltron
       end
       return unless @created.size.positive?
 
-      info I18n.t('chaltron.logs.users.ldap_created',
+      info t('chaltron.logs.users.ldap_created',
                   current: current_user.display_name, count: @created.size,
                   user: @created.map(&:display_name).join(', '))
     end

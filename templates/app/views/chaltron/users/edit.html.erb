@@ -6,11 +6,11 @@
       <%= f.error_notification %>
       <% if current_user == @user %>
         <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline, required: false,
-                               collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] },
+                               collection: Chaltron::Role.all.map { |r| [t("chaltron/roles.#{r.name}"), r.id] },
                                disabled: Chaltron::Role.where(name: 'user_admin').map(&:id) %>
       <% else %>
         <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline, required: false,
-                               collection: Chaltron::Role.all.map { |r| [I18n.t("chaltron/roles.#{r.name}"), r.id] } %>
+                               collection: Chaltron::Role.all.map { |r| [t("chaltron/roles.#{r.name}"), r.id] } %>
       <% end %>
 
       <%= f.submit t('.title', user: @user.display_name), class: 'btn btn-primary' %>

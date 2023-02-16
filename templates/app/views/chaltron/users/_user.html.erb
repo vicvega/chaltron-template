@@ -11,7 +11,7 @@
       </h5>
       <p class='mb-0 opacity-75'>
         <%= highlight(user.username, search) %>
-        <%= tag.span(I18n.t('chaltron.users.it_s_you'), class: 'badge bg-success me-2') if user == current_user %>
+        <%= tag.span(t('chaltron.users.it_s_you'), class: 'badge bg-success me-2') if user == current_user %>
         <%= tag.span(t('chaltron.users.user_disabled'), class: 'badge bg-danger me-2') if user.disabled? %>
       </p>
       <p class='mb-0 opacity-75'><%= highlight(user.email, search) %></p>

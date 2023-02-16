@@ -10,7 +10,7 @@ module Chaltron
       # if the authentication to LDAP was successful.
       user = Chaltron::LDAP::User.find_or_create(oauth, Chaltron.ldap_allow_all)
       if user.nil?
-        redirect_to new_local_session_url, alert: I18n.t('chaltron.not_allowed_to_sign_in')
+        redirect_to new_local_session_url, alert: t('chaltron.not_allowed_to_sign_in')
       else
         user.remember_me = params[:remember_me] if user.persisted?
         sign_in_and_redirect(user, event: :authentication, kind: 'LDAP')
