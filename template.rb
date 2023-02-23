@@ -268,51 +268,6 @@ def setup_devise
             'config.authentication_keys = [:login]'
 end
 
-def fix_devise
-  file = 'config/initializers/devise.rb'
-  text = %q(
-module Devise
-  module Controllers
-    module StoreLocation
-      def stored_location_key_for(resource_or_scope)
-        return 'local_return_to' if resource_or_scope.is_a?(Chaltron::OmniUser) && resource_or_scope.provider == 'ldap'
-
-        scope = Devise::Mapping.find_scope!(resource_or_scope)
-        "#{scope}_return_to"
-      end
-    end
-  end
-end
-
-class TurboFailureApp < Devise::FailureApp
-  def respond
-    if request_format == :turbo_stream
-      redirect
-    else
-      super
-    end
-  end
-
-  def skip_format?
-    %w[html turbo_stream */*].include? request_format.to_s
-  end
-end)
-
-  inject_into_file file, text, after: '# frozen_string_literal: true'
-
-  gsub_file file,
-            "# config.navigational_formats = ['*/*', :html]",
-            "config.navigational_formats = ['*/*', :html, :turbo_stream]"
-
-  text = <<JS
-  config.warden do |manager|
-    manager.failure_app = TurboFailureApp
-  end
-
-JS
-  inject_into_file file, text, before: '# config.warden do |manager|'
-end
-
 def setup_warden
   copy_file 'config/initializers/warden.rb'
 end
@@ -486,7 +441,6 @@ after_bundle do
   add_logs
 
   setup_devise
-  fix_devise
   setup_warden
   setup_chaltron
   setup_simple_form
