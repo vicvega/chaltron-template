@@ -15,7 +15,6 @@ module Chaltron
 
     default_log_category :user_admin
     default_per_page 10
-    permitted_sort_columns %w[created_at username email sign_in_count]
 
     def index
       @users = @users.filtrate(@filter).search(search)

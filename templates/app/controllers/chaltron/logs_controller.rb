@@ -11,8 +11,6 @@ module Chaltron
     before_action :authenticate_user!
     load_and_authorize_resource
 
-    permitted_sort_columns %w[created_at message]
-
     def index
       @filter = Log::Filter.new(filter_params)
       @logs = @logs.filtrate(@filter).search(search)
