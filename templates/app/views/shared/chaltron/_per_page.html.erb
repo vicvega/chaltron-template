@@ -1,16 +1,14 @@
 <% links ||= [10, 20, 50, 100].index_with { |x| t('.per_page', count: x) } %>
-<div class='ms-3'>
-  <div id='sort-per-page' class='dropdown text-nowrap mb-3 float-end'>
-    <%= link_to links[per_page], '#',
-                data: { 'bs-toggle': 'dropdown' }, aria: { expanded: false },
-                class: 'btn btn-primary dropdown-toggle' %>
-    <ul class='dropdown-menu' aria-labelledby='per-page'>
-      <% links.each do |count, label| %>
-        <li>
-        <%= link_to label, request.params.merge(per_page: count, page: 1),
-                    class: class_names('dropdown-item', { active: per_page == count }) %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+<div id='sort-per-page' class='dropdown text-nowrap'>
+  <%= link_to links[per_page], '#',
+              data: { 'bs-toggle': 'dropdown' }, aria: { expanded: false },
+              class: 'btn btn-primary dropdown-toggle' %>
+  <ul class='dropdown-menu' aria-labelledby='per-page'>
+    <% links.each do |count, label| %>
+      <li>
+      <%= link_to label, request.params.merge(per_page: count, page: 1),
+                  class: class_names('dropdown-item', { active: per_page == count }) %>
+      </li>
+    <% end %>
+  </ul>
 </div>

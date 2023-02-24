@@ -3,19 +3,23 @@
     <%= render 'filters', filter: @filter, count: @count_filters %>
   </div>
   <div class='col-md-9'>
-    <div class='d-flex'>
+    <div class='d-flex mb-3'>
       <%# Search form %>
       <div class='flex-grow-1'>
         <%= render('shared/chaltron/search', placeholder: t('.search_placeholder')) %>
       </div>
       <%# Per page %>
-      <%= render 'shared/chaltron/per_page',
-                 links: [10, 20, 50, 100].index_with { |x| t('.per_page', count: x) } %>
+      <div class='ms-3'>
+        <%= render 'shared/chaltron/per_page',
+                  links: [10, 20, 50, 100].index_with { |x| t('.per_page', count: x) } %>
+      </div>
       <%# Sort columns %>
-      <%= render('shared/chaltron/sort',
-                 links: %w[created_at username email sign_in_count].index_with do |x|
-                   "#{t('.sorted_by')} #{Chaltron::User.human_attribute_name(x).downcase}"
-                 end) %>
+      <div class='ms-3'>
+        <%= render('shared/chaltron/sort',
+                  links: %w[created_at username email sign_in_count].index_with do |x|
+                    "#{t('.sorted_by')} #{Chaltron::User.human_attribute_name(x).downcase}"
+                  end) %>
+      </div>
     </div>
 
     <div class='list-group'>
