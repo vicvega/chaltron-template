@@ -31,14 +31,14 @@
       <%# Per page %>
       <div class='ms-3'>
         <%= render 'shared/chaltron/per_page',
-                  links: [10, 20, 50, 100].index_with { |x| t('.per_page', count: x) } %>
+                   links: [10, 20, 50, 100].index_with { |x| t('.per_page', count: x) } %>
       </div>
       <%# Sort columns %>
       <div class='ms-3'>
         <%= render('shared/chaltron/sort',
-                  links: sort_columns.index_with do |x|
-                    "#{t('.sorted_by')} #{Chaltron::Log.human_attribute_name(x).downcase}"
-                  end) %>
+                   links: sort_columns.index_with do |x|
+                     "#{t('.sorted_by')} #{Chaltron::Log.human_attribute_name(x).downcase}"
+                   end) %>
       </div>
     </div>
     <div class='list-group'>
