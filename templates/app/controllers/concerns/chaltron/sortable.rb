@@ -3,7 +3,7 @@ module Chaltron
     extend ActiveSupport::Concern
 
     included do
-      helper_method :sort_column, :sort_direction
+      helper_method :sort_column, :sort_direction, :sort_columns
     end
 
     module ClassMethods
@@ -30,6 +30,10 @@ module Chaltron
 
     def sort_column
       @sort_column ||= validate_sort_column
+    end
+
+    def sort_columns
+      self.class.instance_variable_get(:@permitted_sort_columns) || [self.class.sort_column]
     end
 
     private

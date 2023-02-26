@@ -36,7 +36,7 @@
       <%# Sort columns %>
       <div class='ms-3'>
         <%= render('shared/chaltron/sort',
-                  links: %w[created_at message].index_with do |x|
+                  links: sort_columns.index_with do |x|
                     "#{t('.sorted_by')} #{Chaltron::Log.human_attribute_name(x).downcase}"
                   end) %>
       </div>
