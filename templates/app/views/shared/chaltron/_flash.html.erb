@@ -1,4 +1,5 @@
 <% flash.each do |type, message| %>
+  <%# devise adds a :timedout key to the flash hash, which is not meant for display %>
   <%= tag.div class: "alert #{bootstrap_class_for(type)} rounded-0 m-0",
               data: {
                 controller: 'chaltron--remove',
@@ -6,5 +7,5 @@
               } do %>
     <% label = t("chaltron.flash.#{type}") %>
     <%= tag.strong "#{label}: " %><%= tag.span message %>
-  <% end %>
+  <% end unless type.to_s == 'timedout' %>
 <% end %>
