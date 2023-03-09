@@ -95,7 +95,7 @@ it:
       multi_new:
         title: Nuovi utenti LDAP
         submit_text: Crea utenti LDAP
-        par: Selezione gli utenti da creare
+        par: Seleziona gli utenti da creare
       multi_create:
         title: Creazione utenti LDAP
         result: Risultati
