@@ -13,7 +13,7 @@ module ChaltronHelper
     html_options[:class] = content_class
 
     html = tag.i(nil, **html_options)
-    html << ' ' << text.to_s if text.present?
+    html << " " << text.to_s if text.present?
     html
   end
 
@@ -24,10 +24,10 @@ module ChaltronHelper
     value = options.delete(:value) || 1
     checked = options.delete(:checked) || false
     div_class = options.delete(:div_class)
-    label = options.delete(:label) || ''
+    label = options.delete(:label) || ""
     tag.div(class: "form-check #{div_class}") do
       check_box_tag(name, value, checked, options.merge(id: id, class: "form-check-input #{klass}")) +
-        label_tag(id, label, class: 'form-check-label', for: id)
+        label_tag(id, label, class: "form-check-label", for: id)
     end
   end
 
@@ -36,22 +36,22 @@ module ChaltronHelper
   #
   def bootstrap_class_for(flash_type)
     {
-      'success' => 'alert-success',
-      'error' => 'alert-danger',
-      'alert' => 'alert-warning',
-      'notice' => 'alert-info'
+      "success" => "alert-success",
+      "error" => "alert-danger",
+      "alert" => "alert-warning",
+      "notice" => "alert-info"
     }[flash_type] || flash_type.to_s
   end
 
   def render_turbo_stream_flash_messages
-    turbo_stream.prepend 'flash', partial: 'shared/chaltron/flash'
+    turbo_stream.prepend "flash", partial: "shared/chaltron/flash"
   end
 
   #
   # Get current revision
   #
   def revision
-    version_file = Rails.root.join('REVISION')
+    version_file = Rails.root.join("REVISION")
     return unless File.exist?(version_file)
 
     v = File.read(version_file).strip

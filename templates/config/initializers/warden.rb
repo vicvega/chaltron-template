@@ -1,4 +1,4 @@
-require 'chaltron/ldap/user'
+require "chaltron/ldap/user"
 
 if defined?(Warden)
   Warden::Manager.after_set_user do |user, warden, options|
@@ -7,10 +7,10 @@ if defined?(Warden)
     #
     # if user && user.ldap_user?
     #   ldap = Chaltron::LDAP::Connection.new
-    #   if ldap.find_by_uid(user.username).entry.enabled != ['true']
+    #   if ldap.find_by_uid(user.username).entry.enabled != ["true"]
     #     scope = options[:scope]
     #     warden.logout(scope)
-    #     throw :warden, scope: scope, message: I18n.t('chaltron.not_allowed_to_sign_in')
+    #     throw :warden, scope: scope, message: I18n.t("chaltron.not_allowed_to_sign_in")
     #   end
     # end
   end
@@ -19,10 +19,10 @@ if defined?(Warden)
   Warden::Manager.after_authentication do |user, _warden, options|
     if user
       message = if options[:kind].nil?
-                  I18n.t('chaltron.logs.login', user: user.display_name)
-                else
-                  I18n.t('chaltron.logs.login_omniauth', user: user.display_name, provider: options[:kind])
-                end
+        I18n.t("chaltron.logs.login", user: user.display_name)
+      else
+        I18n.t("chaltron.logs.login_omniauth", user: user.display_name, provider: options[:kind])
+      end
       Chaltron::Log.create(message: message, category: :login, severity: :info)
     end
   end
@@ -34,13 +34,13 @@ if defined?(Warden)
     # if user.ldap_user?
     #   ldap = Chaltron::LDAP::Connection.new
     #   ldap.update_attributes(user.extern_uid, {
-    #     lastLogout: Time.now.strftime('%Y%m%d%H%M%S%z')
+    #     lastLogout: Time.now.strftime("%Y%m%d%H%M%S%z")
     #   })
     # end
     # Log before logout
     if user
       Chaltron::Log.create(
-        message: I18n.t('chaltron.logs.logout', user: user.display_name),
+        message: I18n.t("chaltron.logs.logout", user: user.display_name),
         category: :login,
         severity: :info
       )

@@ -21,13 +21,13 @@ module Chaltron
       @users = @users.filtrate(@filter).search(search)
       @count_filters = count_filters(@users)
       @users = @users.includes(:roles, avatar_attachment: :blob)
-                     .order("#{sort_column} #{sort_direction}")
+        .order("#{sort_column} #{sort_direction}")
       @pagy, @users = pagy(@users, items: per_page)
     end
 
     def enable
       @user.enable!
-      message = t('chaltron.users.enabled')
+      message = t("chaltron.users.enabled")
       respond_to do |format|
         format.html { redirect_to(chaltron_users_path, notice: message) }
         format.turbo_stream do
@@ -39,14 +39,14 @@ module Chaltron
 
     def disable
       if current_user == @user
-        message = t('chaltron.users.cannot_self_disable')
+        message = t("chaltron.users.cannot_self_disable")
         flash.now[:alert] = message
-        options = { alert: message }
+        options = {alert: message}
       else
         @user.disable!
-        message = t('chaltron.users.disabled')
+        message = t("chaltron.users.disabled")
         flash.now[:notice] = message
-        options = { notice: message }
+        options = {notice: message}
       end
       respond_to do |format|
         format.html { redirect_to(chaltron_users_path, **options) }
@@ -54,11 +54,12 @@ module Chaltron
       end
     end
 
-    def edit; end
+    def edit
+    end
 
     def update
       if @user.update(update_params)
-        message = t('chaltron.users.updated')
+        message = t("chaltron.users.updated")
         respond_to do |format|
           format.html { redirect_to(chaltron_users_path, notice: message) }
           format.turbo_stream do
@@ -73,16 +74,16 @@ module Chaltron
 
     def destroy
       if current_user == @user
-        message = t('chaltron.users.cannot_self_destroy')
+        message = t("chaltron.users.cannot_self_destroy")
         flash.now[:alert] = message
-        options = { alert: message }
+        options = {alert: message}
       else
         @user.destroy
         @count_filters = count_filters(Chaltron::User.accessible_by(current_ability).filtrate(@filter).search(search))
-        info t('chaltron.logs.users.destroyed', current: current_user.display_name, user: @user.display_name)
-        message = t('chaltron.users.deleted')
+        info t("chaltron.logs.users.destroyed", current: current_user.display_name, user: @user.display_name)
+        message = t("chaltron.users.deleted")
         flash.now[:notice] = message
-        options = { notice: message }
+        options = {notice: message}
       end
       respond_to do |format|
         format.html { redirect_to(chaltron_users_path, **options) }
@@ -95,8 +96,8 @@ module Chaltron
     def count_filters(users)
       {
         providers: users.group(:provider).count
-                        .transform_keys { |k| k.nil? ? 'local' : k }
-                        .sort_by { |_k, v| v }.reverse.to_h,
+          .transform_keys { |k| k.nil? ? "local" : k }
+          .sort_by { |_k, v| v }.reverse.to_h,
         never_logged_in: users.where(sign_in_count: 0).count
       }
     end

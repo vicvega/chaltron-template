@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
-  def index; end
+  def index
+  end
 
   Array(1..10).each do |x|
     define_method "test#{x}" do

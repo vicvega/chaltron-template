@@ -1,4 +1,4 @@
-require 'syslog'
+require "syslog"
 module Chaltron
   mattr_accessor :default_roles
   @@default_roles = []
@@ -8,10 +8,10 @@ module Chaltron
 
   mattr_accessor :ldap_field_mappings
   @@ldap_field_mappings = {
-    full_name: 'cn',
-    last_name: 'sn',
-    department: 'department',
-    email: 'mail'
+    full_name: "cn",
+    last_name: "sn",
+    department: "department",
+    email: "mail"
   }
 
   mattr_accessor :ldap_group_base
@@ -28,6 +28,6 @@ module Chaltron
   end
 
   def self.table_name_prefix
-    'chaltron_'
+    "chaltron_"
   end
 end

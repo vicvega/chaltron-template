@@ -2,9 +2,11 @@ module Chaltron
   class SelfUserController < ApplicationController
     before_action :authenticate_user!
 
-    def show; end
+    def show
+    end
 
-    def edit; end
+    def edit
+    end
 
     def change_password
       redirect_to root_path unless current_user.is_a?(Chaltron::LocalUser)
@@ -15,7 +17,7 @@ module Chaltron
       if current_user.update(update_params)
         # to mantain session after password change
         bypass_sign_in(current_user) if change_pwd
-        flash[:notice] = t('chaltron.users.self_updated')
+        flash[:notice] = t("chaltron.users.self_updated")
         redirect_to action: :show
       else
         back = :edit

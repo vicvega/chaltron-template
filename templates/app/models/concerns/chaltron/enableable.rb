@@ -3,7 +3,7 @@ module Chaltron
     extend ActiveSupport::Concern
 
     included do
-      scope :enabled,  -> { where(enabled: true) }
+      scope :enabled, -> { where(enabled: true) }
       scope :disabled, -> { where(enabled: false) }
     end
 
@@ -29,7 +29,7 @@ module Chaltron
     end
 
     def inactive_message
-      enabled? ? super : t('chaltron.users.inactive_message')
+      enabled? ? super : t("chaltron.users.inactive_message")
     end
   end
 end

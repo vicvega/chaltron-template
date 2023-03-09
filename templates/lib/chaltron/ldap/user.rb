@@ -3,7 +3,7 @@
 # * Find or create user from omniauth.auth data
 #
 
-require 'chaltron/ldap/person'
+require "chaltron/ldap/person"
 
 module Chaltron
   module LDAP
@@ -14,10 +14,10 @@ module Chaltron
         def find_or_create(auth, create)
           @auth = auth
           if uid.blank? || email.blank? || username.blank?
-            raise_error('Account must provide a dn, uid and email address')
+            raise_error("Account must provide a dn, uid and email address")
           end
           user = find_by_uid_and_provider
-          entry = Chaltron::LDAP::Person.find_by_uid(username)
+          entry = Chaltron::LDAP::Person.find_user(username)
           if user.nil? && create
             # create user with default roles
             user = entry.create_user(Chaltron::Role.where(name: Chaltron.default_roles))
@@ -42,7 +42,7 @@ module Chaltron
 
         def find_by_uid_and_provider
           # LDAP distinguished name is case-insensitive
-          user = Chaltron::OmniUser.where('provider = ? and lower(extern_uid) = ?', provider, uid.downcase).last
+          user = Chaltron::OmniUser.where("provider = ? and lower(extern_uid) = ?", provider, uid.downcase).last
           if user.nil?
             # Look for user with same emails
             #
@@ -65,15 +65,15 @@ module Chaltron
         end
 
         def name
-          auth.info.name.to_s.force_encoding('utf-8')
+          auth.info.name.to_s.force_encoding("utf-8")
         end
 
         def username
-          auth.info.nickname.to_s.force_encoding('utf-8')
+          auth.info.nickname.to_s.force_encoding("utf-8")
         end
 
         def provider
-          'ldap'
+          "ldap"
         end
 
         def raise_error(message)

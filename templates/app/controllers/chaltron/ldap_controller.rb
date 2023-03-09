@@ -1,4 +1,4 @@
-require 'chaltron/ldap/person'
+require "chaltron/ldap/person"
 module Chaltron
   class LdapController < ApplicationController
     before_action :authenticate_user!
@@ -14,10 +14,11 @@ module Chaltron
       @entries = []
       userid = params[:userid]
       if userid.present?
-        entry = Chaltron::LDAP::Person.find_by_uid(userid)
+        entry = Chaltron::LDAP::Person.find_user(userid)
+
         @entries << entry
       else
-        @entries = Chaltron::LDAP::Person.find_by_fields(find_options)
+        @entries = Chaltron::LDAP::Person.find_users(find_options)
       end
       @entries.compact!
       @entries.sort_by!(&:name)
@@ -25,10 +26,10 @@ module Chaltron
 
     def multi_create
       @created = []
-      @error   = []
+      @error = []
       (params[:uids] || []).each do |uid|
         roles = Chaltron::Role.find(params[:chaltron_user][:role_ids].compact_blank)
-        user = Chaltron::LDAP::Person.find_by_uid(uid).create_user(roles)
+        user = Chaltron::LDAP::Person.find_user(uid).create_user(roles)
         if user.new_record?
           @error << user
         else
@@ -37,22 +38,22 @@ module Chaltron
       end
       return unless @created.size.positive?
 
-      info t('chaltron.logs.users.ldap_created',
-             current: current_user.display_name, count: @created.size,
-             user: @created.map(&:display_name).join(', '))
+      info t("chaltron.logs.users.ldap_created",
+        current: current_user.display_name, count: @created.size,
+        user: @created.map(&:display_name).join(", "))
     end
 
     private
 
     def find_options
       department = params[:department]
-      name       = params[:lastname]
-      limit      = params[:limit].to_i
+      name = params[:lastname]
+      limit = params[:limit].to_i
 
       ret = {}
       ret[:department] = "*#{department}*" if department.present?
-      ret[:last_name]  = "*#{name}*"       if name.present?
-      ret[:limit]      = limit.zero? ? default_limit : limit
+      ret[:last_name] = "*#{name}*" if name.present?
+      ret[:limit] = limit.zero? ? default_limit : limit
       ret
     end
 

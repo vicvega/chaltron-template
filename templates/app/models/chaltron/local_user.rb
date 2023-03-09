@@ -1,7 +1,7 @@
 module Chaltron
   class LocalUser < User
     devise :database_authenticatable, :recoverable, :rememberable, :validatable,
-           :timeoutable, :trackable
+      :timeoutable, :trackable
     # this should be included after devise, because it overrides active_for_authentication? method
     include Enableable
 
@@ -16,7 +16,7 @@ module Chaltron
       conditions = warden_conditions.dup
       if (login = conditions.delete(:login))
         where(conditions.to_h)
-          .find_by(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }])
+          .find_by(["lower(username) = :value OR lower(email) = :value", {value: login.downcase}])
       elsif conditions.key?(:username) || conditions.key?(:email)
         find_by(conditions.to_h)
       end

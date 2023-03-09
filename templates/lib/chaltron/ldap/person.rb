@@ -1,27 +1,18 @@
-require 'chaltron/ldap/connection'
+require "chaltron/ldap/connection"
 
 module Chaltron
   module LDAP
     class Person
+      class << self
+        extend Forwardable
+        def_delegators :ldap, :find_users, :find_user
+      end
       extend Forwardable
       attr_accessor :entry
-
       def_delegators :entry, :dn
 
       def self.valid_credentials?(login, password)
         ldap.auth(login, password)
-      end
-
-      def self.find_by_field(field, value)
-        ldap.find_users(field.to_sym => value)
-      end
-
-      def self.find_by_fields(fields = {})
-        ldap.find_users(fields)
-      end
-
-      def self.find_by_uid(uid)
-        ldap.find_by_uid(uid)
       end
 
       def initialize(entry, uid)
@@ -46,7 +37,7 @@ module Chaltron
 
       def department
         entry.send(Chaltron.ldap_field_mappings[:department]).first
-      rescue StandardError
+      rescue
         nil
       end
 
@@ -70,12 +61,12 @@ module Chaltron
 
       def email
         entry.send(Chaltron.ldap_field_mappings[:email]).first
-      rescue StandardError
+      rescue
         nil
       end
 
       def provider
-        'ldap'
+        "ldap"
       end
 
       def ldap_groups

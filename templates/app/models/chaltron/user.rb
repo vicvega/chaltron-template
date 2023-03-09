@@ -2,7 +2,7 @@ module Chaltron
   class User < ApplicationRecord
     include HasRoles
 
-    validates :username, presence: true, uniqueness: { case_sensitive: false }
+    validates :username, presence: true, uniqueness: {case_sensitive: false}
     # Only allow letter, number, underscore and punctuation.
     # see https://github.com/heartcombo/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address
     validates :username, format: /\A[a-zA-Z0-9_.]*\z/
@@ -23,8 +23,8 @@ module Chaltron
 
     def self.search(search)
       if search
-        where('username LIKE :query or fullname LIKE :query or email LIKE :query or department LIKE :query',
-              { query: "%#{search}%" })
+        where("username LIKE :query or fullname LIKE :query or email LIKE :query or department LIKE :query",
+          {query: "%#{search}%"})
       else
         all
       end
@@ -45,7 +45,7 @@ module Chaltron
         # otherwise a filter with no providers should filter everything
         providers&.compact_blank!
 
-        ret = ret.where(provider: providers.map { |k| k == 'local' ? nil : k }) if providers.present?
+        ret = ret.where(provider: providers.map { |k| (k == "local") ? nil : k }) if providers.present?
         ret = ret.where(sign_in_count: 0) if never_logged_in
         ret
       end

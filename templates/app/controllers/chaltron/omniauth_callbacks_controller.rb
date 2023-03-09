@@ -1,4 +1,4 @@
-require 'chaltron/ldap/user'
+require "chaltron/ldap/user"
 
 module Chaltron
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
@@ -10,18 +10,18 @@ module Chaltron
       # if the authentication to LDAP was successful.
       user = Chaltron::LDAP::User.find_or_create(oauth, Chaltron.ldap_allow_all)
       if user.nil?
-        redirect_to new_local_session_url, alert: t('chaltron.not_allowed_to_sign_in')
+        redirect_to new_local_session_url, alert: t("chaltron.not_allowed_to_sign_in")
       else
         user.remember_me = params[:remember_me] if user.persisted?
-        sign_in_and_redirect(user, event: :authentication, kind: 'LDAP')
-        set_flash_message(:notice, :success, kind: 'LDAP')
+        sign_in_and_redirect(user, event: :authentication, kind: "LDAP")
+        set_flash_message(:notice, :success, kind: "LDAP")
       end
     end
 
     private
 
     def oauth
-      @oauth ||= request.env['omniauth.auth']
+      @oauth ||= request.env["omniauth.auth"]
     end
 
     def after_omniauth_failure_path_for(_scope)

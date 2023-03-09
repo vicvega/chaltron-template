@@ -1,4 +1,4 @@
-require 'chaltron'
+require "chaltron"
 
 Chaltron.setup do |config|
   # If LDAP enabled (see config/initializers/devise.rb), chaltron must use
@@ -6,10 +6,10 @@ Chaltron.setup do |config|
   # Here is the field mapping on you own LDAP server.
   # Default values are the following:
   # config.ldap_field_mappings = {
-  #   full_name: 'cn',
-  #   last_name: 'sn',
-  #   department: 'department',
-  #   email: 'mail'
+  #   full_name: "cn",
+  #   last_name: "sn",
+  #   department: "department",
+  #   email: "mail"
   # }
 
   # If LDAP enabled, set this to true to allow every ldap authenitcated
@@ -21,7 +21,7 @@ Chaltron.setup do |config|
 
   # Here you may specify a different base for your LDAP groups
   # If not specified the :base parameter defined in Devise.omniauth_configs[:ldap] will be used
-  # config.ldap_group_base = 'ou=groups,dc=example,dc=com'
+  # config.ldap_group_base = "ou=groups,dc=example,dc=com"
 
   # Here you may specify a filter to retrieve LDAP group membership
   # Accept entry (an instance of Chaltron::LDAP::Person) as parameter
@@ -30,7 +30,7 @@ Chaltron.setup do |config|
 
   # Roles granted to new users may be retrieved by LDAP group membership.
   # config.ldap_role_mappings = {
-  #   'DN_of_LDAP_group1' => 'role1',
-  #   'DN_of_LDAP_group2' => 'role2'
+  #   "DN_of_LDAP_group1" => "role1",
+  #   "DN_of_LDAP_group2" => "role2"
   # }
 end

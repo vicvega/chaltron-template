@@ -8,11 +8,11 @@ module Chaltron
 
     module ClassMethods
       def sort_column
-        defined?(@default_sort_column) ? @default_sort_column : 'created_at'
+        defined?(@default_sort_column) ? @default_sort_column : "created_at"
       end
 
       def sort_direction
-        defined?(@default_sort_direction) ? @default_sort_direction : 'desc'
+        defined?(@default_sort_direction) ? @default_sort_direction : "desc"
       end
 
       def default_sort_direction(dir)

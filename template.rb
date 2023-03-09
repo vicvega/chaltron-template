@@ -1,6 +1,6 @@
-require 'shellwords'
-require 'fileutils'
-require 'tmpdir'
+require "shellwords"
+require "fileutils"
+require "tmpdir"
 
 # Copied from: https://github.com/mattbrictson/rails-template
 # Add this template directory to source_paths so that Thor actions like
@@ -10,35 +10,35 @@ require 'tmpdir'
 
 # Add this template directory to ruby load path too, to require custom lib
 def add_template_repository_to_source_path
-  if __FILE__ =~ %r{\Ahttps?://}
-    tempdir = Dir.mktmpdir('chaltron-')
-    source_paths.unshift(File.join(tempdir, 'templates'))
+  if __FILE__.match?(%r{\Ahttps?://})
+    tempdir = Dir.mktmpdir("chaltron-")
+    source_paths.unshift(File.join(tempdir, "templates"))
     $LOAD_PATH.unshift(tempdir)
 
     at_exit { FileUtils.remove_entry(tempdir) }
     git clone: [
-      '--quiet',
-      'https://github.com/vicvega/chaltron-template.git',
+      "--quiet",
+      "https://github.com/vicvega/chaltron-template.git",
       tempdir
-    ].map(&:shellescape).join(' ')
+    ].map(&:shellescape).join(" ")
 
     if (branch = __FILE__[%r{chaltron-template/(.+)/template.rb}, 1])
       Dir.chdir(tempdir) { git checkout: branch }
     end
   else
-    source_paths.unshift(File.join(File.dirname(__FILE__), 'templates'))
+    source_paths.unshift(File.join(File.dirname(__FILE__), "templates"))
     $LOAD_PATH.unshift(File.dirname(__FILE__))
   end
 end
 
 def print_banner
-  require 'chaltron/banner'
+  require "chaltron/banner"
   banner = Chaltron::Banner.new
   message = <<~TXT
 
-    Be proud! You are running
-  #{set_color(banner.sample, :blue, true)}
-    aka #{set_color('Muffaster reloaded', :red)}
+      Be proud! You are running
+    #{set_color(banner.sample, :blue, true)}
+      aka #{set_color("Muffaster reloaded", :red)}
 
   TXT
   say message
@@ -50,65 +50,65 @@ def check_options
   say "You are running #{set_color(rails, :red)}"
 
   if rails_old?
-    say set_color('Shame on you!', :red, :on_white, :bold)
-    exit_with_message('Update rails and try again...')
+    say set_color("Shame on you!", :red, :on_white, :bold)
+    exit_with_message("Update rails and try again...")
   end
 
   if rails6?
-    exit_with_message('You must specify --skip-javascript option to run chaltron') unless options['skip_javascript']
+    exit_with_message("You must specify --skip-javascript option to run chaltron") unless options["skip_javascript"]
   elsif rails7?
-    unless options['javascript'] == 'esbuild' && options['css'] == 'bootstrap'
-      exit_with_message('You must specify --css=bootstrap and --javascript=esbuild options to run chaltron')
+    unless options["javascript"] == "esbuild" && options["css"] == "bootstrap"
+      exit_with_message("You must specify --css=bootstrap and --javascript=esbuild options to run chaltron")
     end
   end
 
-  exit unless yes?('Are you sure you want to continue? [yes/NO]')
+  exit unless yes?("Are you sure you want to continue? [yes/NO]")
 end
 
 def add_gems
   if rails6?
-    gem 'cssbundling-rails'
-    gem 'jsbundling-rails'
-    gem 'turbo-rails'
-    gem 'stimulus-rails'
+    gem "cssbundling-rails"
+    gem "jsbundling-rails"
+    gem "turbo-rails"
+    gem "stimulus-rails"
   end
-  gem 'devise'
-  gem 'omniauth'
-  gem 'omniauth-rails_csrf_protection'
-  gem 'gitlab_omniauth-ldap', require: 'omniauth-ldap'
-  gem 'cancancan'
+  gem "devise"
+  gem "omniauth"
+  gem "omniauth-rails_csrf_protection"
+  gem "gitlab_omniauth-ldap", require: "omniauth-ldap"
+  gem "cancancan"
 
-  gem 'simple_form'
-  gem 'rails-i18n'
-  gem 'pagy'
-  gem 'preserve'
+  gem "simple_form"
+  gem "rails-i18n"
+  gem "pagy"
+  gem "preserve"
 
   gem_group :development do
-    gem 'foreman'
+    gem "foreman"
   end
 
   gem_group :development, :test do
-    gem 'factory_bot_rails'
-    gem 'faker'
+    gem "factory_bot_rails"
+    gem "faker"
   end
-  gsub_file 'Gemfile', "# gem 'image_processing'", "gem 'image_processing'"
-  gsub_file 'Gemfile', '# gem "image_processing"', 'gem "image_processing"'
+  gsub_file "Gemfile", "# gem 'image_processing'", "gem 'image_processing'"
+  gsub_file "Gemfile", '# gem "image_processing"', 'gem "image_processing"'
 end
 
 def setup_database
-  case options['database']
-  when 'mysql'
+  case options["database"]
+  when "mysql"
     setup_mysql
-  when 'postgresql'
+  when "postgresql"
     setup_postgresql
   end
 end
 
-def ask_for_credential(default_user = 'root')
+def ask_for_credential(default_user = "root")
   say
-  say 'Database credentials'
-  @db_user = ask_with_default('Enter db username:', :blue, default_user)
-  @db_password = ask_with_default('Enter db password:', :blue, '')
+  say "Database credentials"
+  @db_user = ask_with_default("Enter db username:", :blue, default_user)
+  @db_password = ask_with_default("Enter db password:", :blue, "")
 end
 
 def ask_with_default(question, color, default)
@@ -132,7 +132,7 @@ def setup_mysql
   password: #{@db_password}
   AFT
 
-  gsub_file 'config/database.yml', before, after
+  gsub_file "config/database.yml", before, after
 end
 
 def setup_postgresql
@@ -142,42 +142,42 @@ def setup_postgresql
   username: #{@db_user}
   password: #{@db_password}
   TXT
-  insert_into_file 'config/database.yml', text, after: "#password:\n"
+  insert_into_file "config/database.yml", text, after: "#password:\n"
 end
 
 def install_jsbundling
-  rails_command 'javascript:install:esbuild' if rails6?
+  rails_command "javascript:install:esbuild" if rails6?
 end
 
 def install_bootstrap
-  rails_command 'css:install:bootstrap' if rails6?
+  rails_command "css:install:bootstrap" if rails6?
 
-  file = 'app/assets/stylesheets/application.bootstrap.scss'
+  file = "app/assets/stylesheets/application.bootstrap.scss"
   inject_into_file file, "$font-size-base: .85rem;\n\n",
-                   before: "@import 'bootstrap/scss/bootstrap';"
+    before: "@import 'bootstrap/scss/bootstrap';"
 end
 
 def install_hotwire
-  rails_command 'turbo:install stimulus:install'
+  rails_command "turbo:install stimulus:install"
 end
 
 def add_stimulus_controller
-  directory 'app/javascript/controllers/'
-  rails_command 'stimulus:manifest:update'
+  directory "app/javascript/controllers/"
+  rails_command "stimulus:manifest:update"
 end
 
 def add_assets
-  directory 'app/assets/images'
-  copy_file 'app/assets/stylesheets/chaltron.scss'
+  directory "app/assets/images"
+  copy_file "app/assets/stylesheets/chaltron.scss"
 
-  file = 'app/assets/stylesheets/application.bootstrap.scss'
+  file = "app/assets/stylesheets/application.bootstrap.scss"
   inject_into_file file, "@import './chaltron';\n"
 end
 
 def add_controllers
-  directory 'app/controllers/chaltron'
-  directory 'app/controllers/concerns/chaltron'
-  copy_file 'app/controllers/home_controller.rb'
+  directory "app/controllers/chaltron"
+  directory "app/controllers/concerns/chaltron"
+  copy_file "app/controllers/home_controller.rb"
 
   text = <<-TXT
   devise_group :user, contains: %i[local omni]
@@ -188,113 +188,113 @@ def add_controllers
   end
   TXT
 
-  inject_into_file 'app/controllers/application_controller.rb', text, before: 'end'
+  inject_into_file "app/controllers/application_controller.rb", text, before: "end"
 end
 
 def add_helpers
-  directory 'app/helpers'
-  inject_into_file 'app/helpers/application_helper.rb', "  include Pagy::Frontend\n", before: 'end'
+  directory "app/helpers"
+  inject_into_file "app/helpers/application_helper.rb", "  include Pagy::Frontend\n", before: "end"
 end
 
 def add_views
-  directory 'app/views/chaltron'
-  directory 'app/views/devise'
-  directory 'app/views/home'
-  directory 'app/views/shared'
-  template 'app/views/layouts/application.html.erb.tt', force: true
+  directory "app/views/chaltron"
+  directory "app/views/devise"
+  directory "app/views/home"
+  directory "app/views/shared"
+  template "app/views/layouts/application.html.erb.tt", force: true
 end
 
 def install_active_storage
-  rails_command 'active_storage:install'
+  rails_command "active_storage:install"
 end
 
 def add_locales
-  directory 'config/locales', force: true
+  directory "config/locales", force: true
 end
 
 def add_javascript
-  run 'yarn add @popperjs/core bootstrap' if rails6?
+  run "yarn add @popperjs/core bootstrap" if rails6?
   # add fontawesome
-  run 'yarn add @fortawesome/fontawesome-free'
+  run "yarn add @fortawesome/fontawesome-free"
   text = <<~JS
 
     import '@fortawesome/fontawesome-free/js/all';
 
   JS
-  inject_into_file 'app/javascript/application.js', text
+  inject_into_file "app/javascript/application.js", text
   # remove bootstrap-icons
-  run 'yarn remove bootstrap-icons'
-  gsub_file 'app/assets/stylesheets/application.bootstrap.scss',
-            "@import 'bootstrap-icons/font/bootstrap-icons';", ''
+  run "yarn remove bootstrap-icons"
+  gsub_file "app/assets/stylesheets/application.bootstrap.scss",
+    "@import 'bootstrap-icons/font/bootstrap-icons';", ""
 end
 
 def add_users
-  generate 'devise:install'
+  generate "devise:install"
   route "root to: 'home#index'"
 
-  generate :devise, 'Chaltron::User'
+  generate :devise, "Chaltron::User"
 
-  devise_migration = Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) }
+  devise_migration = Dir.glob("db/migrate/*").max_by { |f| File.mtime(f) }
 
-  gsub_file devise_migration, '# t.integer  :sign_in_count, default: 0, null: false',
-            't.integer  :sign_in_count, default: 0, null: false'
-  gsub_file devise_migration, '# t.datetime :current_sign_in_at', 't.datetime :current_sign_in_at'
-  gsub_file devise_migration, '# t.datetime :last_sign_in_at',    't.datetime :last_sign_in_at'
-  gsub_file devise_migration, '# t.string   :current_sign_in_ip', 't.string   :current_sign_in_ip'
-  gsub_file devise_migration, '# t.string   :last_sign_in_ip',    't.string   :last_sign_in_ip'
+  gsub_file devise_migration, "# t.integer  :sign_in_count, default: 0, null: false",
+    "t.integer  :sign_in_count, default: 0, null: false"
+  gsub_file devise_migration, "# t.datetime :current_sign_in_at", "t.datetime :current_sign_in_at"
+  gsub_file devise_migration, "# t.datetime :last_sign_in_at", "t.datetime :last_sign_in_at"
+  gsub_file devise_migration, "# t.string   :current_sign_in_ip", "t.string   :current_sign_in_ip"
+  gsub_file devise_migration, "# t.string   :last_sign_in_ip", "t.string   :last_sign_in_ip"
 
-  generate :migration, 'add_fields_to_chaltron_users username:string:uniq ' \
-    'fullname department enabled:boolean extern_uid provider:string:index'
+  generate :migration, "add_fields_to_chaltron_users username:string:uniq " \
+    "fullname department enabled:boolean extern_uid provider:string:index"
 
-  gsub_file Dir.glob('db/migrate/*').max_by { |f| File.mtime(f) },
-            'add_column :chaltron_users, :enabled, :boolean',
-            'add_column :chaltron_users, :enabled, :boolean, default: true'
+  gsub_file Dir.glob("db/migrate/*").max_by { |f| File.mtime(f) },
+    "add_column :chaltron_users, :enabled, :boolean",
+    "add_column :chaltron_users, :enabled, :boolean, default: true"
 
-  generate :migration, 'add_type_to_chaltron_users type remember_token'
+  generate :migration, "add_type_to_chaltron_users type remember_token"
 end
 
 def add_roles
-  generate :model, 'Chaltron::Role name:string:uniq'
-  generate :migration, 'CreateJoinTableRoleUser chaltron_roles chaltron_users'
+  generate :model, "Chaltron::Role name:string:uniq"
+  generate :migration, "CreateJoinTableRoleUser chaltron_roles chaltron_users"
 end
 
 def add_logs
-  generate :model, 'Chaltron::Log message:string{1000} severity:integer:index category:string:index'
+  generate :model, "Chaltron::Log message:string{1000} severity:integer:index category:string:index"
 end
 
 def setup_devise
-  gsub_file 'config/initializers/devise.rb',
-            '# config.authentication_keys = [:email]',
-            'config.authentication_keys = [:login]'
+  gsub_file "config/initializers/devise.rb",
+    "# config.authentication_keys = [:email]",
+    "config.authentication_keys = [:login]"
 end
 
 def setup_warden
-  copy_file 'config/initializers/warden.rb'
+  copy_file "config/initializers/warden.rb"
 end
 
 def setup_chaltron
-  directory 'lib/chaltron'
-  copy_file 'lib/chaltron.rb'
-  copy_file 'config/initializers/chaltron.rb'
+  directory "lib/chaltron"
+  copy_file "lib/chaltron.rb"
+  copy_file "config/initializers/chaltron.rb"
 end
 
 def setup_simple_form
-  generate 'simple_form:install --bootstrap'
-  file = 'config/initializers/simple_form_bootstrap.rb'
+  generate "simple_form:install --bootstrap"
+  file = "config/initializers/simple_form_bootstrap.rb"
 
-  tempdir = Dir.mktmpdir('simple_form_bootstrap-')
+  tempdir = Dir.mktmpdir("simple_form_bootstrap-")
   git clone: [
-    '--quiet',
-    'https://github.com/heartcombo/simple_form-bootstrap.git',
+    "--quiet",
+    "https://github.com/heartcombo/simple_form-bootstrap.git",
     tempdir
-  ].map(&:shellescape).join(' ')
+  ].map(&:shellescape).join(" ")
   at_exit { FileUtils.remove_entry(tempdir) }
 
   FileUtils.mv File.join(tempdir, *%w[config initializers simple_form_bootstrap.rb]), file, force: true
 end
 
 def setup_pagy
-  copy_file 'config/initializers/pagy.rb'
+  copy_file "config/initializers/pagy.rb"
 end
 
 def setup_application
@@ -343,60 +343,60 @@ def add_routes
   end
   ROUTES
 
-  gsub_file 'config/routes.rb', '  devise_for :users, class_name: "Chaltron::User"', routes
+  gsub_file "config/routes.rb", '  devise_for :users, class_name: "Chaltron::User"', routes
 end
 
 def add_models
-  directory 'app/models', force: true
+  directory "app/models", force: true
   # self.table_name_prefix is defined in lib/chaltron.rb
   run 'rm -rf "app/models/chaltron.rb"'
 end
 
 def add_tests
-  directory 'test', force: true
+  directory "test", force: true
   run 'rm -f "test/factories/chaltron/users.rb"'
   run 'rm -rf "test/fixtures"'
 end
 
 def add_seeds
-  append_file 'db/seeds.rb' do
+  append_file "db/seeds.rb" do
     <<~RUBY
 
       Chaltron::Role.create(name: :admin)
       Chaltron::Role.create(name: :user_admin)
 
       Chaltron::LocalUser.create do |u|
-        u.username              = 'bella'
-        u.fullname              = 'Bellatrix Lestrange'
-        u.email                 = 'bellatrix.lestrange@azkaban.co.uk'
-        u.password              = 'password.1'
-        u.password_confirmation = 'password.1'
-        u.roles                 = Chaltron::Role.all
+        u.username = "bella"
+        u.fullname = "Bellatrix Lestrange"
+        u.email = "bellatrix.lestrange@azkaban.co.uk"
+        u.password = "password.1"
+        u.password_confirmation = "password.1"
+        u.roles = Chaltron::Role.all
       end
     RUBY
   end
 end
 
 def finalize
-  rails_command 'db:create'
-  rails_command 'db:migrate'
-  rails_command 'db:seed'
+  rails_command "db:create"
+  rails_command "db:migrate"
+  rails_command "db:seed"
 
   if @db_user
     say
-    say 'Be warned!', :red
-    say 'You have credentials stored in clear text in ' \
+    say "Be warned!", :red
+    say "You have credentials stored in clear text in " \
       "config/database.yml file. ⛔️\nRemember this before " \
-      'sharing the project!!'
+      "sharing the project!!"
   end
   say
-  say '👍 Chaltron template successfully applied! ✌', :green
+  say "👍 Chaltron template successfully applied! ✌", :green
   say
-  say 'And now:'
+  say "And now:"
   say " - cd #{app_name}"
-  say ' - ./bin/dev'
+  say " - ./bin/dev"
   say
-  say 'Enjoy! 🍺🍺'
+  say "Enjoy! 🍺🍺"
 end
 
 def rails6?

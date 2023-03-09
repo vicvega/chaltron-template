@@ -1,6 +1,6 @@
 if defined?(Net::LDAP)
-  require 'net/ldap'
-  require 'chaltron/ldap/person'
+  require "net/ldap"
+  require "chaltron/ldap/person"
 
   module Chaltron
     module LDAP
@@ -22,14 +22,10 @@ if defined?(Net::LDAP)
           ldap.bind_as(base: base, filter: filter, password: password)
         end
 
-        def find_by_uid(id)
+        def find_user(id)
           opts = {}
           opts[uid.to_sym] = id
-          find_user(opts)
-        end
-
-        def find_user(*args)
-          find_users(*args).first
+          find_users(opts).first
         end
 
         def ldap_search(*args)
@@ -135,25 +131,25 @@ if defined?(Net::LDAP)
           return unless method
 
           opts = if options[:disable_verify_certificates]
-                   # It is important to explicitly set verify_mode for two reasons:
-                   # 1. The behavior of OpenSSL is undefined when verify_mode is not set.
-                   # 2. The net-ldap gem implementation verifies the certificate hostname
-                   #    unless verify_mode is set to VERIFY_NONE.
-                   { verify_mode: OpenSSL::SSL::VERIFY_NONE }
-                 else
-                   # Dup so we don't accidentally overwrite the constant
-                   OpenSSL::SSL::SSLContext::DEFAULT_PARAMS.dup
-                 end
+            # It is important to explicitly set verify_mode for two reasons:
+            # 1. The behavior of OpenSSL is undefined when verify_mode is not set.
+            # 2. The net-ldap gem implementation verifies the certificate hostname
+            #    unless verify_mode is set to VERIFY_NONE.
+            {verify_mode: OpenSSL::SSL::VERIFY_NONE}
+          else
+            # Dup so we don't accidentally overwrite the constant
+            OpenSSL::SSL::SSLContext::DEFAULT_PARAMS.dup
+          end
           opts.merge!(custom_tls_options)
 
           @tls_options = opts
         end
 
         def custom_tls_options
-          return {} unless options['tls_options']
+          return {} unless options["tls_options"]
 
           # Dup so we don't overwrite the original value
-          custom_options = options['tls_options'].dup.delete_if { |_, value| value.nil? || value.blank? }
+          custom_options = options["tls_options"].dup.delete_if { |_, value| value.nil? || value.blank? }
           custom_options.symbolize_keys!
 
           if custom_options[:cert]

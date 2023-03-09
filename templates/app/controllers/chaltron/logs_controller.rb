@@ -21,7 +21,8 @@ module Chaltron
       @pagy, @logs = pagy(@logs.order("#{sort_column} #{sort_direction}"), items: per_page)
     end
 
-    def show; end
+    def show
+    end
 
     private
 
