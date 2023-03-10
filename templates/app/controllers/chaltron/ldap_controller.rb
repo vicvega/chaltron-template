@@ -11,15 +11,7 @@ module Chaltron
     end
 
     def multi_new
-      @entries = []
-      userid = params[:userid]
-      if userid.present?
-        entry = Chaltron::LDAP::Person.find_user(userid)
-
-        @entries << entry
-      else
-        @entries = Chaltron::LDAP::Person.find_users(find_options)
-      end
+      @entries = Chaltron::LDAP::Person.find_users(find_options)
       @entries.compact!
       @entries.sort_by!(&:name)
     end
@@ -46,11 +38,13 @@ module Chaltron
     private
 
     def find_options
+      uid = params[:userid]
       department = params[:department]
       name = params[:lastname]
       limit = params[:limit].to_i
 
       ret = {}
+      ret[Devise.omniauth_configs[:ldap].options[:uid].to_sym] = uid if uid.present?
       ret[:department] = "*#{department}*" if department.present?
       ret[:last_name] = "*#{name}*" if name.present?
       ret[:limit] = limit.zero? ? default_limit : limit
