@@ -4,15 +4,8 @@
     <%= simple_form_for @user, as: :chaltron_user, url: chaltron_user_path(@user), method: :patch,
                                namespace: @user.id, wrapper: :vertical_form do |f| %>
       <%= f.error_notification %>
-      <% if current_user == @user %>
-        <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline, required: false,
-                               collection: Chaltron::Role.all.map { |r| [t("chaltron/roles.#{r.name}"), r.id] },
-                               disabled: Chaltron::Role.where(name: "user_admin").map(&:id) %>
-      <% else %>
-        <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline, required: false,
-                               collection: Chaltron::Role.all.map { |r| [t("chaltron/roles.#{r.name}"), r.id] } %>
-      <% end %>
-
+      <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline, required: false,
+                             collection: Chaltron::Role.all.map { |r| [t("chaltron/roles.#{r.name}"), r.id] } %>
       <%= f.submit t(".title", user: @user.display_name), class: "btn btn-primary" %>
       <%= link_to :back, class: "btn btn-ligth" do %>
         <%= icon :fas, :times, t("chaltron.common.cancel") %>
