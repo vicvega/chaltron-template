@@ -44,7 +44,7 @@ module Chaltron
       limit = params[:limit].to_i
 
       ret = {}
-      ret[Devise.omniauth_configs[:ldap].options[:uid].to_sym] = uid if uid.present?
+      ret[Devise.omniauth_configs[:ldap].options[:uid].to_sym] = "*#{uid}*" if uid.present?
       ret[:department] = "*#{department}*" if department.present?
       ret[:last_name] = "*#{name}*" if name.present?
       ret[:limit] = limit.zero? ? default_limit : limit
