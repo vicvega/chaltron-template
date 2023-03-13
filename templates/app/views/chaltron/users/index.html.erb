@@ -1,33 +1,33 @@
-<div class='d-flex w-100 justify-content-between mb-3'>
-  <div class='align-self-center'>
-    <h3><%= t '.title' %></h3>
+<div class="d-flex w-100 justify-content-between mb-3">
+  <div class="align-self-center">
+    <h3><%= t ".title" %></h3>
   </div>
 
   <div>
   <% if ldap_enabled? and !Chaltron.ldap_allow_all %>
-    <div class='dropdown'>
-      <%= button_tag type: 'button', class: 'btn btn-lg btn-primary dropdown-toggle',
-                     data: { 'bs-toggle' => 'dropdown' }, aria: { expanded: false },
-                     id: 'new_user_button' do %>
-        <%= icon :fas, :plus, t('.new_user') %>
+    <div class="dropdown">
+      <%= button_tag type: "button", class: "btn btn-lg btn-primary dropdown-toggle",
+                     data: { "bs-toggle" => "dropdown" }, aria: { expanded: false },
+                     id: "new_user_button" do %>
+        <%= icon :fas, :plus, t(".new_user") %>
       <% end %>
 
-      <%= tag.ul(class: 'dropdown-menu', aria: { labelledby: 'new_user_button' }) do %>
+      <%= tag.ul(class: "dropdown-menu", aria: { labelledby: "new_user_button" }) do %>
         <li>
-          <%= link_to t('.new_ldap_user'), chaltron_ldap_search_path, class: 'dropdown-item' %>
+          <%= link_to t(".new_ldap_user"), chaltron_ldap_search_path, class: "dropdown-item" %>
         </li>
         <li>
-          <%= link_to t('.new_local_user'), new_chaltron_local_user_path, class: 'dropdown-item' %>
+          <%= link_to t(".new_local_user"), new_chaltron_local_user_path, class: "dropdown-item" %>
         </li>
       <% end %>
     </div>
   <% else %>
-    <%= link_to new_chaltron_local_user_path, class: 'btn btn-lg btn-primary' do %>
-      <%= icon :fas, :plus, t('.new_local_user') %>
+    <%= link_to new_chaltron_local_user_path, class: "btn btn-lg btn-primary" do %>
+      <%= icon :fas, :plus, t(".new_local_user") %>
     <% end %>
   <% end %>
   </div>
 </div>
-<%= turbo_frame_tag 'chaltron_users' do %>
-  <%= render partial: 'users' %>
+<%= turbo_frame_tag "chaltron_users" do %>
+  <%= render partial: "users" %>
 <% end %>

@@ -1,12 +1,12 @@
-<div class='accordion-item'>
-  <%= tag.h2 id: "heading#{faq_counter}", class: 'accordion-header' do %>
-    <%= button_tag raw(faq[:question]), class: 'accordion-button collapsed',
-                    type: 'button',
-                    data: {'bs-target' => "#collapse#{faq_counter}", 'bs-toggle' => 'collapse'},
+<div class="accordion-item">
+  <%= tag.h2 id: "heading#{faq_counter}", class: "accordion-header" do %>
+    <%= button_tag raw(faq[:question]), class: "accordion-button collapsed",
+                    type: "button",
+                    data: {"bs-target" => "#collapse#{faq_counter}", "bs-toggle" => "collapse"},
                     aria: { expanded: false, controls: "collapse#{faq_counter}"} %>
   <% end %>
-  <%= tag.div id: "collapse#{faq_counter}", class: 'accordion-collapse collapse',
-    data: { 'bs-parent' => '#accordion' }, aria: { labelledby: "heading#{faq_counter}" } do %>
+  <%= tag.div id: "collapse#{faq_counter}", class: "accordion-collapse collapse",
+    data: { "bs-parent" => "#accordion" }, aria: { labelledby: "heading#{faq_counter}" } do %>
     <div class="accordion-body">
       <%= raw faq[:answer] %>
     </div>

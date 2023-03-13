@@ -1,27 +1,27 @@
 <% if signed_in? %>
 <% if can?(:read, Chaltron::User) || can?(:read, Chaltron::Log) %>
-  <ul class='navbar-nav'>
+  <ul class="navbar-nav">
     <%# Admin navbar %>
-    <li class='nav-item dropdown'>
-    <% logs = params[:controller] == 'chaltron/logs'
-       users = params[:controller] == 'chaltron/ldap' ||
-               (params[:controller] == 'chaltron/users' and !params[:action].start_with?('self'))
-       klass = class_names('nav-link', 'dropdown-toggle', { active: logs || users }) %>
-      <%= link_to '#', id: 'navbarDropdownAdmin', class: klass,
-                       data: { 'bs-toggle' => 'dropdown' } do %>
-        <%= icon :fas, :cogs, t('chaltron.menu.admin') %>
+    <li class="nav-item dropdown">
+    <% logs = params[:controller] == "chaltron/logs"
+       users = params[:controller] == "chaltron/ldap" ||
+               (params[:controller] == "chaltron/users" and !params[:action].start_with?("self"))
+       klass = class_names("nav-link", "dropdown-toggle", { active: logs || users }) %>
+      <%= link_to "#", id: "navbarDropdownAdmin", class: klass,
+                       data: { "bs-toggle" => "dropdown" } do %>
+        <%= icon :fas, :cogs, t("chaltron.menu.admin") %>
       <% end %>
-      <ul class='dropdown-menu dropdown-menu-dark dropdown-menu-end' aria-labelledby='navbarDropdownAdmin'>
+      <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
         <%= tag.li do %>
           <%= link_to chaltron_users_path,
-                      class: class_names('dropdown-item', { active: users }) do %>
-            <%= icon :fas, :user, t('chaltron.menu.users') %>
+                      class: class_names("dropdown-item", { active: users }) do %>
+            <%= icon :fas, :user, t("chaltron.menu.users") %>
           <% end %>
         <% end if can?(:read, Chaltron::User) %>
         <%= tag.li do %>
           <%= link_to chaltron_logs_path,
-                      class: class_names('dropdown-item', { active: logs }) do %>
-            <%= icon :fas, :book, t('chaltron.menu.logs') %>
+                      class: class_names("dropdown-item", { active: logs }) do %>
+            <%= icon :fas, :book, t("chaltron.menu.logs") %>
           <% end %>
         <% end if can?(:read, Chaltron::Log) %>
       </ul>

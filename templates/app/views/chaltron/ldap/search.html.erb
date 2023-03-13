@@ -1,31 +1,31 @@
-<h3><%= t('.title') %></h3>
-<%= form_tag chaltron_ldap_multi_new_path, class: 'row g-3 align-items-center',
-                                           data: { 'turbo-frame': :results } do |f| %>
-  <div class='w-auto flex-grow-1'>
-    <%= tag.input id: :userid, type: :text, name: :userid, class: 'form-control',
-                  placeholder: t('.name_label') %>
-    <%= content_tag :div, t('.name_help'), class: 'form-text' %>
+<h3><%= t(".title") %></h3>
+<%= form_tag chaltron_ldap_multi_new_path, class: "row g-3 align-items-center",
+                                           data: { "turbo-frame": :results } do |f| %>
+  <div class="w-auto flex-grow-1">
+    <%= tag.input id: :userid, type: :text, name: :userid, class: "form-control",
+                  placeholder: t(".name_label") %>
+    <%= content_tag :div, t(".name_help"), class: "form-text" %>
   </div>
-  <div class='w-auto flex-grow-1'>
-    <%= tag.input id: :lastname, type: :text, name: :lastname, class: 'form-control',
-                  placeholder: t('.lastname_label') %>
-    <%= content_tag :div, t('.lastname_help'), class: 'form-text' %>
+  <div class="w-auto flex-grow-1">
+    <%= tag.input id: :lastname, type: :text, name: :lastname, class: "form-control",
+                  placeholder: t(".lastname_label") %>
+    <%= content_tag :div, t(".lastname_help"), class: "form-text" %>
   </div>
-  <div class='w-auto flex-grow-1'>
-    <%= tag.input id: :department, type: :text, name: :department, class: 'form-control',
-                  placeholder: t('.department_label') %>
-    <%= content_tag :div, t('.department_help'), class: 'form-text' %>
+  <div class="w-auto flex-grow-1">
+    <%= tag.input id: :department, type: :text, name: :department, class: "form-control",
+                  placeholder: t(".department_label") %>
+    <%= content_tag :div, t(".department_help"), class: "form-text" %>
   </div>
-  <div class='w-auto flex-grow-1'>
-    <%= tag.input id: :limit, type: :text, name: :limit, class: 'form-control', value: @limit %>
-    <%= content_tag :div, t('.limit_help'), class: 'form-text' %>
+  <div class="w-auto flex-grow-1">
+    <%= tag.input id: :limit, type: :text, name: :limit, class: "form-control", value: @limit %>
+    <%= content_tag :div, t(".limit_help"), class: "form-text" %>
   </div>
-  <div class='col-12'>
-    <%= tag.button t('.submit_text'), class: 'btn btn-primary', type: :submmit %>
+  <div class="col-12">
+    <%= tag.button t(".submit_text"), class: "btn btn-primary", type: :submmit %>
   </div>
 <% end %>
 <%= turbo_frame_tag :results %>
 <hr>
-<%= link_to chaltron_users_path, class: 'btn btn-primary' do %>
-  <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>
+<%= link_to chaltron_users_path, class: "btn btn-primary" do %>
+  <%= icon :fas, "arrow-left", t("chaltron.common.back") %>
 <% end %>

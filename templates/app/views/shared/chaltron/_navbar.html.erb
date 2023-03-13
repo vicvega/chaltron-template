@@ -1,55 +1,55 @@
-<nav id='navbar-top' class='navbar navbar-expand-lg navbar-dark bg-dark py-0'>
-  <div class='container-fluid mx-auto'>
-    <%= link_to 'Home page', root_path, class: 'navbar-brand' %>
-    <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent'
-            aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
-      <span class='navbar-toggler-icon'></span>
+<nav id="navbar-top" class="navbar navbar-expand-lg navbar-dark bg-dark py-0">
+  <div class="container-fluid mx-auto">
+    <%= link_to "Home page", root_path, class: "navbar-brand" %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
-    <div class='collapse navbar-collapse' id='navbarSupportedContent'>
-      <ul class='navbar-nav me-auto'>
-        <li class='nav-item'>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
           <%= link_to home_test1_path,
-                      class: class_names('nav-link', { active: current_page?(home_test1_path) }) do %>
-            <%= icon :fas, :bullhorn, 'Link1' %>
+                      class: class_names("nav-link", { active: current_page?(home_test1_path) }) do %>
+            <%= icon :fas, :bullhorn, "Link1" %>
           <% end %>
         </li>
-        <li class='nav-item'>
+        <li class="nav-item">
           <%= link_to home_test2_path,
-                      class: class_names('nav-link', { active: current_page?(home_test2_path) }) do %>
-            <%= icon :fas, 'chart-line', 'Link2' %>
+                      class: class_names("nav-link", { active: current_page?(home_test2_path) }) do %>
+            <%= icon :fas, "chart-line", "Link2" %>
           <% end %>
         </li>
-        <li class='nav-item dropdown'>
+        <li class="nav-item dropdown">
           <% urls = [home_test3_path, home_test4_path, home_test5_path]
-             klass = class_names('nav-link', 'dropdown-toggle', { active: urls.any? { |url| current_page?(url) } }) %>
-          <%= link_to '#', id: 'navbarDropdown', class: klass, data: { 'bs-toggle' => 'dropdown' } do %>
-            <%= icon :fas, 'hand-point-down', 'Submenu' %>
+             klass = class_names("nav-link", "dropdown-toggle", { active: urls.any? { |url| current_page?(url) } }) %>
+          <%= link_to "#", id: "navbarDropdown", class: klass, data: { "bs-toggle" => "dropdown" } do %>
+            <%= icon :fas, "hand-point-down", "Submenu" %>
           <% end %>
-          <ul class='dropdown-menu dropdown-menu-dark' aria-labelledby='navbarDropdown'>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
             <li>
               <%= link_to home_test3_path,
-                          class: class_names('dropdown-item', { active: current_page?(home_test3_path) }) do %>
-                <%= icon :fas, :book, 'Link3' %>
+                          class: class_names("dropdown-item", { active: current_page?(home_test3_path) }) do %>
+                <%= icon :fas, :book, "Link3" %>
               <% end %>
             </li>
             <li>
               <%= link_to home_test4_path,
-                          class: class_names('dropdown-item', { active: current_page?(home_test4_path) }) do %>
-                <%= icon :fas, :headphones, 'Link4' %>
+                          class: class_names("dropdown-item", { active: current_page?(home_test4_path) }) do %>
+                <%= icon :fas, :headphones, "Link4" %>
               <% end %>
             </li>
             <li>
               <%= link_to home_test5_path,
-                          class: class_names('dropdown-item', { active: current_page?(home_test5_path) }) do %>
-                <%= icon :fas, :futbol, 'Link5' %>
+                          class: class_names("dropdown-item", { active: current_page?(home_test5_path) }) do %>
+                <%= icon :fas, :futbol, "Link5" %>
               <% end %>
             </li>
           </ul>
         </li>
       </ul>
       <%# Right navbar %>
-      <%= render 'chaltron/admin_navbar' %>
-      <%= render 'chaltron/login_navbar' %>
+      <%= render "chaltron/admin_navbar" %>
+      <%= render "chaltron/login_navbar" %>
     </div>
   </div>
 </nav>

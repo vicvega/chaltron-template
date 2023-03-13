@@ -1,20 +1,20 @@
-<h4><%= t('.filters') %></h4>
-<%= simple_form_for filter, as: :filter, url: chaltron_users_path, method: 'get' do |f| %>
+<h4><%= t(".filters") %></h4>
+<%= simple_form_for filter, as: :filter, url: chaltron_users_path, method: "get" do |f| %>
   <%= hidden_field_tag :page, 1 %>
   <% labels = count[:providers].to_a.map do |x|
-       "#{t("chaltron.users.provider.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: '.')})"
+       "#{t("chaltron.users.provider.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: ".")})"
      end %>
   <%= f.input :providers, collection: labels.zip(count[:providers].keys).to_a,
                           as: :check_boxes, wrapper: :vertical_collection_inline %>
 
-  <% label = "#{t('activemodel.attributes.chaltron/user/filter.never_logged_in')} (#{count[:never_logged_in]})" %>
+  <% label = "#{t("activemodel.attributes.chaltron/user/filter.never_logged_in")} (#{count[:never_logged_in]})" %>
   <%= f.input :never_logged_in, wrapper: :custom_boolean_switch, as: :boolean, label: label %>
-  <%= f.submit t('.submit_filters'), class: 'btn btn-primary w-100' %>
+  <%= f.submit t(".submit_filters"), class: "btn btn-primary w-100" %>
 <% end %>
 
 <hr>
 <%# Reset filters %>
-<%= link_to t('.reset_filters'),
-            { controller: 'chaltron/users', action: 'index',
-              filter: { providers: [''], never_logged_in: false }, page: 1 },
-            class: 'btn btn-primary w-100 mb-3' %>
+<%= link_to t(".reset_filters"),
+            { controller: "chaltron/users", action: "index",
+              filter: { providers: [""], never_logged_in: false }, page: 1 },
+            class: "btn btn-primary w-100 mb-3" %>

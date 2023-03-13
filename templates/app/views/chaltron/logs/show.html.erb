@@ -1,21 +1,21 @@
-<div class='container-fluid'>
+<div class="container-fluid">
   <h3><%= t "chaltron.logs.severity.#{@log.severity}" %></h3>
-  <div class='row'>
-    <div class='col'>
+  <div class="row">
+    <div class="col">
       <%= tag.div(class: "card border-#{bootstrap_severity(@log.severity)}") do %>
         <%= tag.div(class: "card-header text-white bg-#{bootstrap_severity(@log.severity)}") do %>
-          <%= t '.headers.details' %>
+          <%= t ".headers.details" %>
         <% end %>
-        <ul class='list-group list-group-flush'>
-          <li class='list-group-item'>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
             <span><%= Chaltron::Log.human_attribute_name(:created_at) %>: </span>
             <strong><%= l(@log.created_at, format: :short) %></strong>
           </li>
-          <li class='list-group-item'>
+          <li class="list-group-item">
             <span><%= Chaltron::Log.human_attribute_name(:message) %>: </span>
             <strong><%= @log.message %></strong>
           </li>
-          <li class='list-group-item'>
+          <li class="list-group-item">
             <span><%= Chaltron::Log.human_attribute_name(:category) %>: </span>
             <strong><%= t "chaltron.logs.category.#{@log.category}" %></strong>
           </li>
@@ -24,7 +24,7 @@
     </div>
   </div>
   <hr>
-  <%= link_to chaltron_logs_path, class: 'btn btn-primary' do %>
-    <%= icon :fas, 'arrow-left', t('chaltron.common.back') %>
+  <%= link_to chaltron_logs_path, class: "btn btn-primary" do %>
+    <%= icon :fas, "arrow-left", t("chaltron.common.back") %>
   <% end %>
 </div>
