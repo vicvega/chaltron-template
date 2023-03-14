@@ -8,7 +8,7 @@
                (params[:controller] == "chaltron/users" and !params[:action].start_with?("self"))
        klass = class_names("nav-link", "dropdown-toggle", { active: logs || users }) %>
       <%= link_to "#", id: "navbarDropdownAdmin", class: klass,
-                       data: { "bs-toggle" => "dropdown" } do %>
+                       data: { bs_toggle: "dropdown" } do %>
         <%= icon :fas, :cogs, t("chaltron.menu.admin") %>
       <% end %>
       <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">

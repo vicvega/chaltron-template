@@ -1,7 +1,7 @@
 <% links ||= [10, 20, 50, 100].index_with { |x| t(".per_page", count: x) } %>
 <div id="sort-per-page" class="dropdown text-nowrap">
   <%= link_to links[per_page], "#",
-              data: { "bs-toggle": "dropdown" }, aria: { expanded: false },
+              data: { bs_toggle: "dropdown" }, aria: { expanded: false },
               class: "btn btn-primary dropdown-toggle" %>
   <ul class="dropdown-menu" aria-labelledby="per-page">
     <% links.each do |count, label| %>
