@@ -1,6 +1,7 @@
 module Chaltron
   class User < ApplicationRecord
     include HasRoles
+    include Filterable
 
     validates :username, presence: true, uniqueness: {case_sensitive: false}
     # Only allow letter, number, underscore and punctuation.
@@ -28,10 +29,6 @@ module Chaltron
       else
         all
       end
-    end
-
-    def self.filtrate(filter)
-      filter.apply(all)
     end
 
     class Filter

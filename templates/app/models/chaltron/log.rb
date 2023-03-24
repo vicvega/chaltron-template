@@ -1,6 +1,8 @@
 # require 'syslog'
 module Chaltron
   class Log < ApplicationRecord
+    include Filterable
+
     enum :severity, %i[emerg alert crit err warning notice info debug]
 
     validates :severity, :category, :message, presence: true
@@ -15,10 +17,6 @@ module Chaltron
       else
         all
       end
-    end
-
-    def self.filtrate(filter)
-      filter.apply(all)
     end
 
     private
