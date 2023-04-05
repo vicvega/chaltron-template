@@ -13,6 +13,8 @@ en:
     sessions:
       new:
         title: Login
+        local: Local account
+        ldap: LDAP
       new_local:
         remember_me: Remember me
         link_text: Forgot your password?
