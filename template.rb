@@ -248,7 +248,7 @@ def add_users
 
   gsub_file Dir.glob("db/migrate/*").max_by { |f| File.mtime(f) },
     "add_column :chaltron_users, :enabled, :boolean",
-    "add_column :chaltron_users, :enabled, :boolean, default: true"
+    "add_column :chaltron_users, :enabled, :boolean, default: true, null: false"
 
   generate :migration, "add_type_to_chaltron_users type remember_token"
 end
