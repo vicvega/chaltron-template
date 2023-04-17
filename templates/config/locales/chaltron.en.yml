@@ -18,8 +18,10 @@ en:
       chaltron/user:
         username: Username
         fullname: Full name
-        email:  E-mail
+        email: E-mail
+        password: Password
         password_confirmation: Confirm password
+        current_password: Current password
         last_sign_in_at: Last login
         last_sign_in_ip: Last login from
         sign_in_count: Login count
@@ -39,9 +41,9 @@ en:
   chaltron:
     flash:
       success: info
-      error:   error
-      alert:   alert
-      notice:  notice
+      error: error
+      alert: alert
+      notice: notice
     menu:
       admin: Administration
       users: Users
@@ -62,6 +64,7 @@ en:
       enabled: User was successfully enabled.
       disabled: User was successfully disabled.
       self_updated: Account data successfully updated.
+      password_changed: Password successfully changed.
       cannot_self_destroy: You cannot destroy your own account.
       cannot_self_disable: You cannot disable your own account.
       it_s_you: It's you!

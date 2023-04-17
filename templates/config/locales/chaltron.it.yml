@@ -18,8 +18,10 @@ it:
       chaltron/user:
         username: Username
         fullname: Nome completo
-        email:  E-mail
+        email: E-mail
+        password: Password
         password_confirmation: Conferma password
+        current_password: Password corrente
         last_sign_in_at: Ultimo login
         last_sign_in_ip: Ultimo login da
         sign_in_count: Numero di login
@@ -39,9 +41,9 @@ it:
   chaltron:
     flash:
       success: Info
-      error:   Errore
-      alert:   Attenzione
-      notice:  Nota
+      error: Errore
+      alert: Attenzione
+      notice: Nota
     menu:
       admin: Amministrazione
       users: Utenti
@@ -62,6 +64,7 @@ it:
       enabled: Utente abilitato con successo.
       disabled: Utente disabilitato con successo.
       self_updated: Dati personali aggiornati con successo.
+      password_changed: Password aggiornata con successo.
       cannot_self_destroy: Non puoi cancellare il tuo stesso account.
       cannot_self_disable: Non puoi disabilitare il tuo stesso account.
       it_s_you: Sei tu!

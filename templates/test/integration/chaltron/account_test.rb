@@ -49,22 +49,35 @@ class AccountTest < ActionDispatch::IntegrationTest
     assert_select "li.list-group-item" do
       assert_select "strong", @user.email
     end
-    assert_select "a[href='#{chaltron_self_user_edit_path}']", t("chaltron.self_user.show.edit")
+    assert_select "a[href='#{chaltron_self_user_change_password_path}']", t("chaltron.self_user.show.change_password")
 
     get chaltron_self_user_change_password_path
-    assert_select "form#edit_chaltron_user[action='#{chaltron_self_user_update_path}']" do
+    assert_select "form#edit_chaltron_user[action='#{chaltron_self_user_update_password_path}']" do
+      assert_select "input[name='chaltron_user[current_password]']"
       assert_select "input[name='chaltron_user[password]']"
       assert_select "input[name='chaltron_user[password_confirmation]']"
     end
     new_password = "password.1"
-    patch chaltron_self_user_update_path, params: {
+    patch chaltron_self_user_update_password_path, params: {
       chaltron_user: {
+        current_password: @user.password,
         password: new_password,
         password_confirmation: new_password
       }
     }
     follow_redirect!
 
-    assert_select ".alert.alert-info", "#{t("chaltron.flash.notice")}: #{t("chaltron.users.self_updated")}"
+    assert_select ".alert.alert-info", "#{t("chaltron.flash.notice")}: #{t("chaltron.users.password_changed")}"
+  end
+
+  test "user should not change password if missing new password" do
+    patch chaltron_self_user_update_password_path, params: {
+      chaltron_user: {
+        current_password: @user.password,
+        password: ""
+      }
+    }
+
+    assert_response :unprocessable_entity
   end
 end

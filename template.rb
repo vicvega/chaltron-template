@@ -333,6 +333,7 @@ def add_routes
     get   'self_user/edit'
     get   'self_user/change_password'
     patch 'self_user/update'
+    patch 'self_user/update_password'
 
     # search and create LDAP users
     if Devise.omniauth_providers.include?(:ldap) && !Chaltron.ldap_allow_all
