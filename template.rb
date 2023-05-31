@@ -356,7 +356,6 @@ end
 def add_tests
   directory "test", force: true
   run 'rm -f "test/factories/chaltron/users.rb"'
-  run 'rm -rf "test/fixtures"'
 end
 
 def add_seeds
