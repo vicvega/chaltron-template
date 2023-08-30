@@ -8,6 +8,8 @@ module Chaltron
     # preserve :filter, :page, :per_page, :sort_direction, :sort_column
     preserve :search, allow_blank: true
 
+    # searchable strip: false
+
     before_action :authenticate_user!
     before_action :set_filter
 
