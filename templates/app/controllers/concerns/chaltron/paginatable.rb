@@ -18,11 +18,15 @@ module Chaltron
     end
 
     def per_page
-      @per_page ||= validate_per_page
+      return @per_page if defined?(@per_page)
+
+      @per_page = validate_per_page
     end
 
     def page
-      @page ||= validate_page
+      return @page if defined?(@page)
+
+      @page = validate_page
     end
 
     private

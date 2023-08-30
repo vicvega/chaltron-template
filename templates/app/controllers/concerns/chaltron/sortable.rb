@@ -29,11 +29,15 @@ module Chaltron
     end
 
     def sort_direction
-      @sort_direction ||= validate_sort_direction
+      return @sort_direction if defined?(@sort_direction)
+
+      @sort_direction = validate_sort_direction
     end
 
     def sort_column
-      @sort_column ||= validate_sort_column
+      return @sort_column if defined?(@sort_column)
+
+      @sort_column = validate_sort_column
     end
 
     def sort_columns
