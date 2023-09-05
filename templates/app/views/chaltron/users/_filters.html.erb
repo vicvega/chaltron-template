@@ -7,7 +7,7 @@
   <%= f.input :providers, collection: labels.zip(count[:providers].keys).to_a,
                           as: :check_boxes, wrapper: :vertical_collection_inline %>
 
-  <% label = "#{t('activemodel.attributes.chaltron/user/filter.never_logged_in')} (#{count[:never_logged_in]})" %>
+  <% label = "#{t('activemodel.attributes.chaltron/filters/user.never_logged_in')} (#{count[:never_logged_in]})" %>
   <%= f.input :never_logged_in, wrapper: :custom_boolean_switch, as: :boolean, label: label %>
   <%= f.submit t(".submit_filters"), class: "btn btn-primary w-100" %>
 <% end %>

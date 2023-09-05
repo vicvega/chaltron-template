@@ -105,7 +105,7 @@ module Chaltron
     end
 
     def set_filter
-      @filter = User::Filter.new(filter_params)
+      @filter = Filters::User.new(filter_params)
     end
 
     def filter_params

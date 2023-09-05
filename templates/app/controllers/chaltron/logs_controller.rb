@@ -16,7 +16,7 @@ module Chaltron
     permitted_sort_columns %w[created_at message]
 
     def index
-      @filter = Log::Filter.new(filter_params)
+      @filter = Filters::Log.new(filter_params)
       @logs = @logs.filtrate(@filter).search(search)
       @severities = @logs.group(:severity).count.sort_by { |_k, v| v }.reverse.to_h
       @categories = @logs.group(:category).count.sort_by { |_k, v| v }.reverse.to_h
