@@ -280,17 +280,6 @@ end
 
 def setup_simple_form
   generate "simple_form:install --bootstrap"
-  file = "config/initializers/simple_form_bootstrap.rb"
-
-  tempdir = Dir.mktmpdir("simple_form_bootstrap-")
-  git clone: [
-    "--quiet",
-    "https://github.com/heartcombo/simple_form-bootstrap.git",
-    tempdir
-  ].map(&:shellescape).join(" ")
-  at_exit { FileUtils.remove_entry(tempdir) }
-
-  FileUtils.mv File.join(tempdir, *%w[config initializers simple_form_bootstrap.rb]), file, force: true
 end
 
 def setup_pagy
