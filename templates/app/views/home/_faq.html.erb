@@ -6,7 +6,7 @@
                     aria: { expanded: false, controls: "collapse#{faq_counter}"} %>
   <% end %>
   <%= tag.div id: "collapse#{faq_counter}", class: "accordion-collapse collapse",
-    data: { "bs-parent" => "#accordion" }, aria: { labelledby: "heading#{faq_counter}" } do %>
+    data: { bs_parent: "#accordion" }, aria: { labelledby: "heading#{faq_counter}" } do %>
     <div class="accordion-body">
       <%= raw faq[:answer] %>
     </div>

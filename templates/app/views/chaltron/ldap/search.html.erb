@@ -1,6 +1,6 @@
 <h3><%= t(".title") %></h3>
 <%= form_tag chaltron_ldap_multi_new_path, class: "row g-3 align-items-center",
-      data: {"turbo-frame": :results} do |f| %>
+      data: {turbo_frame: :results} do |f| %>
   <div class="w-auto flex-grow-1">
     <%= tag.input id: :userid, type: :text, name: :userid, class: "form-control",
           placeholder: t(".name_label") %>

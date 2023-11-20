@@ -7,7 +7,7 @@
   <% if ldap_enabled? and !Chaltron.ldap_allow_all %>
     <div class="dropdown">
       <%= button_tag type: "button", class: "btn btn-lg btn-primary dropdown-toggle",
-            data: {"bs-toggle" => "dropdown"}, aria: {expanded: false},
+            data: {bs_toggle: "dropdown"}, aria: {expanded: false},
             id: "new_user_button" do %>
         <%= icon :fas, :plus, t(".new_user") %>
       <% end %>

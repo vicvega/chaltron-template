@@ -1,5 +1,5 @@
 <%= link_to log, class: "list-group-item list-group-item-action d-flex gap-3 py-3",
-      data: {"turbo-frame" => "_top"}, id: dom_id(log) do %>
+      data: {turbo_frame: "_top"}, id: dom_id(log) do %>
   <div class="d-flex gap-2 w-100 justify-content-between">
     <h5>
       <%= tag.span t("chaltron.logs.severity.#{log.severity}"),
