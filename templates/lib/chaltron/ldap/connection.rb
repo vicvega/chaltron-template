@@ -3,7 +3,7 @@ if defined?(Net::LDAP)
   require "chaltron/ldap/person"
 
   module Chaltron
-    module LDAP
+    module Ldap
       class Connection
         NET_LDAP_ENCRYPTION_METHOD = {
           simple_tls: :simple_tls,
@@ -62,7 +62,7 @@ if defined?(Net::LDAP)
           end
           options[:size] = limit unless limit.nil?
           ldap_search(options).filter_map do |entry|
-            Chaltron::LDAP::Person.new(entry, uid) if entry.respond_to? uid
+            Chaltron::Ldap::Person.new(entry, uid) if entry.respond_to? uid
           end
         end
 

@@ -1,7 +1,7 @@
 require "chaltron/ldap/connection"
 
 module Chaltron
-  module LDAP
+  module Ldap
     class Person
       class << self
         extend Forwardable
@@ -74,7 +74,7 @@ module Chaltron
       end
 
       def self.ldap
-        @ldap ||= Chaltron::LDAP::Connection.new
+        @ldap ||= Chaltron::Ldap::Connection.new
       end
     end
   end

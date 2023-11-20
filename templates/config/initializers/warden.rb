@@ -6,7 +6,7 @@ if defined?(Warden)
     # E.g.:
     #
     # if user && user.ldap_user?
-    #   ldap = Chaltron::LDAP::Connection.new
+    #   ldap = Chaltron::Ldap::Connection.new
     #   if ldap.find_by_uid(user.username).entry.enabled != ["true"]
     #     scope = options[:scope]
     #     warden.logout(scope)
@@ -32,7 +32,7 @@ if defined?(Warden)
     # E.g.:
     #
     # if user.ldap_user?
-    #   ldap = Chaltron::LDAP::Connection.new
+    #   ldap = Chaltron::Ldap::Connection.new
     #   ldap.update_attributes(user.extern_uid, {
     #     lastLogout: Time.now.strftime("%Y%m%d%H%M%S%z")
     #   })

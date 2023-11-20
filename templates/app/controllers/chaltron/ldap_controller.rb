@@ -11,7 +11,7 @@ module Chaltron
     end
 
     def multi_new
-      @entries = Chaltron::LDAP::Person.find_users(find_options)
+      @entries = Chaltron::Ldap::Person.find_users(find_options)
       @entries.compact!
       @entries.sort_by!(&:name)
     end
@@ -21,7 +21,7 @@ module Chaltron
       @error = []
       (params[:uids] || []).each do |uid|
         roles = Chaltron::Role.find(params[:chaltron_user][:role_ids].compact_blank)
-        user = Chaltron::LDAP::Person.find_user(uid).create_user(roles)
+        user = Chaltron::Ldap::Person.find_user(uid).create_user(roles)
         if user.new_record?
           @error << user
         else

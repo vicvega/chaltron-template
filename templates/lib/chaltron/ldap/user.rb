@@ -6,7 +6,7 @@
 require "chaltron/ldap/person"
 
 module Chaltron
-  module LDAP
+  module Ldap
     class User
       class << self
         attr_reader :auth
@@ -17,7 +17,7 @@ module Chaltron
             raise_error("Account must provide a dn, uid and email address")
           end
           user = find_by_uid_and_provider
-          entry = Chaltron::LDAP::Person.find_user(username)
+          entry = Chaltron::Ldap::Person.find_user(username)
           if user.nil? && create
             # create user with default roles
             user = entry.create_user(Chaltron::Role.where(name: Chaltron.default_roles))

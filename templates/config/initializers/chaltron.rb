@@ -24,7 +24,7 @@ Chaltron.setup do |config|
   # config.ldap_group_base = "ou=groups,dc=example,dc=com"
 
   # Here you may specify a filter to retrieve LDAP group membership
-  # Accept entry (an instance of Chaltron::LDAP::Person) as parameter
+  # Accept entry (an instance of Chaltron::Ldap::Person) as parameter
   # Default is
   # config.ldap_group_member_filter = -> (entry) { "uniquemember=#{entry.dn}" }
 
