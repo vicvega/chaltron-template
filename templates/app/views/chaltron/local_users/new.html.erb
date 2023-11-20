@@ -7,7 +7,7 @@
   <%= f.input :password, required: true %>
   <%= f.input :password_confirmation, required: true %>
   <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline,
-                         collection: Chaltron::Role.all.map { |r| [t("chaltron/roles.#{r.name}"), r.id] } %>
+        collection: Chaltron::Role.all.map { |r| [t("chaltron/roles.#{r.name}"), r.id] } %>
   <%= f.submit t(".submit_text"), class: "btn btn-primary" %>
 <% end %>
 <hr>

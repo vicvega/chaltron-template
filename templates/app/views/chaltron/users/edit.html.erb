@@ -2,10 +2,10 @@
   <h3><%= t(".title", user: @user.display_name) %></h3>
   <%= turbo_frame_tag dom_id(@user) do %>
     <%= simple_form_for @user, as: :chaltron_user, url: chaltron_user_path(@user), method: :patch,
-                               namespace: @user.id, wrapper: :vertical_form do |f| %>
+          namespace: @user.id, wrapper: :vertical_form do |f| %>
       <%= f.error_notification %>
       <%= f.input :role_ids, as: :check_boxes, wrapper: :vertical_collection_inline, required: false,
-                             collection: Chaltron::Role.all.map { |r| [t("chaltron/roles.#{r.name}"), r.id] } %>
+            collection: Chaltron::Role.all.map { |r| [t("chaltron/roles.#{r.name}"), r.id] } %>
       <%= f.submit t(".title", user: @user.display_name), class: "btn btn-primary" %>
       <%= link_to :back, class: "btn btn-ligth" do %>
         <%= icon :fas, :times, t("chaltron.common.cancel") %>

@@ -1,19 +1,19 @@
 <h3><%= t(".title") %></h3>
 <%= form_tag chaltron_ldap_multi_new_path, class: "row g-3 align-items-center",
-                                           data: { "turbo-frame": :results } do |f| %>
+      data: {"turbo-frame": :results} do |f| %>
   <div class="w-auto flex-grow-1">
     <%= tag.input id: :userid, type: :text, name: :userid, class: "form-control",
-                  placeholder: t(".name_label") %>
+          placeholder: t(".name_label") %>
     <%= content_tag :div, t(".name_help"), class: "form-text" %>
   </div>
   <div class="w-auto flex-grow-1">
     <%= tag.input id: :lastname, type: :text, name: :lastname, class: "form-control",
-                  placeholder: t(".lastname_label") %>
+          placeholder: t(".lastname_label") %>
     <%= content_tag :div, t(".lastname_help"), class: "form-text" %>
   </div>
   <div class="w-auto flex-grow-1">
     <%= tag.input id: :department, type: :text, name: :department, class: "form-control",
-                  placeholder: t(".department_label") %>
+          placeholder: t(".department_label") %>
     <%= content_tag :div, t(".department_help"), class: "form-text" %>
   </div>
   <div class="w-auto flex-grow-1">

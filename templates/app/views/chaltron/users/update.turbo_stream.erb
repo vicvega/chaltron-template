@@ -1,4 +1,4 @@
 <%= turbo_stream.replace dom_id(@user) do %>
-  <%= render partial: "chaltron/users/user", locals: { user: @user, filter: @filter } %>
+  <%= render partial: "chaltron/users/user", locals: {user: @user, filter: @filter} %>
 <% end %>
 <%= render_turbo_stream_flash_messages %>
