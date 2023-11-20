@@ -9,38 +9,38 @@
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <%= link_to home_test1_path,
-                      class: class_names("nav-link", { active: current_page?(home_test1_path) }) do %>
+                class: class_names("nav-link", {active: current_page?(home_test1_path)}) do %>
             <%= icon :fas, :bullhorn, "Link1" %>
           <% end %>
         </li>
         <li class="nav-item">
           <%= link_to home_test2_path,
-                      class: class_names("nav-link", { active: current_page?(home_test2_path) }) do %>
+                class: class_names("nav-link", {active: current_page?(home_test2_path)}) do %>
             <%= icon :fas, "chart-line", "Link2" %>
           <% end %>
         </li>
         <li class="nav-item dropdown">
           <% urls = [home_test3_path, home_test4_path, home_test5_path]
-             klass = class_names("nav-link", "dropdown-toggle", { active: urls.any? { |url| current_page?(url) } }) %>
-          <%= link_to "#", id: "navbarDropdown", class: klass, data: { bs_toggle: "dropdown" } do %>
+             klass = class_names("nav-link", "dropdown-toggle", {active: urls.any? { |url| current_page?(url) }}) %>
+          <%= link_to "#", id: "navbarDropdown", class: klass, data: {bs_toggle: "dropdown"} do %>
             <%= icon :fas, "hand-point-down", "Submenu" %>
           <% end %>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
             <li>
               <%= link_to home_test3_path,
-                          class: class_names("dropdown-item", { active: current_page?(home_test3_path) }) do %>
+                    class: class_names("dropdown-item", {active: current_page?(home_test3_path)}) do %>
                 <%= icon :fas, :book, "Link3" %>
               <% end %>
             </li>
             <li>
               <%= link_to home_test4_path,
-                          class: class_names("dropdown-item", { active: current_page?(home_test4_path) }) do %>
+                    class: class_names("dropdown-item", {active: current_page?(home_test4_path)}) do %>
                 <%= icon :fas, :headphones, "Link4" %>
               <% end %>
             </li>
             <li>
               <%= link_to home_test5_path,
-                          class: class_names("dropdown-item", { active: current_page?(home_test5_path) }) do %>
+                    class: class_names("dropdown-item", {active: current_page?(home_test5_path)}) do %>
                 <%= icon :fas, :futbol, "Link5" %>
               <% end %>
             </li>

@@ -3,16 +3,16 @@
 <%= form_tag nil, method: "get" do %>
   <div class="input-group">
     <%= text_field_tag "search", search,
-                       class: "form-control", placeholder: placeholder, size: 50 %>
+          class: "form-control", placeholder: placeholder, size: 50 %>
     <span class="input-group-text">
       <%= link_to icon(:fas, "trash-alt"),
-                  { search: "", page: 1 },
-                  title: reset_label,
-                  data: {
-                    controller: "chaltron--tooltip",
-                    bs_toggle: "tooltip",
-                    bs_trigger: "hover"
-                  } %>
+            {search: "", page: 1},
+            title: reset_label,
+            data: {
+              controller: "chaltron--tooltip",
+              bs_toggle: "tooltip",
+              bs_trigger: "hover"
+            } %>
     </span>
     <button class="btn btn-primary" type="submit"><%= submit_label %></button>
   </div>
