@@ -9,6 +9,7 @@ class RoleTest < ActiveSupport::TestCase
 
   test "name should be present" do
     record = build(:chaltron_role, name: nil)
+
     assert_not record.valid?
     assert_not_empty record.errors[:name]
   end
@@ -16,6 +17,7 @@ class RoleTest < ActiveSupport::TestCase
   test "name should be unique" do
     role = create(:chaltron_role)
     record = build(:chaltron_role, name: role.name)
+
     assert_not record.valid?
     assert_not_empty record.errors[:name]
   end
