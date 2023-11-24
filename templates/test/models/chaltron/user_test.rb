@@ -2,10 +2,8 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   test "should create a new user" do
-    Chaltron::Role.create(name: "admin")
-    Chaltron::Role.create(name: "user_admin")
     assert_difference "Chaltron::User.count" do
-      u = create(:chaltron_local_user, roles: Chaltron::Role.all)
+      u = create(:chaltron_local_user, with_roles: %w[admin user_admin])
 
       assert u.role?(:admin)
       assert u.role?(:user_admin)
