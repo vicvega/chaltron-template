@@ -84,7 +84,7 @@ en:
         submit: Submit
     ldap:
       search:
-        title: Search for LDAP sers
+        title: Search for LDAP users
         submit_text: Search
         name_label: User
         name_help: Search by user-id
