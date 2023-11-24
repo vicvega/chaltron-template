@@ -1,12 +1,12 @@
-<%= form_tag(session_path(resource_name), role: "form") do %>
+<%= form_with url: session_path(resource_name) do %>
   <div class="form-floating">
     <%= text_field_tag "local[login]", nil,
-                       { class: "form-control", placeholder: "Login" } %>
+          {class: "form-control", placeholder: "Login"} %>
     <%= label_tag "username", t(".login_placeholder") %>
   </div>
   <div class="form-floating mb-3">
     <%= password_field_tag "local[password]", nil,
-                           { class: "form-control bottom", placeholder: "Password" } %>
+          {class: "form-control bottom", placeholder: "Password"} %>
     <%= label_tag "password", "Password" %>
   </div>
   <% if devise_mapping.rememberable? %>

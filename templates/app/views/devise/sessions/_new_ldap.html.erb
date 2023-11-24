@@ -1,12 +1,12 @@
-<%= form_tag(omni_ldap_omniauth_callback_path, role: "form") do %>
+<%= form_with url: omni_ldap_omniauth_callback_path do %>
   <div class="form-floating">
     <%= text_field_tag :username, nil,
-                       { class: "form-control", placeholder: "LDAP username" } %>
+          {class: "form-control", placeholder: "LDAP username"} %>
     <%= label_tag "username", "LDAP username" %>
   </div>
   <div class="form-floating mb-3">
     <%= password_field_tag :password, nil,
-                           { class: "form-control bottom", placeholder: "Password" } %>
+          {class: "form-control bottom", placeholder: "Password"} %>
     <%= label_tag "password", "Password" %>
   </div>
   <% if devise_mapping.rememberable? %>

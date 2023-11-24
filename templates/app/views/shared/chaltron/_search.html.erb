@@ -1,6 +1,6 @@
 <% reset_label ||= t(".reset")
    submit_label ||= t(".submit") %>
-<%= form_tag nil, method: "get" do %>
+<%= form_with url: nil, method: "get" do %>
   <div class="input-group">
     <%= text_field_tag "search", search,
           class: "form-control", placeholder: placeholder, size: 50 %>
