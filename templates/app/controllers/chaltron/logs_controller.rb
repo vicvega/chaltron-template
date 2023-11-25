@@ -4,7 +4,7 @@ module Chaltron
     include Sortable
     include Searchable
 
-    preserve :filter, only: :index
+    preserve :filter, only: :index, allow_blank: true
     # preserve :filter, :page, :per_page, :sort_direction, :sort_column, only: :index
     preserve :search, allow_blank: true, only: :index
 
