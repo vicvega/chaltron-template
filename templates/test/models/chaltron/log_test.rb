@@ -29,6 +29,13 @@ class LogTest < ActiveSupport::TestCase
     assert_not_empty record.errors[:severity]
   end
 
+  test "severity should be valid" do
+    record = build(:chaltron_log, severity: Chaltron::Log.severities.count)
+
+    assert_not record.valid?
+    assert_not_empty record.errors[:severity]
+  end
+
   test "category should be present" do
     record = build(:chaltron_log, category: nil)
 

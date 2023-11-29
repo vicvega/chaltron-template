@@ -3,7 +3,7 @@ module Chaltron
   class Log < ApplicationRecord
     include Filterable
 
-    enum :severity, %i[emerg alert crit err warning notice info debug]
+    enum :severity, %i[emerg alert crit err warning notice info debug], validate: true
 
     validates :severity, :category, :message, presence: true
 
