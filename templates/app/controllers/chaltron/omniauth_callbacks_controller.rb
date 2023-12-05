@@ -12,6 +12,7 @@ module Chaltron
       if user.nil?
         redirect_to new_local_session_url, alert: t("chaltron.not_allowed_to_sign_in")
       else
+        store_location_for(user, stored_location_for(:local))
         user.remember_me = params[:remember_me] if user.persisted?
         sign_in_and_redirect(user, event: :authentication, kind: "LDAP")
         set_flash_message(:notice, :success, kind: "LDAP")
