@@ -54,24 +54,14 @@ def check_options
     exit_with_message("Update rails and try again...")
   end
 
-  if rails6?
-    exit_with_message("You must specify --skip-javascript option to run chaltron") unless options["skip_javascript"]
-  elsif rails7?
-    unless options["javascript"] == "esbuild" && options["css"] == "bootstrap"
-      exit_with_message("You must specify --css=bootstrap and --javascript=esbuild options to run chaltron")
-    end
+  unless options["javascript"] == "esbuild" && options["css"] == "bootstrap"
+    exit_with_message("You must specify --css=bootstrap and --javascript=esbuild options to run chaltron")
   end
 
   exit unless yes?("Are you sure you want to continue? [yes/NO]")
 end
 
 def add_gems
-  if rails6?
-    gem "cssbundling-rails"
-    gem "jsbundling-rails"
-    gem "turbo-rails"
-    gem "stimulus-rails"
-  end
   gem "devise"
   gem "omniauth"
   gem "omniauth-rails_csrf_protection"
@@ -145,20 +135,10 @@ def setup_postgresql
   insert_into_file "config/database.yml", text, after: "#password:\n"
 end
 
-def install_jsbundling
-  rails_command "javascript:install:esbuild" if rails6?
-end
-
 def install_bootstrap
-  rails_command "css:install:bootstrap" if rails6?
-
   file = "app/assets/stylesheets/application.bootstrap.scss"
   inject_into_file file, "$font-size-base: .85rem;\n\n",
     before: "@import 'bootstrap/scss/bootstrap';"
-end
-
-def install_hotwire
-  rails_command "turbo:install stimulus:install"
 end
 
 def add_stimulus_controller
@@ -213,7 +193,6 @@ def add_locales
 end
 
 def add_javascript
-  run "yarn add @popperjs/core bootstrap" if rails6?
   # add fontawesome
   run "yarn add @fortawesome/fontawesome-free"
   text = <<~JS
@@ -388,16 +367,9 @@ def finalize
   say "Enjoy! 🍺🍺"
 end
 
-def rails6?
-  Rails::VERSION::MAJOR == 6
-end
-
-def rails7?
-  Rails::VERSION::MAJOR == 7
-end
-
 def rails_old?
-  Rails::VERSION::MAJOR < 6
+  return true if Rails::VERSION::MAJOR < 7
+  Rails::VERSION::MINOR < 1
 end
 
 def exit_with_message(message)
@@ -414,9 +386,7 @@ add_gems
 after_bundle do
   setup_database
 
-  install_jsbundling
   install_bootstrap
-  install_hotwire
   add_stimulus_controller
   add_assets
   add_controllers
