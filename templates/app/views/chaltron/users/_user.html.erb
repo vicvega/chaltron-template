@@ -33,7 +33,7 @@
         </small>
       </div>
       <div class="mt-2 d-flex justify-content-end">
-        <% if can? :edit, user %>
+        <% if can? :update, user %>
           <%= link_to edit_chaltron_user_path(user),
                 class: "btn btn-sm btn-primary" do %>
             <%= icon :fas, "pen-to-square" %>
