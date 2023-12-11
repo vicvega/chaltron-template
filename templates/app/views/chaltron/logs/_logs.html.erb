@@ -4,12 +4,12 @@
     <%= simple_form_for @filter, as: :filter, url: chaltron_logs_path, method: "get" do |f| %>
       <%= hidden_field_tag :page, 1 %>
       <% labels = @severities.to_a.map do |x|
-           "#{t("chaltron.logs.severity.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: ".")})"
+           "#{t("chaltron.logs.severity.#{x.first}")} (#{number_with_delimiter(x.last)})"
          end %>
       <%= f.input :severities, collection: labels.zip(@severities.keys).to_a,
             as: :check_boxes, wrapper: :vertical_collection_inline %>
       <% labels = @categories.to_a.map do |x|
-           "#{t("chaltron.logs.category.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: ".")})"
+           "#{t("chaltron.logs.category.#{x.first}")} (#{number_with_delimiter(x.last)})"
          end %>
       <%= f.input :categories, collection: labels.zip(@categories.keys).to_a,
             as: :check_boxes, wrapper: :vertical_collection_inline %>

@@ -2,7 +2,7 @@
 <%= simple_form_for filter, as: :filter, url: chaltron_users_path, method: "get" do |f| %>
   <%= hidden_field_tag :page, 1 %>
   <% labels = count[:providers].to_a.map do |x|
-       "#{t("chaltron.users.provider.#{x.first}")} (#{number_with_delimiter(x.last, delimiter: ".")})"
+       "#{t("chaltron.users.provider.#{x.first}")} (#{number_with_delimiter(x.last)})"
      end %>
   <%= f.input :providers, collection: labels.zip(count[:providers].keys).to_a,
         as: :check_boxes, wrapper: :vertical_collection_inline %>
