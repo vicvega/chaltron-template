@@ -22,7 +22,7 @@ module Chaltron
       end
 
       def create_user(roles = [])
-        user = Chaltron::OmniUser.new(
+        user = Chaltron::LdapUser.new(
           extern_uid: dn,
           provider: provider,
           fullname: name,

@@ -160,7 +160,7 @@ def add_controllers
   copy_file "app/controllers/home_controller.rb"
 
   text = <<-TXT
-  devise_group :user, contains: %i[local omni]
+  devise_group :user, contains: %i[local ldap]
   include Chaltron::Loggable
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -283,8 +283,8 @@ def add_routes
 
   routes = <<-ROUTES
 
-  devise_for :local, class_name: 'Chaltron::LocalUser'
-  devise_for :omni, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }, class_name: 'Chaltron::OmniUser'
+  devise_for :local, class_name: 'Chaltron::LocalUser', path: "users"
+  devise_for :ldap, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }, class_name: 'Chaltron::LdapUser'
 
   namespace :chaltron do
     resources :logs, only: %i[index show]
