@@ -209,7 +209,7 @@ end
 
 def add_users
   generate "devise:install"
-  route "root to: 'home#index'"
+  route "root to: \"home#index\""
 
   generate :devise, "Chaltron::User"
 
@@ -269,45 +269,45 @@ def setup_application
   application do
     <<~RUBY
       # chaltron
-      config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
-      config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+      config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.{rb,yml}")]
+      config.action_mailer.default_url_options = {host: "localhost", port: 3000}
     RUBY
   end
 end
 
 def add_routes
   Array(1..10).each do |x|
-    route "get 'home/test#{x}'"
+    route "get \"home/test#{x}\""
   end
-  route "get 'home/index'"
+  route 'get "home/index"'
 
   routes = <<-ROUTES
 
-  devise_for :local, class_name: 'Chaltron::LocalUser', path: "users"
-  devise_for :ldap, controllers: { omniauth_callbacks: 'chaltron/omniauth_callbacks' }, class_name: 'Chaltron::LdapUser'
+  devise_for :local, class_name: "Chaltron::LocalUser", path: "users"
+  devise_for :ldap, controllers: {omniauth_callbacks: "chaltron/omniauth_callbacks"}, class_name: "Chaltron::LdapUser"
 
   namespace :chaltron do
     resources :logs, only: %i[index show]
 
     resources :users, except: %i[new create] do
       member do
-        post 'enable'
-        post 'disable'
+        post "enable"
+        post "disable"
       end
     end
     resources :local_users, only: %i[new create]
 
-    get   'self_user/show'
-    get   'self_user/edit'
-    get   'self_user/change_password'
-    patch 'self_user/update'
-    patch 'self_user/update_password'
+    get "self_user/show"
+    get "self_user/edit"
+    get "self_user/change_password"
+    patch "self_user/update"
+    patch "self_user/update_password"
 
     # search and create LDAP users
     if Devise.omniauth_providers.include?(:ldap) && !Chaltron.ldap_allow_all
-      get   'ldap/search'       => 'ldap#search'
-      post  'ldap/multi_new'    => 'ldap#multi_new'
-      post  'ldap/multi_create' => 'ldap#multi_create'
+      get "ldap/search" => "ldap#search"
+      post "ldap/multi_new" => "ldap#multi_new"
+      post "ldap/multi_create" => "ldap#multi_create"
     end
   end
   ROUTES

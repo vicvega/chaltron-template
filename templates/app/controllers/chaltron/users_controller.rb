@@ -1,28 +1,24 @@
 module Chaltron
   class UsersController < ApplicationController
-    include Paginatable
-    include Sortable
-    include Searchable
+    include SortAndPaginate
+    include Search
 
     preserve :filter, :search, allow_blank: true
 
-    # searchable strip: false
-
     before_action :authenticate_user!
     before_action :set_filter
-
     load_and_authorize_resource
 
-    default_log_category :user_admin
-    default_per_page 10
-    permitted_sort_columns %w[created_at username email sign_in_count]
+    loggable category: :user_admin
+    sort_and_paginate "created_at", "username", "email", "sign_in_count",
+      defaults: {per_page: 10}, only: :index
 
     def index
-      @users = @users.filtrate(@filter).search(search)
+      @users = @users.filter_by(@filter).search_by(search)
       @count_filters = count_filters(@users)
       @users = @users.includes(:roles, avatar_attachment: :blob)
         .order("#{sort_column} #{sort_direction}")
-      @pagy, @users = pagy(@users, items: per_page)
+      @pagy, @users = pagy(@users, items: per_page, page: page)
     end
 
     def enable
@@ -79,7 +75,7 @@ module Chaltron
         options = {alert: message}
       else
         @user.destroy
-        @count_filters = count_filters(Chaltron::User.accessible_by(current_ability).filtrate(@filter).search(search))
+        @count_filters = count_filters(Chaltron::User.accessible_by(current_ability).filter_by(@filter).search_by(search))
         info t("chaltron.logs.users.destroyed", current: current_user.display_name, user: @user.display_name)
         message = t("chaltron.users.deleted")
         flash.now[:notice] = message
@@ -109,7 +105,7 @@ module Chaltron
     def filter_params
       return {} if params[:filter].blank?
 
-      params[:filter].permit(:never_logged_in, providers: [])
+      params[:filter].permit(:search, :never_logged_in, providers: [])
     end
 
     def update_params

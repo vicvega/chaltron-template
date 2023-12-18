@@ -1,8 +1,12 @@
 <div class="row">
   <div class="col-md-3">
     <h4><%= t(".filters") %></h4>
-    <%= simple_form_for @filter, as: :filter, url: chaltron_logs_path, method: "get" do |f| %>
+    <%= simple_form_for @filter, as: :filter,
+          url: chaltron_logs_path, method: "get" do |f| %>
       <%= hidden_field_tag :page, 1 %>
+      <% %i[per_page sort_column sort_direction].each do |field| %>
+        <%= hidden_field_tag field, send(field) %>
+      <% end %>
       <% labels = @severities.to_a.map do |x|
            "#{t("chaltron.logs.severity.#{x.first}")} (#{number_with_delimiter(x.last)})"
          end %>
@@ -18,14 +22,15 @@
     <hr>
     <%# Reset filters %>
     <%= link_to t(".reset_filters"),
-          {controller: "chaltron/logs", action: "index", filter: "", page: 1},
+          {controller: "chaltron/logs", action: "index",
+            params: {filter: "", page: 1, per_page:, sort_column:, sort_direction:}},
           class: "btn btn-primary w-100 mb-3" %>
   </div>
   <div class="col-md-9">
     <div class="d-flex mb-3">
       <%# Search form %>
       <div class="flex-grow-1">
-        <%= render("shared/chaltron/search", placeholder: t(".search_placeholder")) %>
+        <%= render("shared/chaltron/search", placeholder: t(".search_placeholder"), filter: @search_filter, url: chaltron_logs_path) %>
       </div>
       <%# Per page %>
       <div class="ms-3">
@@ -41,7 +46,7 @@
       </div>
     </div>
     <div class="list-group">
-      <%= render partial: "log", collection: @logs %>
+      <%= render partial: "log", collection: @logs, locals: {filter: @search_filter} %>
     </div>
     <div class="mt-3">
       <%== pagy_info(@pagy) %>

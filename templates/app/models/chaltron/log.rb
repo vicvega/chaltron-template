@@ -11,12 +11,8 @@ module Chaltron
 
     # after_create :to_syslog
 
-    def self.search(search)
-      if search
-        where("message LIKE :query", {query: "%#{search}%"})
-      else
-        all
-      end
+    scope :search_by, ->(search) do
+      where("message LIKE :query", {query: "%#{search}%"}) if search.present?
     end
 
     private

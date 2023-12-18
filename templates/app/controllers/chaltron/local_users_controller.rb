@@ -1,7 +1,5 @@
 module Chaltron
   class LocalUsersController < UsersController
-    default_log_category :user_admin
-
     def new
     end
 

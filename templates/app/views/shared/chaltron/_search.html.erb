@@ -1,12 +1,15 @@
 <% reset_label ||= t(".reset")
    submit_label ||= t(".submit") %>
-<%= form_with url: nil, method: "get" do %>
+<%= form_with url: url, method: "get" do |f| %>
   <div class="input-group">
-    <%= text_field_tag "search", search,
+    <% %i[per_page sort_column sort_direction].each do |field| %>
+      <%= hidden_field_tag field, send(field) %>
+    <% end %>
+    <%= text_field_tag :search, search,
           class: "form-control", placeholder: placeholder, size: 50 %>
     <span class="input-group-text">
       <%= link_to icon(:fas, "trash-alt"),
-            {search: "", page: 1},
+            {search: "", page: 1, per_page:, sort_column:, sort_direction:},
             title: reset_label,
             data: {
               controller: "chaltron--tooltip",
@@ -14,6 +17,6 @@
               bs_trigger: "hover"
             } %>
     </span>
-    <button class="btn btn-primary" type="submit"><%= submit_label %></button>
+    <%= f.submit submit_label, class: "btn btn-primary" %>
   </div>
 <% end %>

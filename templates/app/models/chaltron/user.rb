@@ -9,6 +9,13 @@ module Chaltron
     validates :username, format: /\A[a-zA-Z0-9_.]*\z/
     validate :avatar_variable
 
+    scope :search_by, ->(search) do
+      if search.present?
+        where("username LIKE :query or fullname LIKE :query or email LIKE :query or department LIKE :query",
+          {query: "%#{search}%"})
+      end
+    end
+
     has_one_attached :avatar
 
     def display_name
@@ -20,15 +27,6 @@ module Chaltron
       return if avatar.variable?
 
       errors.add(:avatar, :unvariable)
-    end
-
-    def self.search(search)
-      if search
-        where("username LIKE :query or fullname LIKE :query or email LIKE :query or department LIKE :query",
-          {query: "%#{search}%"})
-      else
-        all
-      end
     end
   end
 end

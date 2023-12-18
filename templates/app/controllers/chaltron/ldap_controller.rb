@@ -4,7 +4,7 @@ module Chaltron
     before_action :authenticate_user!
     before_action :authorize_create_user
 
-    default_log_category :user_admin
+    loggable category: :user_admin
 
     def search
       @limit = default_limit

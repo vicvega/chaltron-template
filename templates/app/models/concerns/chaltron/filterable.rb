@@ -2,10 +2,8 @@ module Chaltron
   module Filterable
     extend ActiveSupport::Concern
 
-    class_methods do
-      def filtrate(filter)
-        filter.apply(all)
-      end
+    included do
+      scope :filter_by, ->(filter) { filter.apply(self) }
     end
   end
 end

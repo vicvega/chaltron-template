@@ -28,8 +28,8 @@ if defined?(Net::LDAP)
           find_users(opts).first
         end
 
-        def ldap_search(*args)
-          results = ldap.search(*args)
+        def ldap_search(*)
+          results = ldap.search(*)
           if results.nil?
             response = ldap.get_operation_result
             Rails.logger.warn("LDAP search error: #{response.message}") unless response.code.zero?
