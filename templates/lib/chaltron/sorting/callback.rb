@@ -1,15 +1,15 @@
 module Chaltron
-  module SortAndPaginate
+  module Sorting
     class Callback
       def initialize(columns, defaults)
-        raise ArgumentError.new("Sortable columns must be specified") if columns.empty?
+        raise ArgumentError.new("Sorting columns must be specified") if columns.empty?
 
         @columns = columns
         @defaults = defaults
       end
 
       def before(controller)
-        controller.sort_and_paginate_defaults = defaults
+        controller.sorting_defaults = defaults
         controller.sort_columns = columns
       end
 

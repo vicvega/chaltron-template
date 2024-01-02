@@ -23,15 +23,14 @@
     <%# Reset filters %>
     <%= link_to t(".reset_filters"),
           {controller: "chaltron/logs", action: "index",
-            params: {filter: "", page: 1, per_page:, sort_column:, sort_direction:}},
+           params: {filter: "", page: 1, per_page:, sort_column:, sort_direction:}},
           class: "btn btn-primary w-100 mb-3" %>
   </div>
   <div class="col-md-9">
     <div class="d-flex mb-3">
       <%# Search form %>
       <div class="flex-grow-1">
-        <%= render "shared/chaltron/search", placeholder: t(".search_placeholder"),
-              filter: @search_filter, url: chaltron_logs_path %>
+        <%= render "shared/chaltron/search", placeholder: t(".search_placeholder"), url: chaltron_logs_path %>
       </div>
       <%# Per page %>
       <div class="ms-3">

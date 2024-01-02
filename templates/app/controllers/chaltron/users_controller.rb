@@ -1,7 +1,8 @@
 module Chaltron
   class UsersController < ApplicationController
-    include SortAndPaginate
-    include Search
+    include Searching
+    include Sorting
+    include Paginating
 
     preserve :filter, :search, allow_blank: true
 
@@ -9,9 +10,11 @@ module Chaltron
     before_action :set_filter
     load_and_authorize_resource
 
-    loggable category: :user_admin
-    sort_and_paginate "created_at", "username", "email", "sign_in_count",
-      defaults: {per_page: 10}, only: :index
+    logging category: :user_admin
+    with_options only: :index do
+      sorting "created_at", "username", "email", "sign_in_count"
+      paginating defaults: {per_page: 10}
+    end
 
     def index
       @users = @users.filter_by(@filter).search_by(search)

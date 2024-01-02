@@ -1,5 +1,5 @@
 module Chaltron
-  module Search
+  module Searching
     extend ActiveSupport::Concern
 
     included do

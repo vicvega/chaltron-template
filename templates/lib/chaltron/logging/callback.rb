@@ -1,5 +1,5 @@
 module Chaltron
-  module Loggable
+  module Logging
     class Callback
       def initialize(category)
         @category = category

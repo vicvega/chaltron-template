@@ -1,7 +1,8 @@
 module Chaltron
   class LogsController < ApplicationController
-    include SortAndPaginate
-    include Search
+    include Searching
+    include Sorting
+    include Paginating
 
     before_action :authenticate_user!
     load_and_authorize_resource
@@ -9,7 +10,9 @@ module Chaltron
     with_options only: :index do
       preserve :filter, :search, allow_blank: true
       before_action :set_filter
-      sort_and_paginate "created_at", "message"
+      sorting "created_at", "message"
+      # sorting "created_at", "message", defaults: {column: "message", direction: "asc"}
+      paginating
     end
 
     def index

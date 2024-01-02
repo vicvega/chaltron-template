@@ -1,9 +1,9 @@
 module Chaltron
-  module Loggable
+  module Logging
     extend ActiveSupport::Concern
 
     class_methods do
-      def loggable(options)
+      def logging(options)
         category = options[:category]
         return if category.nil?
 

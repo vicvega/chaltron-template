@@ -161,7 +161,7 @@ def add_controllers
 
   text = <<-TXT
   devise_group :user, contains: %i[local ldap]
-  include Chaltron::Loggable
+  include Chaltron::Logging
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
