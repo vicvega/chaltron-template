@@ -30,7 +30,8 @@
     <div class="d-flex mb-3">
       <%# Search form %>
       <div class="flex-grow-1">
-        <%= render("shared/chaltron/search", placeholder: t(".search_placeholder"), filter: @search_filter, url: chaltron_logs_path) %>
+        <%= render "shared/chaltron/search", placeholder: t(".search_placeholder"),
+              filter: @search_filter, url: chaltron_logs_path %>
       </div>
       <%# Per page %>
       <div class="ms-3">

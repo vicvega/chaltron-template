@@ -26,7 +26,8 @@ en:
   shared:
     chaltron:
       per_page:
-        per_page: '%{count} per page'
+        one: '%{count} per page'
+        other: '%{count} per page'
       search:
         submit: Search
         reset: Reset search
@@ -40,7 +41,9 @@ en:
         filters: Filters
         submit_filters: Apply filters
         reset_filters: Reset filters
-        per_page: '%{count} log per page'
+        per_page:
+          one: '%{count} log per page'
+          other: '%{count} logs per page'
       show:
         headers:
           details: Details
@@ -54,8 +57,10 @@ en:
         new_ldap_user: New LDAP user
       users:
         sorted_by: Sorted by
-        per_page: '%{count} users per page'
         search_placeholder: Search by name, email or department
+        per_page:
+          one: '%{count} user per page'
+          other: '%{count} users per page'
       filters:
         filters: Filters
         submit_filters: Apply filters
