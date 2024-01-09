@@ -181,7 +181,20 @@ def add_views
   directory "app/views/devise"
   directory "app/views/home"
   directory "app/views/shared"
-  template "app/views/layouts/application.html.erb.tt", force: true
+
+  body = <<-BODY
+  <%= render "shared/chaltron/navbar" %>
+    <div id="flash" class="flash-container w-100 m-0 position-fixed top-0 text-center opacity-75">
+      <%= render "shared/chaltron/flash" %>
+    </div>
+    <div id="content" class="container-fluid p-3 mx-auto">
+      <%= yield %>
+    </div>
+    <div class="pt-4">
+      <%= render "shared/chaltron/footer" %>
+    </div>
+  BODY
+  gsub_file "app/views/layouts/application.html.erb", "  <%= yield %>\n", body
 end
 
 def install_active_storage
