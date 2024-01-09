@@ -19,7 +19,7 @@ module Chaltron
       @logs = @logs.filter_by(@filter).search_by(search)
       @severities = @logs.group(:severity).count.sort_by { |_k, v| v }.reverse.to_h
       @categories = @logs.group(:category).count.sort_by { |_k, v| v }.reverse.to_h
-      @pagy, @logs = pagy(@logs.order("#{sort_column} #{sort_direction}"), items: per_page, page: page)
+      @pagy, @logs = pagy(@logs.order("#{sort_column} #{sort_direction}"), items: per_page, page:)
     end
 
     def show
