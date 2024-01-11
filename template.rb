@@ -80,6 +80,8 @@ def add_gems
   gem_group :development, :test do
     gem "factory_bot_rails"
     gem "faker"
+    gem "standard"
+    gem "standard-rails"
   end
   gsub_file "Gemfile", "# gem 'image_processing'", "gem 'image_processing'"
   gsub_file "Gemfile", '# gem "image_processing"', 'gem "image_processing"'
@@ -254,6 +256,10 @@ def add_logs
   generate :model, "Chaltron::Log message:string{1000} severity:integer:index category:string:index"
 end
 
+def setup_standard
+  copy_file ".standard.yml"
+end
+
 def setup_devise
   gsub_file "config/initializers/devise.rb",
     "# config.authentication_keys = [:email]",
@@ -343,6 +349,7 @@ def add_seeds
   append_file "db/seeds.rb" do
     <<~RUBY
 
+      # standard:disable Rails/SaveBang
       Chaltron::Role.create(name: :admin)
       Chaltron::Role.create(name: :user_admin)
 
@@ -354,6 +361,7 @@ def add_seeds
         u.password_confirmation = "password.1"
         u.roles = Chaltron::Role.all
       end
+      # standard:enable Rails/SaveBang
     RUBY
   end
 end
@@ -412,6 +420,7 @@ after_bundle do
   add_roles
   add_logs
 
+  setup_standard
   setup_devise
   setup_warden
   setup_chaltron

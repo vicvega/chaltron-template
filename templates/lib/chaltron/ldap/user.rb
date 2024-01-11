@@ -37,7 +37,7 @@ module Chaltron
               Chaltron::Role.find_by(name: Chaltron.ldap_role_mappings[e.dn])
             end
           end
-          user.save
+          user.save!
         end
 
         def find_by_uid_and_provider

@@ -23,7 +23,7 @@ if defined?(Warden)
       else
         I18n.t("chaltron.logs.login_omniauth", user: user.display_name, provider: options[:kind])
       end
-      Chaltron::Log.create(message: message, category: :login, severity: :info)
+      Chaltron::Log.create!(message: message, category: :login, severity: :info)
     end
   end
 
@@ -39,7 +39,7 @@ if defined?(Warden)
     # end
     # Log before logout
     if user
-      Chaltron::Log.create(
+      Chaltron::Log.create!(
         message: I18n.t("chaltron.logs.logout", user: user.display_name),
         category: :login,
         severity: :info
