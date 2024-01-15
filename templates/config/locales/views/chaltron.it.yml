@@ -24,7 +24,7 @@ it:
         remember_me: Ricordami
         submit_text: LDAP login
   shared:
-   chaltron:
+    chaltron:
       per_page:
         one: '%{count} per pagina'
         other: '%{count} per pagina'
