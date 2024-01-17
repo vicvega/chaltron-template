@@ -1,11 +1,15 @@
 module Chaltron
   module Filters
     module Scopeable
-      # Define a scope-like method from a given block
-      def scope(name, block)
-        define_method name do |*args, **kwargs|
-          relation = instance_exec(*args, **kwargs, &block)
-          relation || self
+      # Define scope-like methods
+      def scope(names)
+        Array.wrap(names).each do |name|
+          original = "_orig_#{name}"
+          alias_method original, name
+          define_method name do |*args, **kwargs|
+            relation = send(original, *args, **kwargs)
+            relation || self
+          end
         end
       end
     end

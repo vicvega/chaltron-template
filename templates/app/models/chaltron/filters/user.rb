@@ -3,9 +3,15 @@ module Chaltron
     class User < Base
       module Scopes
         extend Scopeable
+        def by_providers(prov)
+          where(provider: prov) if prov.present?
+        end
 
-        scope :by_providers, ->(prov) { where(provider: prov) if prov.present? }
-        scope :never_logged_in, ->(never) { where(sign_in_count: 0) if never }
+        def never_logged_in(never)
+          where(sign_in_count: 0) if never
+        end
+
+        scope %i[by_providers never_logged_in]
       end
       attribute :providers, array: true, default: -> { [] }
       attribute :never_logged_in, :boolean, default: -> { false }
