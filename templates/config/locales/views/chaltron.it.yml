@@ -67,6 +67,7 @@ it:
         reset_filters: Resetta filtri
       user:
         created_ago: Creato %{time} fa
+        confirm_delete: Sei sicuro?
       edit:
         title: Modifica %{user}
     local_users:

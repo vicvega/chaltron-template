@@ -67,6 +67,7 @@ en:
         reset_filters: Reset filters
       user:
         created_ago: Created %{time} ago
+        confirm_delete: Are you sure?
       edit:
         title: Edit %{user}
     local_users:
