@@ -17,8 +17,8 @@ module Chaltron
 
     def index
       @logs = @logs.filter_by(@filter).search_by(search)
-      @severities = @logs.group(:severity).count.sort_by { |_k, v| v }.reverse.to_h
-      @categories = @logs.group(:category).count.sort_by { |_k, v| v }.reverse.to_h
+      @severities = count(:severity)
+      @categories = count(:category)
       @pagy, @logs = pagy(@logs.order("#{sort_column} #{sort_direction}"), items: per_page, page:)
     end
 
@@ -26,6 +26,13 @@ module Chaltron
     end
 
     private
+
+    def count(type)
+      db_count = @logs.group(type).count
+      I18n.t("chaltron.logs.#{type}").each_with_object({}) do |(k, v), a|
+        a[k.to_s] = "#{v} (#{db_count[k.to_s] ||= 0})"
+      end.invert
+    end
 
     def set_filter
       @filter = Filters::Log.new(filter_params)

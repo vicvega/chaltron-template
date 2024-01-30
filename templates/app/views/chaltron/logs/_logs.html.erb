@@ -2,22 +2,19 @@
   <div class="col-md-3">
     <h4><%= t(".filters") %></h4>
     <%= simple_form_for @filter, as: :filter,
-          url: chaltron_logs_path, method: "get" do |f| %>
+          url: chaltron_logs_path, data: {
+            controller: "chaltron--filter", chaltron__filter_frame_value: "chaltron_logs"
+          } do |f| %>
       <%= hidden_field_tag :page, 1 %>
       <% %i[per_page sort_column sort_direction].each do |field| %>
         <%= hidden_field_tag field, send(field) %>
       <% end %>
-      <% labels = @severities.to_a.map do |x|
-           "#{t("chaltron.logs.severity.#{x.first}")} (#{number_with_delimiter(x.last)})"
-         end %>
-      <%= f.input :severities, collection: labels.zip(@severities.keys).to_a,
-            as: :check_boxes, wrapper: :vertical_collection_inline %>
-      <% labels = @categories.to_a.map do |x|
-           "#{t("chaltron.logs.category.#{x.first}")} (#{number_with_delimiter(x.last)})"
-         end %>
-      <%= f.input :categories, collection: labels.zip(@categories.keys).to_a,
-            as: :check_boxes, wrapper: :vertical_collection_inline %>
-      <%= f.submit t(".submit_filters"), class: "btn btn-primary w-100" %>
+      <%= f.input :severities, as: :check_boxes, wrapper: :vertical_collection_inline,
+            collection: @severities,
+            input_html: {data: {action: "chaltron--filter#submit"}} %>
+      <%= f.input :categories, as: :check_boxes, wrapper: :vertical_collection_inline,
+            collection: @categories,
+            input_html: {data: {action: "chaltron--filter#submit"}}  %>
     <% end %>
     <hr>
     <%# Reset filters %>

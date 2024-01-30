@@ -18,7 +18,7 @@ module Chaltron
 
     def index
       @users = @users.filter_by(@filter).search_by(search)
-      @count_filters = count_filters(@users)
+      count_for_filters
       @users = @users.includes(:roles, avatar_attachment: :blob)
         .order("#{sort_column} #{sort_direction}")
       @pagy, @users = pagy(@users, items: per_page, page:)
@@ -78,7 +78,7 @@ module Chaltron
         options = {alert: message}
       else
         @user.destroy!
-        @count_filters = count_filters(Chaltron::User.accessible_by(current_ability).filter_by(@filter).search_by(search))
+        count_for_filters
         info t("chaltron.logs.users.destroyed", current: current_user.display_name, user: @user.display_name)
         message = t("chaltron.users.deleted")
         flash.now[:notice] = message
@@ -92,13 +92,15 @@ module Chaltron
 
     private
 
-    def count_filters(users)
-      {
-        providers: users.group(:provider).count
-          .transform_keys { |k| k.nil? ? "local" : k }
-          .sort_by { |_k, v| v }.reverse.to_h,
-        never_logged_in: users.where(sign_in_count: 0).count
-      }
+    def count_for_filters
+      users = Chaltron::User.accessible_by(current_ability).filter_by(@filter).search_by(search)
+      db_count = users.group(:provider).count
+        .transform_keys { |k| k.nil? ? "local" : k }
+      @providers = I18n.t("chaltron.users.provider").each_with_object({}) do |(k, v), a|
+        a[k.to_s] = "#{v} (#{db_count[k.to_s] ||= 0})"
+      end.invert
+      @never_logged_in = "#{Chaltron::Filters::User.human_attribute_name(:never_logged_in)} " \
+                         "(#{users.where(sign_in_count: 0).count})"
     end
 
     def set_filter
