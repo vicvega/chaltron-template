@@ -73,17 +73,12 @@ def add_gems
   gem "pagy"
   gem "preserve"
 
-  gem_group :development do
-    gem "foreman"
-  end
-
   gem_group :development, :test do
     gem "factory_bot_rails"
     gem "faker"
     gem "standard"
     gem "standard-rails"
   end
-  gsub_file "Gemfile", "# gem 'image_processing'", "gem 'image_processing'"
   gsub_file "Gemfile", '# gem "image_processing"', 'gem "image_processing"'
 end
 
