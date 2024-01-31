@@ -39,7 +39,6 @@ en:
         search_placeholder: Search in message
         sorted_by: Sorted by
         filters: Filters
-        submit_filters: Apply filters
         reset_filters: Reset filters
         per_page:
           one: '%{count} log per page'
@@ -63,7 +62,6 @@ en:
           other: '%{count} users per page'
       filters:
         filters: Filters
-        submit_filters: Apply filters
         reset_filters: Reset filters
       user:
         created_ago: Created %{time} ago

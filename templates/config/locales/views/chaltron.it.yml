@@ -39,7 +39,6 @@ it:
         search_placeholder: Cerca nel messaggio
         sorted_by: Ordinamento per
         filters: Filtri
-        submit_filters: Applica filtri
         reset_filters: Resetta filtri
         per_page:
           one: '%{count} log per pagina'
@@ -63,7 +62,6 @@ it:
           other: '%{count} utenti per pagina'
       filters:
         filters: Filtri
-        submit_filters: Applica filtri
         reset_filters: Resetta filtri
       user:
         created_ago: Creato %{time} fa

@@ -1,18 +1,14 @@
 <h4><%= t(".filters") %></h4>
-<%= simple_form_for @filter, as: :filter, url: chaltron_users_path,
-      data: {
-        controller: "chaltron--filter", chaltron__filter_frame_value: "chaltron_users"
-      } do |f| %>
+<%= simple_form_for @filter, as: :filter, url: chaltron_users_path, method: :get,
+      data: {controller: "chaltron--filter"} do |f| %>
   <%= hidden_field_tag :page, 1 %>
   <% %i[per_page sort_column sort_direction].each do |field| %>
     <%= hidden_field_tag field, send(field) %>
   <% end %>
    <%= f.input :providers, as: :check_boxes, wrapper: :vertical_collection_inline,
-         collection: @providers,
-         input_html: {data: {action: "chaltron--filter#submit"}} %>
+         collection: @providers %>
   <%= f.input :never_logged_in, wrapper: :custom_boolean_switch, as: :boolean,
-        label: @never_logged_in,
-        input_html: {data: {action: "chaltron--filter#submit"}} %>
+        label: @never_logged_in %>
  <% end %>
 <hr>
 <%# Reset filters %>
