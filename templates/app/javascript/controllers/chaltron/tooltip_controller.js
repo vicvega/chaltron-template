@@ -1,14 +1,14 @@
-import { Controller } from '@hotwired/stimulus';
-import * as bootstrap from 'bootstrap';
+import { Controller } from '@hotwired/stimulus'
+import * as bootstrap from 'bootstrap'
 
 export default class extends Controller {
-  connect() {
-    this.tooltip = new bootstrap.Tooltip(this.element);
+  connect () {
+    this.tooltip = new bootstrap.Tooltip(this.element)
   }
 
-  disconnect() {
+  disconnect () {
     if (this.tooltip) {
-      this.tooltip.dispose();
+      this.tooltip.dispose()
     }
   }
 }
