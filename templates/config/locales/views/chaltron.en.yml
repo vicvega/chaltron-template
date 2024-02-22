@@ -35,7 +35,6 @@ en:
     logs:
       index:
         title: Log list
-      logs:
         search_placeholder: Search in message
         sorted_by: Sorted by
         filters: Filters
@@ -54,7 +53,6 @@ en:
         new_user: New user
         new_local_user: New local user
         new_ldap_user: New LDAP user
-      users:
         sorted_by: Sorted by
         search_placeholder: Search by name, email or department
         per_page:
