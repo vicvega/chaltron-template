@@ -16,10 +16,10 @@
       <% end %>
       <hr>
       <%# Reset filters %>
-      <%= link_to t(".reset_filters"),
-            {controller: "chaltron/logs", action: "index",
-            params: {filter: "", page: 1, per_page:, sort_column:, sort_direction:}},
-            class: "btn btn-primary w-100 mb-3" %>
+      <%= link_to t(".reset_filters"), {
+            controller: "chaltron/logs", action: "index",
+            params: {filter: "", page: 1, per_page:, sort_column:, sort_direction:}
+          }, class: "btn btn-primary w-100 mb-3" %>
     </div>
     <div class="col-md-9">
       <div class="d-flex mb-3">
