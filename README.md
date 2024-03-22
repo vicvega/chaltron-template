@@ -5,15 +5,10 @@ Now `chaltron` is a `rails` template including `bootstrap` and `esbuild`, workin
 
 For older rails version consider updating, otherwise use [the old gem](https://github.com/vicvega/chaltron).
 
-To create a new app (`rails7`)
+To create a new app 
 
 ```
 rails new myapp -m https://raw.githubusercontent.com/vicvega/chaltron-template/master/template.rb -j esbuild -c bootstrap
-```
-
-With `rails6`: 
-```
-rails new myapp -m https://raw.githubusercontent.com/vicvega/chaltron-template/master/template.rb --skip-javascript
 ```
 
 Enjoy! 🍺🍺
