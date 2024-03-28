@@ -22,7 +22,7 @@ module Chaltron
     private
 
     def sort_status
-      @sort_status ||= Status.create(sort_status_params) # standard:disable Rails/SaveBang
+      @sort_status ||= Status.create_valid(sort_status_params)
     end
 
     def sort_status_params

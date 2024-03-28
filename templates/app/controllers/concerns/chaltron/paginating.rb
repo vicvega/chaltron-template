@@ -21,7 +21,7 @@ module Chaltron
     private
 
     def pagination_status
-      @pagination_status ||= Status.create(pagination_status_params) # standard:disable Rails/SaveBang
+      @pagination_status ||= Status.create_valid(pagination_status_params)
     end
 
     def pagination_status_params
