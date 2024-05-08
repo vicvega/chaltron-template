@@ -1,4 +1,4 @@
-<%# locals: (placeholder:, url:, reset_label: t("shared.chaltron.search.reset"), submit_label: t("shared.chaltron.search.submit")) -%>
+<%# locals: (placeholder:, url:, reset_label: t("shared.chaltron.search.reset"), submit_label: t("shared.chaltron.search.submit"), prefetch: true) -%>
 
 <%= form_with url: url, method: "get" do |f| %>
   <div class="input-group">
@@ -14,7 +14,8 @@
             data: {
               controller: "chaltron--tooltip",
               bs_toggle: "tooltip",
-              bs_trigger: "hover"
+              bs_trigger: "hover",
+              turbo_prefetch: prefetch
             } %>
     </span>
     <%= f.submit submit_label, class: "btn btn-primary" %>

@@ -1,4 +1,4 @@
-<%# locals: (links: ) -%>
+<%# locals: (links:, prefetch: true) -%>
 
 <div id="sort" class="btn-group" role="group">
   <% if links.size > 1 %>
@@ -10,7 +10,8 @@
         <% links.each do |sort, label| %>
         <li>
           <%= link_to label, request.params.merge(sort_column: sort, page: 1),
-                class: class_names("dropdown-item", {active: sort_column == sort}) %>
+                class: class_names("dropdown-item", {active: sort_column == sort}),
+                data: {turbo_prefetch: prefetch} %>
         </li>
         <% end %>
       </ul>
@@ -22,7 +23,7 @@
   <% end %>
   <%= link_to(
         request.params.merge(sort_direction: ((sort_direction == "asc") ? "desc" : "asc"), page: 1),
-        class: "btn btn-outline-primary"
+        class: "btn btn-outline-primary", data: {turbo_prefetch: prefetch}
       ) do %>
     <%= icon :fas, (sort_direction == "desc") ? "sort-alpha-up" : "sort-alpha-down" %>
   <% end %>

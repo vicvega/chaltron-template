@@ -19,13 +19,14 @@
       <%= link_to t(".reset_filters"), {
             controller: "chaltron/logs", action: "index",
             params: {filter: "", page: 1, per_page:, sort_column:, sort_direction:}
-          }, class: "btn btn-primary w-100 mb-3" %>
+          }, class: "btn btn-primary w-100 mb-3", data: {turbo_prefetch: false} %>
     </div>
     <div class="col-md-9">
       <div class="d-flex mb-3">
         <%# Search form %>
         <div class="flex-grow-1">
-          <%= render "shared/chaltron/search", placeholder: t(".search_placeholder"), url: chaltron_logs_path %>
+          <%= render "shared/chaltron/search", placeholder: t(".search_placeholder"),
+                url: chaltron_logs_path, prefetch: false %>
         </div>
         <%# Per page %>
         <div class="ms-3">
@@ -40,7 +41,7 @@
                 end) %>
         </div>
       </div>
-      <div class="list-group">
+      <div class="list-group" id="chaltron_logs_list">
         <%= render partial: "log", collection: @logs, locals: {filter: @search_filter} %>
       </div>
       <div class="mt-3">

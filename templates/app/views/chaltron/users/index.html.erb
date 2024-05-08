@@ -36,7 +36,8 @@
       <div class="d-flex mb-3">
         <%# Search form %>
         <div class="flex-grow-1">
-          <%= render("shared/chaltron/search", placeholder: t(".search_placeholder"), url: chaltron_users_path) %>
+          <%= render("shared/chaltron/search", placeholder: t(".search_placeholder"),
+                url: chaltron_users_path, prefetch: false) %>
         </div>
         <%# Per page %>
         <div class="ms-3">
@@ -52,7 +53,7 @@
         </div>
       </div>
 
-      <div class="list-group">
+      <div class="list-group" id="chaltron_users_list">
         <%= render partial: "user", collection: @users, locals: {filter: @filter} %>
       </div>
       <div class="mt-3">
