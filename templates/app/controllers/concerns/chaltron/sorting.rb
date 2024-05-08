@@ -3,21 +3,36 @@ module Chaltron
     extend ActiveSupport::Concern
 
     included do
-      include Pagy::Backend
       helper_method :sort_column, :sort_direction, :sort_columns
-    end
-    class_methods do
-      def sorting(*columns)
-        options = columns.extract_options!
-        callback_options = options.extract!(:only, :except, :if, :unless)
-        callback = Callback.new(columns, options[:defaults])
-        before_action callback, callback_options
-      end
     end
 
     attr_accessor :sorting_defaults, :sort_columns
-
     delegate :column, :direction, to: :sort_status, prefix: "sort"
+
+    def sorts(*columns, defaults: {})
+      self.sorting_defaults = defaults
+      self.sort_columns = columns
+    end
+
+    class Status
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+      include ActiveModel::Validations
+      extend Chaltron::CreateValidOrResetParams
+
+      DIRECTIONS = %w[asc desc]
+
+      attribute :column, :string, default: "created_at"
+      attribute :direction, :string, default: DIRECTIONS.last
+      attribute :columns, array: true, default: []
+
+      validates_inclusion_of :direction, in: DIRECTIONS
+      validate :validate_column
+
+      def validate_column
+        errors.add(:column, :inclusion) unless columns.include?(column)
+      end
+    end
 
     private
 

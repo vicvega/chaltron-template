@@ -6,17 +6,25 @@ module Chaltron
       include Pagy::Backend
       helper_method :per_page, :page
     end
-    class_methods do
-      def paginating(options)
-        callback_options = options.extract!(:only, :except, :if, :unless)
-        callback = Callback.new(options[:defaults])
-        before_action callback, callback_options
-      end
-    end
 
     attr_accessor :paginating_defaults
-
     delegate :per_page, :page, to: :pagination_status
+
+    def paginates(defaults: {})
+      self.paginating_defaults = defaults
+    end
+
+    class Status
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+      include ActiveModel::Validations
+      extend Chaltron::CreateValidOrResetParams
+
+      attribute :per_page, :integer, default: Pagy::DEFAULT[:items]
+      attribute :page, :integer, default: 1
+
+      validates_numericality_of :page, :per_page, greater_than: 0, only_integer: true
+    end
 
     private
 

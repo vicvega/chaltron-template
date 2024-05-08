@@ -4,19 +4,17 @@ module Chaltron
     include Sorting
     include Paginating
 
-    preserve :filter, :search, allow_blank: true
+    preserve :filter, :search, allow_blank: true, only: :index
 
     before_action :authenticate_user!
     before_action :set_filter
     load_and_authorize_resource
 
     logging category: :user_admin
-    with_options only: :index do
-      sorting "created_at", "username", "email", "sign_in_count"
-      paginating defaults: {per_page: 10}
-    end
 
     def index
+      paginates defaults: {per_page: 10}
+      sorts "created_at", "username", "email", "sign_in_count"
       @users = @users.filter_by(@filter).search_by(search)
       count_for_filters
       @users = @users.includes(:roles, avatar_attachment: :blob)

@@ -10,12 +10,11 @@ module Chaltron
     with_options only: :index do
       preserve :filter, :search, allow_blank: true
       before_action :set_filter
-      sorting "created_at", "message"
-      # sorting "created_at", "message", defaults: {column: "message", direction: "asc"}
-      paginating
     end
 
     def index
+      sorts "created_at", "message"
+      # sorts "created_at", "message", defaults: {column: "message", direction: "desc"}
       @logs = @logs.filter_by(@filter).search_by(search)
       @severities = count(:severity)
       @categories = count(:category)
