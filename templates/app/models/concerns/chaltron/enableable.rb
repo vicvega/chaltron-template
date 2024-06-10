@@ -29,7 +29,7 @@ module Chaltron
     end
 
     def inactive_message
-      enabled? ? super : t("chaltron.users.inactive_message")
+      enabled? ? super : I18n.t("chaltron.users.inactive_message")
     end
   end
 end
