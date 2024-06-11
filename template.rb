@@ -179,6 +179,8 @@ def add_views
   directory "app/views/home"
   directory "app/views/shared"
 
+  layout = "app/views/layouts/application.html.erb"
+
   body = <<-BODY
   <%= render "shared/chaltron/navbar" %>
     <div id="flash" class="flash-container w-100 m-0 position-fixed top-0 text-center opacity-75">
@@ -191,7 +193,15 @@ def add_views
       <%= render "shared/chaltron/footer" %>
     </div>
   BODY
-  gsub_file "app/views/layouts/application.html.erb", "  <%= yield %>\n", body
+  gsub_file layout, "  <%= yield %>\n", body
+
+  head = <<-HEAD
+    <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+    <%= yield :head %>
+  </head>
+  HEAD
+
+  gsub_file layout, "  </head>\n", head
 end
 
 def install_active_storage

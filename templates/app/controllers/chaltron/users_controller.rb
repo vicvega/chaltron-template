@@ -4,7 +4,10 @@ module Chaltron
     include Sorting
     include Paginating
 
-    preserve :filter, :search, allow_blank: true, only: :index
+    with_options only: :index do
+      preserve :page, :per_page, :sort_direction, :sort_column
+      preserve :filter, :search, allow_blank: true
+    end
 
     before_action :authenticate_user!
     before_action :set_filter
@@ -24,31 +27,17 @@ module Chaltron
 
     def enable
       @user.enable!
-      message = t("chaltron.users.enabled")
-      respond_to do |format|
-        format.html { redirect_to(chaltron_users_path, notice: message) }
-        format.turbo_stream do
-          flash.now[:notice] = message
-          render :update
-        end
-      end
+      redirect_to(chaltron_users_path, notice: t("chaltron.users.enabled"))
     end
 
     def disable
       if current_user == @user
-        message = t("chaltron.users.cannot_self_disable")
-        flash.now[:alert] = message
-        options = {alert: message}
+        options = {alert: t("chaltron.users.cannot_self_disable")}
       else
         @user.disable!
-        message = t("chaltron.users.disabled")
-        flash.now[:notice] = message
-        options = {notice: message}
+        options = {notice: t("chaltron.users.disabled")}
       end
-      respond_to do |format|
-        format.html { redirect_to(chaltron_users_path, **options) }
-        format.turbo_stream { render :update }
-      end
+      redirect_to(chaltron_users_path, **options)
     end
 
     def edit
@@ -71,21 +60,13 @@ module Chaltron
 
     def destroy
       if current_user == @user
-        message = t("chaltron.users.cannot_self_destroy")
-        flash.now[:alert] = message
-        options = {alert: message}
+        options = {alert: t("chaltron.users.cannot_self_destroy")}
       else
         @user.destroy!
-        count_for_filters
         info t("chaltron.logs.users.destroyed", current: current_user.display_name, user: @user.display_name)
-        message = t("chaltron.users.deleted")
-        flash.now[:notice] = message
-        options = {notice: message}
+        options = {notice: t("chaltron.users.deleted")}
       end
-      respond_to do |format|
-        format.html { redirect_to(chaltron_users_path, **options) }
-        format.turbo_stream
-      end
+      redirect_to(chaltron_users_path, **options)
     end
 
     private

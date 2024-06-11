@@ -9,6 +9,7 @@ module Chaltron
 
     with_options only: :index do
       preserve :filter, :search, allow_blank: true
+      preserve :page, :per_page, :sort_direction, :sort_column
       before_action :set_filter
     end
 
