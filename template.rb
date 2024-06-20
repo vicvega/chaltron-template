@@ -65,7 +65,7 @@ def add_gems
   gem "devise"
   gem "omniauth"
   gem "omniauth-rails_csrf_protection"
-  gem "gitlab_omniauth-ldap", require: "omniauth-ldap"
+  gem "gitlab_omniauth-ldap", require: "omniauth-ldap", git: "https://gitlab.com/vicvega/omniauth-ldap"
   gem "cancancan"
 
   gem "simple_form"
