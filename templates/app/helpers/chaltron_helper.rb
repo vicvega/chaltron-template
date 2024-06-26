@@ -35,12 +35,12 @@ module ChaltronHelper
   # Flash messages
   #
   def bootstrap_class_for(flash_type)
-    {
-      "success" => "alert-success",
-      "error" => "alert-danger",
-      "alert" => "alert-warning",
-      "notice" => "alert-info"
-    }[flash_type] || flash_type.to_s
+    ActiveSupport::HashWithIndifferentAccess.new({
+      success: "alert-success",
+      error: "alert-danger",
+      alert: "alert-warning",
+      notice: "alert-info"
+    })[flash_type] || flash_type.to_s
   end
 
   def render_turbo_stream_flash_messages
