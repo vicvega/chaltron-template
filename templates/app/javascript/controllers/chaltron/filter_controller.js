@@ -6,15 +6,10 @@ export default class extends Controller {
     if (this.element.nodeName !== 'FORM') {
       console.error('chaltron--filter stimulus controller must be referenced by a FORM tag')
     } else {
-      this.#appendAction(this.element, 'turbo:morph@window->chaltron--filter#reconnect')
       Array.from(this.element.elements).forEach((input) => {
         this.#appendAction(input, 'chaltron--filter#submit')
       })
     }
-  }
-
-  reconnect () {
-    this.connect()
   }
 
   submit () {

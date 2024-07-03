@@ -194,14 +194,6 @@ def add_views
     </div>
   BODY
   gsub_file layout, "  <%= yield %>\n", body
-
-  head = <<-HEAD
-    <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
-    <%= yield :head %>
-  </head>
-  HEAD
-
-  gsub_file layout, "  </head>\n", head
 end
 
 def install_active_storage
