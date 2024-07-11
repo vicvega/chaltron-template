@@ -54,12 +54,22 @@ def check_options
     exit_with_message("Update rails and try again...")
   end
 
-  unless options["javascript"] == "esbuild" && options["css"] == "bootstrap"
-    exit_with_message("You must specify --css=bootstrap and --javascript=esbuild options to run chaltron")
+  unless options["javascript"] == "importmap"
+    exit_with_message(
+      "Remove --javascript option. Chaltron will take care of you assets by itself"
+    )
+  end
+  if options.include?("css")
+    exit_with_message(
+      "Remove --css option. Chaltron will take care of you assets by itself"
+    )
   end
 end
 
 def add_gems
+  gem "dartsass-rails"
+  gem "bootstrap"
+
   gem "devise"
   gem "omniauth"
   gem "omniauth-rails_csrf_protection"
@@ -131,23 +141,43 @@ def setup_postgresql
   insert_into_file "config/database.yml", text, after: "#password:\n"
 end
 
+def install_dartsass
+  rails_command "dartsass:install"
+  run 'rm -rf "app/assets/stylesheets/application.css"'
+end
+
 def install_bootstrap
-  file = "app/assets/stylesheets/application.bootstrap.scss"
-  inject_into_file file, "$font-size-base: .85rem;\n\n",
-    before: "@import 'bootstrap/scss/bootstrap';"
+  inject_into_file "app/assets/stylesheets/application.scss", <<-TXT
+$font-size-base: .85rem;
+@import "bootstrap";
+  TXT
+
+  inject_into_file "app/javascript/application.js", <<-TXT
+import "popper"
+import "bootstrap"
+  TXT
+
+  inject_into_file "config/initializers/assets.rb",
+    "Rails.application.config.assets.precompile += %w[bootstrap.min.js popper.js]\n"
+
+    inject_into_file "config/importmap.rb", <<-TXT
+
+pin "popper", to: "popper.js"
+pin "bootstrap", to: "bootstrap.min.js"
+  TXT
 end
 
 def add_stimulus_controller
   directory "app/javascript/controllers/"
-  rails_command "stimulus:manifest:update"
+  run 'rm -rf "app/javascript/controllers/hello_controller.js"'
 end
 
 def add_assets
   directory "app/assets/images"
   copy_file "app/assets/stylesheets/chaltron.scss"
 
-  file = "app/assets/stylesheets/application.bootstrap.scss"
-  inject_into_file file, "@import './chaltron';\n"
+  file = "app/assets/stylesheets/application.scss"
+  inject_into_file file, "@import \"./chaltron\";\n"
 end
 
 def add_controllers
@@ -207,17 +237,24 @@ end
 
 def add_javascript
   # add fontawesome
-  run "yarn add @fortawesome/fontawesome-free"
-  text = <<~JS
+  fonts = %w[
+    @fortawesome/fontawesome-free
+    @fortawesome/fontawesome-svg-core
+    @fortawesome/free-brands-svg-icons
+    @fortawesome/free-regular-svg-icons
+    @fortawesome/free-solid-svg-icons
+  ]
+  run "./bin/importmap pin #{fonts.join(" ")}"
 
-    import '@fortawesome/fontawesome-free/js/all';
+  inject_into_file "app/javascript/application.js", <<-JS
 
-  JS
-  inject_into_file "app/javascript/application.js", text
-  # remove bootstrap-icons
-  run "yarn remove bootstrap-icons"
-  gsub_file "app/assets/stylesheets/application.bootstrap.scss",
-    "@import 'bootstrap-icons/font/bootstrap-icons';", ""
+import {far} from "@fortawesome/free-regular-svg-icons"
+import {fas} from "@fortawesome/free-solid-svg-icons"
+import {fab} from "@fortawesome/free-brands-svg-icons"
+import {library} from "@fortawesome/fontawesome-svg-core"
+import "@fortawesome/fontawesome-free"
+library.add(far, fas, fab)
+JS
 end
 
 def add_users
@@ -418,6 +455,7 @@ add_gems
 after_bundle do
   setup_database
 
+  install_dartsass
   install_bootstrap
   add_stimulus_controller
   add_assets
