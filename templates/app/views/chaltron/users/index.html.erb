@@ -41,12 +41,12 @@
         </div>
         <%# Per page %>
         <div class="ms-3">
-          <%= render "shared/chaltron/per_page",
+          <%= render "shared/chaltron/per_page", prefetch: false,
                 links: [10, 20, 50, 100].index_with { |x| t(".per_page", count: x) } %>
         </div>
         <%# Sort columns %>
         <div class="ms-3">
-          <%= render("shared/chaltron/sort",
+          <%= render("shared/chaltron/sort", prefetch: false,
                 links: sort_columns.index_with do |x|
                   "#{t(".sorted_by")} #{Chaltron::User.human_attribute_name(x).downcase}"
                 end) %>
