@@ -4,7 +4,7 @@
     <div class="col-md-3">
       <h4><%= t(".filters") %></h4>
       <%= simple_form_for @filter, as: :filter, method: :get,
-            url: chaltron_logs_path, data: {controller: "chaltron--filter"} do |f| %>
+            url: chaltron_logs_path, data: {controller: "chaltron--auto-submit"} do |f| %>
         <%= hidden_field_tag :page, 1 %>
         <% %i[per_page sort_column sort_direction].each do |field| %>
           <%= hidden_field_tag field, send(field) %>

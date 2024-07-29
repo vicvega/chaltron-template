@@ -1,6 +1,6 @@
 <h4><%= t(".filters") %></h4>
 <%= simple_form_for @filter, as: :filter, url: chaltron_users_path, method: :get,
-      data: {controller: "chaltron--filter"} do |f| %>
+      data: {controller: "chaltron--auto-submit"} do |f| %>
   <%= hidden_field_tag :page, 1 %>
   <% %i[per_page sort_column sort_direction].each do |field| %>
     <%= hidden_field_tag field, send(field) %>
