@@ -22,7 +22,7 @@ module Chaltron
       count_for_filters
       @users = @users.includes(:roles, avatar_attachment: :blob)
         .order("#{sort_column} #{sort_direction}")
-      @pagy, @users = pagy(@users, items: per_page, page:)
+      @pagy, @users = pagy(@users, limit: per_page, page:)
     end
 
     def enable
