@@ -17,9 +17,6 @@ module Chaltron
       attribute :severities, array: true, default: -> { [] }
 
       def apply(scope)
-        categories&.compact_blank!
-        severities&.compact_blank!
-
         scope
           .extending(Scopes)
           .by_categories(categories)
