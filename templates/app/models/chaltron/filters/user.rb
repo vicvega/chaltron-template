@@ -17,8 +17,6 @@ module Chaltron
       attribute :never_logged_in, :boolean, default: -> { false }
 
       def apply(scope)
-        providers&.compact_blank!
-
         scope
           .extending(Scopes)
           .by_providers(providers.map { |k| (k == "local") ? nil : k })
