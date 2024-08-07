@@ -70,7 +70,7 @@ end
 
 def add_gems
   gem "dartsass-rails"
-  gem "bootstrap"
+  gem "bootstrap", git: "https://github.com/twbs/bootstrap-rubygem"
 
   gem "devise"
   gem "omniauth"
