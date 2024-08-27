@@ -285,7 +285,7 @@ def setup_application
   application do
     <<~RUBY
       # chaltron
-      config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.{rb,yml}")]
+      config.i18n.load_path += Rails.root.glob("config/locales/**/*.{rb,yml}")
       config.action_mailer.default_url_options = {host: "localhost", port: 3000}
     RUBY
   end
