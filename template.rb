@@ -299,8 +299,12 @@ def add_routes
 
   routes = <<-ROUTES
 
-  devise_for :local, class_name: "Chaltron::LocalUser", path: "users"
-  devise_for :ldap, controllers: {omniauth_callbacks: "chaltron/omniauth_callbacks"}, class_name: "Chaltron::LdapUser"
+  devise_for :local, class_name: "Chaltron::LocalUser", path: "users", controllers: {
+    sessions: "chaltron/sessions"
+  }
+  devise_for :ldap, class_name: "Chaltron::LdapUser", controllers: {
+    omniauth_callbacks: "chaltron/omniauth_callbacks"
+  }
 
   namespace :chaltron do
     resources :logs, only: %i[index show]

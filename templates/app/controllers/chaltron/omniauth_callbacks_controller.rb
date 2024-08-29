@@ -2,6 +2,10 @@ require "chaltron/ldap/user"
 
 module Chaltron
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+    include SessionRateLimiting
+
+    session_rate_limit
+
     def ldap
       # puts '##########################################'
       # puts oauth.inspect
