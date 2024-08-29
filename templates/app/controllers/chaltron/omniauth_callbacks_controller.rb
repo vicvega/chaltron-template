@@ -19,6 +19,11 @@ module Chaltron
         store_location_for(user, stored_location_for(:local))
         user.remember_me = params[:remember_me] if user.persisted?
         sign_in_and_redirect(user, event: :authentication, kind: "LDAP")
+        Log.create!(
+          message: I18n.t("chaltron.logs.login_omniauth", user: user.display_name, provider: "LDAP"),
+          category: :login,
+          severity: :info
+        )
         set_flash_message(:notice, :success, kind: "LDAP")
       end
     end

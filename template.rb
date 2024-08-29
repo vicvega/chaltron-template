@@ -263,10 +263,6 @@ def setup_devise
     "config.authentication_keys = [:login]"
 end
 
-def setup_warden
-  copy_file "config/initializers/warden.rb"
-end
-
 def setup_chaltron
   directory "lib/chaltron"
   copy_file "lib/chaltron.rb"
@@ -423,7 +419,6 @@ after_bundle do
 
   setup_standard
   setup_devise
-  setup_warden
   setup_chaltron
   setup_simple_form
   setup_pagy
