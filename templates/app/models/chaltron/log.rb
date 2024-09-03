@@ -1,3 +1,4 @@
+# If you need syslog, rememeber to add 'syslog' gem to your Gemfile
 # require 'syslog'
 module Chaltron
   class Log < ApplicationRecord
