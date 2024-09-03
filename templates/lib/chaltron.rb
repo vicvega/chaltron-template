@@ -1,4 +1,3 @@
-require "syslog"
 module Chaltron
   mattr_accessor :default_roles
   @@default_roles = []
