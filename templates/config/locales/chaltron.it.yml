@@ -53,12 +53,15 @@ it:
     access_denied_try_login: Accesso negato. Prova ad effettuare il login.
     not_allowed_to_sign_in: Accesso negato. La tua utenza non può accedere al sistema. Contatta l'amministratore.
     rate_limited: Troppi tentativi! Riprova più tardi.
+    device_not_recognized: Dispositivo non riconosciuto
     common:
       back: Indietro
       cancel: Annulla
       clear_filter: Rimuovi filtri
     local_users:
       created: Utente creato con successo.
+    logins:
+      deleted: Sessione cancellata con successo.
     users:
       updated: Utente aggiornato con successo.
       deleted: Utente cancellato con successo.

@@ -2,6 +2,9 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 
+# automatically require all helpers in test/support
+Rails.root.glob("test/support/**/*.rb").each { |f| require f }
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers

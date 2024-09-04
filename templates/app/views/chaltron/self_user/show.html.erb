@@ -2,7 +2,7 @@
   <h3><%= t ".title" %></h3>
   <div class="row">
 
-    <div class="col-md-9 mt-2">
+    <div class="col-md-7 mt-2">
       <div class="card">
         <div class="card-header">
           <%= t ".headers.details" %>
@@ -34,8 +34,8 @@
       </div>
     </div>
 
-    <div class="col-md-3 mt-2">
-      <div class="card">
+    <div class="col-md-5">
+      <div class="card mt-2">
         <div class="card-header"><%= t ".headers.activity" %></div>
         <ul class="list-group list-group-flush">
           <% unless current_user.last_sign_in_at.nil? %>
@@ -50,6 +50,12 @@
               <strong><%= current_user.last_sign_in_ip %> </strong>
             </li>
           <% end %>
+        </ul>
+      </div>
+      <div class="card mt-2">
+        <div class="card-header"><%= t ".headers.active_logins" %></div>
+        <ul class="list-group list-group-flush">
+          <%= render current_user.logins %>
         </ul>
       </div>
     </div>

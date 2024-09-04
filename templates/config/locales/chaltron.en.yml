@@ -53,12 +53,15 @@ en:
     access_denied_try_login: Access denied. Sign in, please.
     not_allowed_to_sign_in: You are not allowed to sign in. Contact your system administrator.
     rate_limited: Too many requests! Try again later.
+    device_not_recognized: Device not recognized
     common:
       back: Back
       cancel: Cancel
       clear_filter: Clear filters
     local_users:
       created: User was successfully created.
+    logins:
+      deleted: Session was successfully deleted.
     users:
       updated: User was successfully updated.
       deleted: User was successfully deleted.

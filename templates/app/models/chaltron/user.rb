@@ -17,6 +17,7 @@ module Chaltron
     end
 
     has_one_attached :avatar
+    has_many :logins
 
     def display_name
       fullname.presence || username

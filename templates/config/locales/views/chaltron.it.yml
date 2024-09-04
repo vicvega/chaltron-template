@@ -70,12 +70,18 @@ it:
       new:
         title: Nuovo utente locale
         submit_text: Crea utente locale
+    logins:
+      login:
+        created_ago: 'Creata %{time} fa'
+        current: Sessione corrente
+        confirm_delete: Sei sicuro di voler revocare questa sessione?
     self_user:
       show:
         title: Dati personali
         headers:
           activity: Attività
           details: Dettagli
+          active_logins: Sessioni attive
         edit: Modifica dati personali
         change_password: Cambia password
       edit:

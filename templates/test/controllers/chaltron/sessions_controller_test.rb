@@ -14,10 +14,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should generate log message after logout" do
     sign_in @user
-    # 2 log messages are generated:
-    # - after_set_user
-    # - before_logout
-    assert_difference "Chaltron::Log.count", 2 do
+    assert_difference "Chaltron::Log.count", 1 do
       delete destroy_local_session_url
     end
   end

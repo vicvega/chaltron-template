@@ -29,6 +29,7 @@ class Ability
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
     user ||= Chaltron::User.new
+    can :destroy, Chaltron::Login, {user:}
 
     if user.role?(:user_admin)
       can :manage, Chaltron::User

@@ -68,10 +68,11 @@ def add_gems
   gem "gitlab_omniauth-ldap", require: "omniauth-ldap", git: "https://gitlab.com/vicvega/omniauth-ldap"
   gem "cancancan"
 
-  gem "simple_form"
-  gem "rails-i18n"
+  gem "device_detector"
   gem "pagy"
   gem "preserve"
+  gem "simple_form"
+  gem "rails-i18n"
 
   gem_group :development, :test do
     gem "factory_bot_rails"
@@ -157,8 +158,12 @@ def add_controllers
   copy_file "app/controllers/home_controller.rb"
 
   text = <<-TXT
+
   devise_group :user, contains: %i[local ldap]
   include Chaltron::Logging
+  include Chaltron::ActiveLogin
+
+  before_action :require_login, if: :current_user
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
@@ -253,6 +258,15 @@ def add_logs
   generate :model, "Chaltron::Log message:string{1000} severity:integer:index category:string:index"
 end
 
+def add_logins
+  generate :model, "Chaltron::Login user:references device_id:string:uniq ip_address user_agent"
+  file = Dir.glob("db/migrate/*").max_by { |f| File.mtime(f) }
+  gsub_file file, "foreign_key: true", "foreign_key: {to_table: :chaltron_users}"
+  %w[device_id ip_address].each do |field|
+    gsub_file file, "t.string :#{field}", "t.string :#{field}, null: false"
+  end
+end
+
 def setup_standard
   copy_file ".standard.yml"
 end
@@ -304,6 +318,7 @@ def add_routes
 
   namespace :chaltron do
     resources :logs, only: %i[index show]
+    resources :logins, only: :destroy
 
     resources :users, except: %i[new create] do
       member do
@@ -416,6 +431,7 @@ after_bundle do
   add_users
   add_roles
   add_logs
+  add_logins
 
   setup_standard
   setup_devise

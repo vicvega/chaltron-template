@@ -3,6 +3,7 @@ require "chaltron/ldap/user"
 module Chaltron
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     include SessionRateLimiting
+    include ActiveLogin
 
     session_rate_limit
 
@@ -19,6 +20,7 @@ module Chaltron
         store_location_for(user, stored_location_for(:local))
         user.remember_me = params[:remember_me] if user.persisted?
         sign_in_and_redirect(user, event: :authentication, kind: "LDAP")
+        create_login
         Log.create!(
           message: I18n.t("chaltron.logs.login_omniauth", user: user.display_name, provider: "LDAP"),
           category: :login,

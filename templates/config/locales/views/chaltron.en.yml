@@ -70,12 +70,18 @@ en:
       new:
         title: New local user
         submit_text: Create local user
+    logins:
+      login:
+        created_ago: 'Created %{time} ago'
+        current: Current session
+        confirm_delete: Are you sure you want to revoke this session?
     self_user:
       show:
         title: Personal data
         headers:
           activity: Activity
           details: Details
+          active_logins: Active sessions
         edit: Update personal data
         change_password: Change password
       edit:
