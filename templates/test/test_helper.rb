@@ -2,8 +2,8 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 
-# automatically require all helpers in test/support
-Rails.root.glob("test/support/**/*.rb").each { |f| require f }
+# automatically require all helpers in test/test_helpers
+Rails.root.glob("test/test_helpers/**/*.rb").each { |f| require f }
 
 module ActiveSupport
   class TestCase
