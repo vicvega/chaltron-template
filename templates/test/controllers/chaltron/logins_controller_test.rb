@@ -17,7 +17,7 @@ module Chaltron
       delete chaltron_login_url(@login)
 
       assert_redirected_to :root
-      assert_equal "Non sei autorizzato a vedere questa pagina", flash[:alert]
+      assert_equal I18n.t("unauthorized.manage.all"), flash[:alert]
     end
 
     test "users can destroy their own logins" do
