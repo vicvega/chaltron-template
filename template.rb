@@ -57,8 +57,6 @@ def check_options
   unless options["javascript"] == "esbuild" && options["css"] == "bootstrap"
     exit_with_message("You must specify --css=bootstrap and --javascript=esbuild options to run chaltron")
   end
-
-  exit unless yes?("Are you sure you want to continue? [yes/NO]")
 end
 
 def add_gems
@@ -428,17 +426,18 @@ after_bundle do
   add_javascript
   install_active_storage
 
+  setup_standard
+  setup_chaltron
+  setup_simple_form
+  setup_pagy
+  setup_application
+
   add_users
   add_roles
   add_logs
   add_logins
 
-  setup_standard
   setup_devise
-  setup_chaltron
-  setup_simple_form
-  setup_pagy
-  setup_application
 
   add_locales
   add_routes

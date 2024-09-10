@@ -1,0 +1,29 @@
+name: "Chaltron CI"
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install ruby
+        uses: ruby/setup-ruby@78c01b705fd9d5ad960d432d3a0cfa341d50e410 # v1.179.1
+        with:
+          ruby-version: '3.3'
+      - name: Install rails
+        run: gem install rails
+      - name: Generate chaltron app
+        working-directory: ${{ github.workspace }}
+        run: rails new blorgh -j esbuild -c bootstrap -m ../chaltron-template/template.rb
+      - name: Run test
+        working-directory: ${{ github.workspace }}/blorgh
+        run: |
+          rails test
