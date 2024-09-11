@@ -9,8 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      RAILS_ENV: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,5 +23,4 @@ jobs:
         run: rails new blorgh -j esbuild -c bootstrap -m ../chaltron-template/template.rb
       - name: Run test
         working-directory: ${{ github.workspace }}/blorgh
-        run: |
-          rails test
+        run: rails test
