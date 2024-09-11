@@ -10,12 +10,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Install ruby
-        uses: ruby/setup-ruby@78c01b705fd9d5ad960d432d3a0cfa341d50e410 # v1.179.1
-        with:
-          ruby-version: '3.3'
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-ruby
       - name: Install rails
         run: gem install rails
       - name: Generate chaltron app
@@ -24,3 +20,5 @@ jobs:
       - name: Run test
         working-directory: ${{ github.workspace }}/blorgh
         run: rails test
+
+
