@@ -61,7 +61,7 @@ def check_options
   end
   if options.include?("css")
     exit_with_message(
-      "Remove --css option. Chaltron will take care of you assets by itself"
+      "Remove --css option. Chaltron will take care of your assets by itself"
     )
   end
 end
@@ -147,23 +147,23 @@ def install_dartsass
 end
 
 def install_bootstrap
-  inject_into_file "app/assets/stylesheets/application.scss", <<-TXT
-$font-size-base: .85rem;
-@import "bootstrap";
+  inject_into_file "app/assets/stylesheets/application.scss", <<~TXT
+    $font-size-base: .85rem;
+    @import "bootstrap";
   TXT
 
-  inject_into_file "app/javascript/application.js", <<-TXT
-import "popper"
-import "bootstrap"
+  inject_into_file "app/javascript/application.js", <<~TXT
+    import "popper"
+    import "bootstrap"
   TXT
 
   inject_into_file "config/initializers/assets.rb",
     "Rails.application.config.assets.precompile += %w[bootstrap.min.js popper.js]\n"
 
-    inject_into_file "config/importmap.rb", <<-TXT
+  inject_into_file "config/importmap.rb", <<~TXT
 
-pin "popper", to: "popper.js"
-pin "bootstrap", to: "bootstrap.min.js"
+    pin "popper", to: "popper.js"
+    pin "bootstrap", to: "bootstrap.min.js"
   TXT
 end
 
@@ -246,15 +246,15 @@ def add_javascript
   ]
   run "./bin/importmap pin #{fonts.join(" ")}"
 
-  inject_into_file "app/javascript/application.js", <<-JS
+  inject_into_file "app/javascript/application.js", <<~JS
 
-import {far} from "@fortawesome/free-regular-svg-icons"
-import {fas} from "@fortawesome/free-solid-svg-icons"
-import {fab} from "@fortawesome/free-brands-svg-icons"
-import {library} from "@fortawesome/fontawesome-svg-core"
-import "@fortawesome/fontawesome-free"
-library.add(far, fas, fab)
-JS
+    import {far} from "@fortawesome/free-regular-svg-icons"
+    import {fas} from "@fortawesome/free-solid-svg-icons"
+    import {fab} from "@fortawesome/free-brands-svg-icons"
+    import {library} from "@fortawesome/fontawesome-svg-core"
+    import "@fortawesome/fontawesome-free"
+    library.add(far, fas, fab)
+  JS
 end
 
 def add_users
