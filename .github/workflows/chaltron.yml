@@ -16,7 +16,7 @@ jobs:
         run: gem install rails
       - name: Generate chaltron app
         working-directory: ${{ github.workspace }}
-        run: rails new blorgh -j esbuild -c bootstrap -m ../chaltron-template/template.rb
+        run: rails new blorgh -m ../chaltron-template/template.rb
       - name: Run test
         working-directory: ${{ github.workspace }}/blorgh
         run: rails test
