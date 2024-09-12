@@ -1,0 +1,32 @@
+name: "linters"
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+jobs:
+  standardrb:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-ruby
+      - name: Install standard gem
+        run: gem install standard
+      - name: Run standard
+        run: standardrb
+  standardjs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - name: Install standardjs
+        # Latest eslint-plugin-react version (7.36.0)
+        # triggers false positive (react/no-is-mounted)
+        run: |
+          npm install eslint-plugin-react@7.35.2
+          npm install standard
+          npm list
+      - name: Run standardjs
+        run: npx standard templates/app/javascript
