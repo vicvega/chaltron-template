@@ -1,0 +1,14 @@
+<ul class="navbar-nav">
+  <li class="nav-item" data-controller="chaltron--dark-mode">
+    <span class="navbar-text fs-4">
+      <%= link_to "#", data: {action: "chaltron--dark-mode#toggle:prevent"} do %>
+        <%= tag.div class: "d-none", data: {chaltron__dark_mode_target: "light"} do %>
+          <%= icon :fas, :sun, class: "text-warning"  %>
+        <% end %>
+        <%= tag.div class: "d-none", data: {chaltron__dark_mode_target: "dark"} do %>
+          <%= icon :fas, :moon, class: "fa-flip-horizontal" %>
+        <% end %>
+      <% end %>
+    </span>
+  </li>
+</ul>

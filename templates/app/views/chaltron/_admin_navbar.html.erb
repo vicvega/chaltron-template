@@ -11,7 +11,7 @@
             data: {bs_toggle: "dropdown"} do %>
         <%= icon :fas, :cogs, t("chaltron.menu.admin") %>
       <% end %>
-      <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
         <%= tag.li do %>
           <%= link_to chaltron_users_path,
                 class: class_names("dropdown-item", {active: users}) do %>
