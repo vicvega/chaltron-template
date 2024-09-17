@@ -6,9 +6,9 @@
          klass = class_names("nav-link dropdown-toggle", {active: active}) %>
       <%= link_to "#", id: "navbarDropdownLogin", class: klass,
             data: {bs_toggle: "dropdown"} do %>
-        <%= display_user_avatar current_user, class: "rounded-circle", size: 23 %>
+        <%= display_user_avatar current_user, class: "rounded-circle", size: 25 %>
       <% end %>
-      <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownLogin">
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownLogin">
         <li>
           <%= link_to chaltron_self_user_show_path,
                 class: class_names("dropdown-item", {active: active}) do %>
