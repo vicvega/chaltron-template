@@ -20,7 +20,7 @@ module Chaltron
 
     def destroy
       destroy_login
-      Chaltron::Log.create!(
+      Log.create!(
         message: I18n.t("chaltron.logs.logout", user: current_user.display_name),
         category: :login,
         severity: :info
