@@ -49,14 +49,14 @@
                   form: {data: {turbo_frame: "_top"}} do %>
               <%= icon :fas, :user %>
             <% end if user.disabled? %>
+            <%= button_to chaltron_user_path(user),
+                  method: :delete,
+                  class: "btn btn-sm btn-danger ms-1",
+                  form: {data: {turbo_confirm: t(".confirm_delete"), turbo_frame: "_top"}} do %>
+              <%= icon :fas, :trash %>
+            <% end %>
           <% end %>
         <% end %>
-        <%= button_to chaltron_user_path(user),
-              method: :delete,
-              class: "btn btn-sm btn-danger ms-1",
-              form: {data: {turbo_confirm: t(".confirm_delete"), turbo_frame: "_top"}} do %>
-          <%= icon :fas, :trash %>
-        <% end if can?(:destroy, user) %>
       </div>
     </div>
   </div>
