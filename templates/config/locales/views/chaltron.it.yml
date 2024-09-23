@@ -32,6 +32,10 @@ it:
         submit: Cerca
         reset: Resetta ricerca
   chaltron:
+    dark_mode_navbar:
+      auto: "Modalità tema: auto"
+      dark: "Modalità tema: dark"
+      light: "Modalità tema: light"
     logs:
       index:
         title: Elenco dei log

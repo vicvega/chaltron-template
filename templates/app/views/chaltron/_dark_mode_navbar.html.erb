@@ -1,12 +1,30 @@
 <ul class="navbar-nav">
-  <li class="nav-item" data-controller="chaltron--dark-mode">
+  <li class="nav-item" data-controller="chaltron--theme">
     <span class="navbar-text fs-4">
-      <%= link_to "#", data: {action: "chaltron--dark-mode#toggle:prevent"} do %>
-        <%= tag.div class: "d-none", data: {chaltron__dark_mode_target: "light"} do %>
-          <%= icon :fas, :sun, class: "text-warning"  %>
+      <%= link_to "#", data: {action: "chaltron--theme#toggle:prevent"} do %>
+        <%= tag.div class: "d-none", title: t(".light"),
+              data: {
+                chaltron__theme_target: "light",
+                controller: "chaltron--tooltip",
+                bs_toggle: "tooltip"
+              } do %>
+          <%= icon :fas, :sun, class: "text-warning" %>
         <% end %>
-        <%= tag.div class: "d-none", data: {chaltron__dark_mode_target: "dark"} do %>
+        <%= tag.div class: "d-none", title: t(".dark"),
+              data: {
+                chaltron__theme_target: "dark",
+                controller: "chaltron--tooltip",
+                bs_toggle: "tooltip"
+              } do %>
           <%= icon :fas, :moon, class: "fa-flip-horizontal" %>
+        <% end %>
+        <%= tag.div class: "d-none", title: t(".auto"),
+              data: {
+                chaltron__theme_target: "auto",
+                controller: "chaltron--tooltip",
+                bs_toggle: "tooltip"
+              } do %>
+          <%= icon :fas, "circle-half-stroke", class: "fs-4" %>
         <% end %>
       <% end %>
     </span>
