@@ -1,8 +1,4 @@
 module Chaltron::LoginsHelper
-  def current_login?(login)
-    session[:device_id] == login.device_id
-  end
-
   def device_details(login)
     return if login.user_agent.nil?
 

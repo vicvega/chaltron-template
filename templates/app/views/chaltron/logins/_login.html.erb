@@ -12,7 +12,7 @@
               bs_toggle: "tooltip", bs_placement: "left"
             } %>
       <div class="">
-      <% if current_login?(login) %>
+      <% if login == current_login %>
         <h5><%= tag.span t(".current"), class: "badge bg-success float-end" %></h5>
       <% else %>
         <%= button_to login, class: "btn btn-danger btn-sm float-end", method: :delete,

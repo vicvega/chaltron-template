@@ -161,8 +161,6 @@ def add_controllers
   include Chaltron::Logging
   include Chaltron::ActiveLogin
 
-  before_action :require_login, if: :current_user
-
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
   end
@@ -273,6 +271,10 @@ def setup_devise
   gsub_file "config/initializers/devise.rb",
     "# config.authentication_keys = [:email]",
     "config.authentication_keys = [:login]"
+end
+
+def setup_warden
+  copy_file "config/initializers/warden.rb"
 end
 
 def setup_chaltron
@@ -438,6 +440,7 @@ after_bundle do
   add_logins
 
   setup_devise
+  setup_warden
 
   add_locales
   add_routes
