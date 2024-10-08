@@ -4,12 +4,12 @@ en:
       new:
         title: Forgot your password?
         par1: Send us your email to receive instrucions for password reset
-        par2_html: Already got valid credentials? <strong><a href="/local/sign_in">Login</a></strong>
+        par2: Already got valid credentials?
         submit_text: Submit
       edit:
         title: Change password
         submit_text: Change password
-        par_html: Never mind! <strong><a href="/local/sign_in">Login</a></strong>
+        par: Never mind!
     sessions:
       new:
         title: Login

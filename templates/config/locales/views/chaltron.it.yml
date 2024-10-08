@@ -5,11 +5,11 @@ it:
         title: Password dimenticata?
         par1: Inserisci la tua email per ricevere instruzioni su come resettare la password
         submit_text: Invia
-        par2_html: Hai già delle credenziali valide? <strong><a href="/local/sign_in">Login</a></strong>
+        par2: Hai già delle credenziali valide?
       edit:
         title: Cambio password
         submit_text: Cambia password
-        par_html: Come non detto! <strong><a href="/local/sign_in">Login</a></strong>
+        par: Come non detto!
     sessions:
       new:
         title: Login
