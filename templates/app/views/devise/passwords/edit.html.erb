@@ -14,7 +14,10 @@
           </div>
         </div>
         <hr>
-        <p><%= t ".par_html" %></p>
+        <p>
+          <%= t ".par" %>
+          <%= link_to "Login", new_local_session_path, class: "btn btn-primary btn-sm" %>
+        </p>
       <% end %>
     </div>
   </div>
