@@ -54,7 +54,11 @@ export default class extends Controller {
   #setThemeAuto () {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       this.#setAndDispatchEvent(THEME_VALUE_DARK)
+<<<<<<< HEAD
     } else {
+=======
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+>>>>>>> 81fc905 (add a js custom event dispatched when dark/light theme changed)
       this.#setAndDispatchEvent(THEME_VALUE_LIGHT)
     }
     this.autoTarget.classList.remove('d-none')
