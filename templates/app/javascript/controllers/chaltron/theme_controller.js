@@ -53,9 +53,9 @@ export default class extends Controller {
 
   #setThemeAuto () {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.dataset.bsTheme = THEME_VALUE_DARK
+      this.#setAndDispatchEvent(THEME_VALUE_DARK)
     } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-      document.documentElement.dataset.bsTheme = THEME_VALUE_LIGHT
+      this.#setAndDispatchEvent(THEME_VALUE_LIGHT)
     }
     this.autoTarget.classList.remove('d-none')
     this.lightTarget.classList.add('d-none')
@@ -63,16 +63,25 @@ export default class extends Controller {
   }
 
   #setThemeLight () {
-    document.documentElement.dataset.bsTheme = THEME_VALUE_LIGHT
+    this.#setAndDispatchEvent(THEME_VALUE_LIGHT)
     this.lightTarget.classList.remove('d-none')
     this.darkTarget.classList.add('d-none')
     this.autoTarget.classList.add('d-none')
   }
 
   #setThemeDark () {
-    document.documentElement.dataset.bsTheme = THEME_VALUE_DARK
+    this.#setAndDispatchEvent(THEME_VALUE_DARK)
     this.darkTarget.classList.remove('d-none')
     this.lightTarget.classList.add('d-none')
     this.autoTarget.classList.add('d-none')
+  }
+
+  #setAndDispatchEvent (theme) {
+    document.documentElement.dataset.bsTheme = theme
+    const event = new window.CustomEvent(
+      'chaltron-theme-changed',
+      { bubbles: true, detail: { theme } }
+    )
+    window.dispatchEvent(event)
   }
 }
