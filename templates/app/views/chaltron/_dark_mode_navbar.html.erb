@@ -1,6 +1,6 @@
 <ul class="navbar-nav">
   <li class="nav-item" data-controller="chaltron--theme">
-    <span class="navbar-text fs-4">
+    <span id="chaltron-theme-icon" class="navbar-text fs-4 text-center">
       <%= link_to "#", data: {action: "chaltron--theme#toggle:prevent"} do %>
         <%= tag.div class: "d-none", title: t(".light"),
               data: {
@@ -24,7 +24,7 @@
                 controller: "chaltron--tooltip",
                 bs_toggle: "tooltip"
               } do %>
-          <%= icon :fas, "circle-half-stroke", class: "fs-4" %>
+          <%= icon :fas, "circle-half-stroke" %>
         <% end %>
       <% end %>
     </span>
