@@ -33,9 +33,9 @@ it:
         reset: Resetta ricerca
   chaltron:
     dark_mode_navbar:
-      auto: "Modalità tema: auto"
-      dark: "Modalità tema: dark"
-      light: "Modalità tema: light"
+      auto: "Modalità tema: automatico"
+      dark: "Modalità tema: scuro"
+      light: "Modalità tema: chiaro"
     logs:
       index:
         title: Elenco dei log

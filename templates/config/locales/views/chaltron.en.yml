@@ -33,7 +33,7 @@ en:
         reset: Reset search
   chaltron:
     dark_mode_navbar:
-      auto: "Theme mode: auto"
+      auto: "Theme mode: automatic"
       dark: "Theme mode: dark"
       light: "Theme mode: light"
     logs:
