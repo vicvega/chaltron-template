@@ -401,8 +401,7 @@ def finalize
 end
 
 def rails_old?
-  return true if Rails::VERSION::MAJOR < 7
-  Rails::VERSION::MINOR < 1
+  Rails::VERSION::MAJOR < 8
 end
 
 def exit_with_message(message)
