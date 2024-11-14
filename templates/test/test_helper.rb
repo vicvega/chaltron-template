@@ -23,3 +23,9 @@ module ActionDispatch
     include Devise::Test::IntegrationHelpers
   end
 end
+
+# Temporary fix devise issue with rails 8
+# https://github.com/heartcombo/devise/issues/5705
+ActiveSupport.on_load(:action_mailer) do
+  Rails.application.reload_routes_unless_loaded
+end
