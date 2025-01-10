@@ -1,7 +1,7 @@
 # Chaltron-template
 Once upon a time [`chaltron`](https://github.com/vicvega/chaltron) was a `rails` engine.
 
-Now `chaltron` is a template including `bootstrap` and `esbuild`, working with `rails7`.
+Now `chaltron` is a template including `bootstrap` and `esbuild`, working with `rails8`.
 
 For older rails version consider updating...
 
